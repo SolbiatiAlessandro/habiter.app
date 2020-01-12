@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+	<title>Habiter invite</title>
+	<script>
+function openApp(){
+  document.location = 'exp://expo.io/@solbiatialessandro/Habiter';
+  setTimeout(function(){
+    if(confirm('To try out the app you need to have Expo Client app installed')){
+      document.location = 'https://expo.io/tools#client';
+    }
+  }, 300);
+}
+
+function openAppShare(eventID){
+  console.log("openAppShare");
+  console.log(eventID);
+  const redirectURL = `exp://expo.io/@solbiatialessandro/Habiter/--/main/appointment/${eventID}`;
+  console.log(redirectURL);
+  document.location = redirectURL;
+  setTimeout(function(){
+    if(confirm('To try out the app you need to have Expo Client app installed')){
+      document.location = 'https://expo.io/tools#client';
+    }
+  }, 300);
+}
+	</script>
+</head>
+<body>
+	<div style="padding:50px">
+		<div>Wow! you just got a Habiter invite! ID = {{inviteID}}</div>
+		<div>
+			<a href="#" onclick="openAppShare('{{inviteID}}')">Open invite</a>
+		<div>
+			<a href="/"> Tell me more about Habiter </a>
+		</div>
+	</div>
+</body>
+</html>
