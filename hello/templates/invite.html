@@ -4,9 +4,7 @@
 <head>
 	<title>Habiter invite</title>
 	<script>
-function openApp(){
-  document.location = 'exp://expo.io/@solbiatialessandro/Habiter';
-  setTimeout(function(){
+function openApp(){ document.location = 'exp://expo.io/@solbiatialessandro/Habiter'; setTimeout(function(){
     if(confirm('To try out the app you need to have Expo Client app installed')){
       document.location = 'https://expo.io/tools#client';
     }
@@ -25,18 +23,45 @@ function openAppShare(eventID){
     }
   }, 300);
 }
+
+function openAppInvite(eventID, inviterID){
+  console.log("openAppShare");
+  console.log(eventID);
+	const redirectURL = `exp://expo.io/@solbiatialessandro/Habiter/--/main/appointment/${eventID}-${inviterID}`;
+  console.log(redirectURL);
+  document.location = redirectURL;
+  setTimeout(function(){
+    if(confirm('To try out the app you need to have Expo Client app installed')){
+      document.location = 'https://expo.io/tools#client';
+    }
+  }, 300);
+}
+
+function openLink(eventID, inviterID){
+	console.log("openLink");
+	if(inviterID === 'no ID provided'){
+		openAppShare(eventID);
+	}
+	else{
+		openAppInvite(eventID, inviterID);
+	}
+}
 	</script>
 </head>
 <body>
 	<div style="padding:50px;text-align:center;background-color:#dfe4fb">
 		<img src="{% static "habiter.png" %}"/>
 		<div style="margin:auto;border-radius:9px;width:20%;padding:20px;background-color:#8999e8">
-			<a style="font-size:40px;color:white;text-decoration:none;" href="#" onclick="openAppShare('{{inviteID}}')">Join event</a>
+			<a 
+				style="font-size:40px;color:white;text-decoration:none;" 
+				href="#" 
+				onclick="openLink('{{eventID}}', '{{inviterID}}')">Join event</a>
 		</div>
 		<div style="padding-top:40px">
 			<a href="/"> Tell me more about Habiter </a>
 		</div>
 	</div>
-	<div>{{inviteID}}</div>
+	<div>{{eventID}}</div>
+	<div>{{inviterID}}</div>
 </body>
 </html>

@@ -12,8 +12,12 @@ def index(request):
 def invite(request):
     logging.warning("DJANGO: invite")
     logging.warning(request)
-    logging.warning(request.GET.get('inviteID', ''))
-    context = {'inviteID':request.GET.get('inviteID','no ID provided')}
+    logging.warning(request.GET.get('eventID', ''))
+    logging.warning(request.GET.get('inviterID', ''))
+    context = {
+            'eventID':request.GET.get('eventID','no ID provided'),
+            'inviterID':request.GET.get('inviterID','no ID provided'),
+            }
     return render(request, "invite.html", context)
 
 
