@@ -1,4 +1,5 @@
 <!doctype html>
+{% load static %}
 <html>
 <head>
 	<title>Habiter invite</title>
@@ -27,13 +28,15 @@ function openAppShare(eventID){
 	</script>
 </head>
 <body>
-	<div style="padding:50px">
-		<div>Wow! you just got a Habiter invite! ID = {{inviteID}}</div>
-		<div>
-			<a href="#" onclick="openAppShare('{{inviteID}}')">Open invite</a>
-		<div>
+	<div style="padding:50px;text-align:center;background-color:#dfe4fb">
+		<img src="{% static "habiter.png" %}"/>
+		<div style="margin:auto;border-radius:9px;width:20%;padding:20px;background-color:#8999e8">
+			<a style="font-size:40px;color:white;text-decoration:none;" href="#" onclick="openAppShare('{{inviteID}}')">Join event</a>
+		</div>
+		<div style="padding-top:40px">
 			<a href="/"> Tell me more about Habiter </a>
 		</div>
 	</div>
+	<div>{{inviteID}}</div>
 </body>
 </html>
