@@ -41,6 +41,7 @@ function openAppShare(eventID){
   console.log("openAppShare");
   console.log(eventID);
   const redirectURL = `exp://expo.io/@solbiatialessandro/Habiter/--/main/appointment/${eventID}`;
+  console.log(redirectURL);
   document.location = redirectURL;
   setTimeout(function(){
     if(confirm('To try out the app you need to have Expo Client app installed')){
