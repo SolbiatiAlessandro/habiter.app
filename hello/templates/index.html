@@ -25,6 +25,16 @@
 	<link rel="stylesheet" href="{% static "css/slick.css" %}">
 	<link rel="stylesheet" href="{% static "css/slicknav.css" %}">
 	<link rel="stylesheet" href="{% static "css/style.css" %}">
+	<style>
+	.hacky_img_shadow{
+		box-shadow: #2e2e2e 1px 1px 40px;
+		border-radius: 60px;
+	}
+	.white_link{
+		color: white;
+		font-weight: bold;
+	}
+	</style>
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 	<script>
 
@@ -115,88 +125,8 @@ function openAppShare(eventID){
             </div>
         </div>
     </div>
-    <!-- slider_area_end -->
-    <!-- service_area  -->
-    <div class="service_area">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="section_title text-center  wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".3s">
-                        <h3> Love it? Drop us an email at oana. florescu28@ gmail.com</h3>
-						<h4>
-							scroll down for more screenshots of the app</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--/ service_area  -->
-
-    <!-- service_area_2  -->
-    <div class="service_area_2">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-xl-4 col-lg-4 col-md-6 wow fadeInLeft" data-wow-duration=".4s" data-wow-delay=".5s">
-                    <div class="man_thumb">
-						<img src="{% static "img/ilstrator/view4.jpg" %}" alt="">
-                    </div>
-                </div>
-                <div class="col-xl-4 offset-xl-1 col-lg-6 col-md-6 ">
-                    <div class="mobile_screen wow fadeInRight" data-wow-duration=".8s" data-wow-delay=".5s">
-						<img src="{% static "img/ilstrator/view6.jpg" %}" alt="">
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 wow fadeInLeft" data-wow-duration=".4s" data-wow-delay=".5s">
-                    <div class="mobile_screen wow fadeInRight">
-						<img src="{% static "img/ilstrator/view2.jpg" %}" alt="">
-                    </div>
-                </div>
-                <div class="col-xl-4 offset-xl-1 col-lg-6 col-md-6 ">
-                    <div class="mobile_screen wow fadeInRight" data-wow-duration=".8s" data-wow-delay=".5s">
-						<img src="{% static "img/ilstrator/view1.jpg" %}" alt="">
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6 wow fadeInLeft" data-wow-duration=".4s" data-wow-delay=".5s">
-                    <div class="mobile_screen wow fadeInRight">
-						<img src="{% static "img/ilstrator/view7.jpg" %}" alt="">
-                    </div>
-                </div>
-                <div class="col-xl-4 offset-xl-1 col-lg-6 col-md-6 ">
-                    <div class="mobile_screen wow fadeInRight" data-wow-duration=".8s" data-wow-delay=".5s">
-						<img src="{% static "img/ilstrator/view5.jpg" %}" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="service_content_wrap">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4">
-                        <div class="single_service  wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".3s">
-                            <span>01</span>
-                            <h3>Sign Up for free</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4">
-                        <div class="single_service  wow fadeInUp" data-wow-duration=".6s" data-wow-delay=".4s">
-                            <span>02</span>
-                            <h3>Make your profile</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4  wow fadeInUp" data-wow-duration=".7s" data-wow-delay=".5s">
-                        <div class="single_service">
-                            <span>03</span>
-                            <h3>Enjoy the app</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--/ service_area_2  -->
     <!-- about  -->
-	<div class="features_area " style="background-color:#7BCDC8">
+	<div class="features_area " style="background-color:white">
         <div class="container">
             <div class="features_main_wrap">
 				<div class="row  align-items-center">
@@ -208,13 +138,49 @@ function openAppShare(eventID){
                                         ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida Risus com odo
                                         viverra maecenas.</p>
                                     <div class="about_btn">
-                                        <a class="boxed-btn4" href="#">Download Now</a>
+								<a 
+									href="#" onclick="openApp()"
+									class="boxed-btn3"
+									style="background-color:#5a60b6">Try Habiter Now
+								</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-5 col-lg-5 offset-xl-1 offset-lg-1 col-md-6 ">
                                 <div class="about_draw wow fadeInUp" data-wow-duration=".7s" data-wow-delay=".5s">
-									<img src="{% static "img/ilstrator_img/view2.png" %}" alt="">
+									<img class="hacky_img_shadow" src="{% static "img/habiter1_phone.png" %}" alt="">
+                                </div>
+                            </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <!--/ about  -->
+    <!-- about  -->
+	<div class="features_area " style="background-color:#7BCDC8">
+        <div class="container">
+            <div class="features_main_wrap">
+				<div class="row  align-items-center">
+                            <div class="col-xl-5 col-lg-5 offset-xl-1 offset-lg-1 col-md-6 "
+								style="margin-right:8%">
+                                <div class="about_draw wow fadeInUp" data-wow-duration=".7s" data-wow-delay=".5s">
+									<img class="hacky_img_shadow" src="{% static "img/habiter1_phone.png" %}" alt="">
+                                </div>
+                            </div>
+                            <div class="col-xl-5 col-lg-5 col-md-6">
+                                <div class="features_info2">
+                                    <h3>Features that give
+                                        you real feel</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt
+                                        ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida Risus com odo
+                                        viverra maecenas.</p>
+                                    <div class="about_btn">
+								<a 
+									href="#" onclick="openApp()"
+									class="boxed-btn3"
+									style="background-color:#5a60b6">Try Habiter Now
+								</a>
+                                    </div>
                                 </div>
                             </div>
                     </div>
@@ -228,11 +194,6 @@ function openAppShare(eventID){
         <div class="container">
             <div class="features_main_wrap">
 				<div class="row  align-items-center">
-                            <div class="col-xl-5 col-lg-5 offset-xl-1 offset-lg-1 col-md-6 ">
-                                <div class="about_draw wow fadeInUp" data-wow-duration=".7s" data-wow-delay=".5s">
-									<img src="{% static "img/ilstrator/view2.jpg" %}" alt="">
-                                </div>
-                            </div>
                             <div class="col-xl-5 col-lg-5 col-md-6">
                                 <div class="features_info2">
                                     <h3>Features that give
@@ -241,8 +202,17 @@ function openAppShare(eventID){
                                         ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida Risus com odo
                                         viverra maecenas.</p>
                                     <div class="about_btn">
-                                        <a class="boxed-btn4" href="#">Download Now</a>
+								<a 
+									href="#" onclick="openApp()"
+									class="boxed-btn3"
+									style="background-color:#5a60b6">Try Habiter Now
+								</a>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-5 col-lg-5 offset-xl-1 offset-lg-1 col-md-6 ">
+                                <div class="about_draw wow fadeInUp" data-wow-duration=".7s" data-wow-delay=".5s">
+									<img class="hacky_img_shadow" src="{% static "img/habiter1_phone.png" %}" alt="">
                                 </div>
                             </div>
                     </div>
@@ -257,9 +227,10 @@ function openAppShare(eventID){
         <div class="container">
             <div class="features_main_wrap">
 				<div class="row  align-items-center">
-                            <div class="col-xl-5 col-lg-5 offset-xl-1 offset-lg-1 col-md-6 ">
+                            <div class="col-xl-5 col-lg-5 offset-xl-1 offset-lg-1 col-md-6 "
+								style="margin-right:8%">
                                 <div class="about_draw wow fadeInUp" data-wow-duration=".7s" data-wow-delay=".5s">
-									<img src="{% static "img/ilstrator/view2.jpg" %}" alt="">
+									<img class="hacky_img_shadow" src="{% static "img/habiter1_phone.png" %}" alt="">
 								</div>
                             </div>
                             <div class="col-xl-5 col-lg-5 col-md-6">
@@ -270,7 +241,11 @@ function openAppShare(eventID){
                                         ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida Risus com odo
                                         viverra maecenas.</p>
                                     <div class="about_btn">
-                                        <a class="boxed-btn4" href="#">Download Now</a>
+								<a 
+									href="#" onclick="openApp()"
+									class="boxed-btn3"
+									style="background-color:#5a60b6">Try Habiter Now
+								</a>
                                     </div>
                                 </div>
                             </div>
@@ -454,12 +429,19 @@ function openAppShare(eventID){
                 </div>
                 <div class="col-xl-5 col-md-12 col-lg-6">
                     <div class="app_download wow fadeInDown" data-wow-duration="1s" data-wow-delay=".1s">
+								<a 
+									href="#" onclick="openApp()"
+									class="boxed-btn3"
+									style="background-color:#5a60b6">Try Habiter Now
+								</a>
+								<!--
                         <a href="#" >
 							<img src="{% static "img/ilstrator/app.svg" %}" alt="">
                         </a>
                         <a href="#">
 							<img src="{% static "img/ilstrator/play.svg" %}" alt="">
                         </a>
+								-->
                         
                     </div>
                 </div>
@@ -477,27 +459,28 @@ function openAppShare(eventID){
                         <div class="footer_widget">
                             <div class="footer_logo">
                                 <a href="#">
-									<img src="{% static "img/logo.png" %}" alt="">
+									<img src="{% static "habiter.png" %}" alt="">
                                 </a>
                             </div>
                             <p>
-                                Firmament morning sixth subdue darkness
-                                creeping gathered divide.
+							Habiter is built with 💛in London by <a class="white_link" href="http://www.lessand.ro">Alessandro</a> and <a class="white_link" href="https://www.youtube.com/watch?v=S7vU513Eiw0&t">Oana.</a></p>
+							<p>You can reach out to us at <a class="white_link" href="mailto://oana.floresscu28@gmail.com">oana.florescu28@gmail.com</a> or visit our freshly created <a class="white_link" href="https://www.youtube.com/channel/UCrrQ55QjxXEDbJ4ojOjXvTw">YouTube channel.</a>
+                                
                             </p>
                             <div class="socail_links">
                                 <ul>
                                     <li>
-                                        <a href="#">
+                                        <a href="https://www.facebook.com/oana.florescu.71/">
                                             <i class="ti-facebook"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="https://twitter.com/lessand_ro">
                                             <i class="ti-twitter-alt"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="https://www.instagram.com/alexander_solbia/">
                                             <i class="fa fa-instagram"></i>
                                         </a>
                                     </li>
