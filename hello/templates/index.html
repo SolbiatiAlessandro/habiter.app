@@ -39,7 +39,21 @@
 	<script>
 
 function openApp(){
-  //document.location = 'exp://expo.io/@solbiatialessandro/Habiter';
+  document.location = 'exp://expo.io/@solbiatialessandro/Habiter';
+  setTimeout(function(){
+      document.location = 'https://play.google.com/store/apps/details?id=com.habiter.habiter';
+  }, 300);
+}
+
+function testOpenApp(){
+  document.location = 'habiter://';
+  setTimeout(function(){
+      document.location = 'https://play.google.com/store/apps/details?id=com.habiter.habiter';
+  }, 300);
+}
+
+function testOpenApp2(){
+  document.location = 'habiter://main';
   setTimeout(function(){
       document.location = 'https://play.google.com/store/apps/details?id=com.habiter.habiter';
   }, 300);
@@ -450,9 +464,19 @@ function openAppShare(eventID){
                             </div>
                             <p>
 							Habiter is built with 💛 by <a class="white_link" href="http://www.lessand.ro">Alessandro</a> and <a class="white_link" href="https://www.youtube.com/watch?v=S7vU513Eiw0&t">Oana.</a></p>
-							<p>You can reach out to us at <a class="white_link" href="mailto://oana.floresscu28@gmail.com">oana.florescu28@gmail.com</a> or visit our freshly created <a class="white_link" href="https://www.youtube.com/channel/UCrrQ55QjxXEDbJ4ojOjXvTw">YouTube channel.</a>
+							<p>You can reach out to us at <a class="white_link" href="mailto://oana@habiter.com">oana@habiter.app</a> and  <a class="white_link" href="mailto://alex@habiter.com">alex@habiter.app</a>or visit our freshly created <a class="white_link" href="https://www.youtube.com/channel/UCrrQ55QjxXEDbJ4ojOjXvTw">YouTube channel.</a>
                                 
                             </p>
+							<a 
+								href="#" onclick="testOpenApp()"
+								class="boxed-btn3"
+								style="background-color:#5a60b6">Try Habiter Now
+							</a>
+							<a 
+								href="#" onclick="testOpenApp2()"
+								class="boxed-btn3"
+								style="background-color:#5a60b6">Try Habiter Now
+							</a>
                             <div class="socail_links">
                                 <ul>
                                     <li>
