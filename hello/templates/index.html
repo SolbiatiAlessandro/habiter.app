@@ -39,38 +39,12 @@
 	<script>
 
 function openApp(){
-  document.location = 'exp://expo.io/@solbiatialessandro/Habiter';
-  setTimeout(function(){
-      document.location = 'https://play.google.com/store/apps/details?id=com.habiter.habiter';
-  }, 300);
-}
-
-function testOpenApp(){
   document.location = 'habiter://';
   setTimeout(function(){
       document.location = 'https://play.google.com/store/apps/details?id=com.habiter.habiter';
   }, 300);
 }
 
-function testOpenApp2(){
-  document.location = 'habiter://main';
-  setTimeout(function(){
-      document.location = 'https://play.google.com/store/apps/details?id=com.habiter.habiter';
-  }, 300);
-}
-
-function openAppShare(eventID){
-  console.log("openAppShare");
-  console.log(eventID);
-  const redirectURL = `exp://expo.io/@solbiatialessandro/Habiter/--/main/appointment/${eventID}`;
-  console.log(redirectURL);
-  document.location = redirectURL;
-  setTimeout(function(){
-    if(confirm('To try out the app you need to have Expo Client app installed')){
-      document.location = 'https://expo.io/tools#client';
-    }
-  }, 300);
-}
 	</script>
 </head>
 
