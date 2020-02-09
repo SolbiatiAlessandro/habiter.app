@@ -65,7 +65,7 @@ function openAppInvite(eventID, inviterID){
 
 function openLink(eventID, inviterID){
 	console.log("openLink");
-	if(inviterID === 'no ID provided'){
+	if(!inviterID || inviterID === 'no ID provided'){
 		openAppShare(eventID);
 	}
 	else{
