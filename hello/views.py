@@ -31,7 +31,7 @@ def sus(request):
     context = {
             'eventID':"ck6fj3jp79wt50128vfoj8t3u",
             'inviterID':None,
-            'pitch':"Join the SUS event on Habiter",
+            'pitch':"<h3>What's this?</h3><p>We are a <b>community of founders</b> that gets together online every Tuesday to build their product</p><h3>What do we do?</h3><p>We all start building at the <b>same hour</b>. Join the event and you will be <b>paired up</b> with another founder to keep accountable and chat with.</p><p>Start by sending a message describing your project and have your buddy explain it back to you.</p>",
             'footer':""
             }
     return render(request, "invite.html", context)
