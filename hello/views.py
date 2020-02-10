@@ -5,6 +5,9 @@ import logging
 from .models import Greeting
 
 # Create your views here.
+def about(request):
+    return render(request, "about.html")
+
 def index(request):
     # return HttpResponse('Hello from Python!')
     return render(request, "index.html")
