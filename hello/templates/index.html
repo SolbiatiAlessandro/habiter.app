@@ -46,10 +46,17 @@
 
 function openApp(){
   document.location = 'habiter://';
+  analytics.track("OpenAppButton", {
+	  description: "generic user clicked on Open App button"
+	});
   setTimeout(function(){
       document.location = 'https://play.google.com/store/apps/details?id=com.habiter.habiter';
   }, 300);
 }
+
+analytics.track("Landed", {
+  description: "generic user landing on home page"
+});
 
 	</script>
 </head>
