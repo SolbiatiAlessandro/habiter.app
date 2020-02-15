@@ -1,3 +1,9 @@
+habiter.app
+
+some eraly stage commits
+da44cf263b5e087f1fdff4f306a716a1ff0bc593
+638622aecffbd7b60460c5dccdd056ed715c30d0
+-----
 # Python: Getting Started
 
 A barebones Django app, which can easily be deployed to Heroku.
