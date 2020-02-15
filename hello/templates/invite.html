@@ -72,8 +72,8 @@ function openAppInvite(eventID, inviterID){
 function openLink(eventID, inviterID){
 	console.log("openLink");
 	analytics.track("OpenLinkClick", {
-		eventID: {{eventID}},
-		appointmentID: {{appointmentID}}
+		eventID: "{{eventID}}",
+		appointmentID: "{{appointmentID}}"
 	})
 	if(!inviterID || inviterID === 'None' || inviterID === 'no ID provided'){
 		openAppShare(eventID);
@@ -84,8 +84,8 @@ function openLink(eventID, inviterID){
 }
 
 analytics.track("InviteOpen", {
-	eventID: {{eventID}},
-	appointmentID: {{appointmentID}}
+	eventID: "{{eventID}}",
+	appointmentID: "{{appointmentID}}"
 })
 	</script>
 </head>
