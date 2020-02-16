@@ -39,6 +39,10 @@ def sus(request):
             }
     return render(request, "invite.html", context)
 
+def builders(request):
+    return render(request, "builders.html")
+
+
 def db(request):
 
     greeting = Greeting()
