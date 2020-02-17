@@ -25,9 +25,6 @@
 	<link rel="stylesheet" href="{% static "css/slicknav.css" %}">
 	<link rel="stylesheet" href="{% static "css/style.css" %}">
 	<style>
-	b {
-		color: #5961b6;
-	}
 	.hacky_img_shadow{
 		box-shadow: #2e2e2e 1px 1px 40px;
 		border-radius: 60px;
@@ -58,26 +55,18 @@
   analytics.page();
   }}();
 
-function openAppShare(eventID){
-  console.log("openAppShare");
-  console.log(eventID);
-  const redirectURL = `habiter://main/appointment/${eventID}`;
-  console.log(redirectURL);
-  document.location = redirectURL;
+function openApp(){
+  document.location = 'habiter://';
+  analytics.track("OpenAppButton", {
+	  description: "generic user clicked on Open App button"
+	});
   setTimeout(function(){
-    if(confirm('Download Habiter to join the event.')){
       document.location = 'https://play.google.com/store/apps/details?id=com.habiter.habiter';
-    }
   }, 300);
 }
 
-function openApp(){
-	const eventID = "ck6ppqz4cc2gm0128doc7m5kvA";
-	openAppShare(eventID);
-}
-
-analytics.track("Builders", {
-  description: "generic user landing builders"
+analytics.track("Landed", {
+  description: "generic user landing on home page"
 });
 
 	</script>
@@ -146,31 +135,19 @@ analytics.track("Builders", {
 							<div class="container" style="margin-top:80px">
 								<div class="row align-items-center">
 									<div class="col-xl-4 col-md-4">
-									 <a 
-										href="#" onclick="openApp()"
-									  />
 										<img class="app_image" src="https://www.indiehackers.com/images/logos/indie-hackers-logo__glyph--light.svg"/>
 										<p class="app_name">INDIE HACKERS</p>
 										<p class="app_participants">23 Accountability Partners</p>
-									 </a>
 									</div>
 									<div class="col-xl-4 col-md-4">
-									 <a 
-										href="#" onclick="openApp()"
-									  />
 										<img class="app_image" src="https://d1l6icgp8w0hse.cloudfront.net/assets/ycdc/ycombinator-logo-7481412385fe6d0f7d4a3339d90fe12309432ca41983e8d350b232301d5d8684.png"/>
 										<p class="app_name">Y COMBINATOR</p>
 										<p class="app_participants">8 Accountability Partners</p>
-									</a>
 									</div>
 									<div class="col-xl-4 col-md-4">
-									 <a 
-										href="#" onclick="openApp()"
-									  />
 										<img class="app_image" src="https://www.saashub.com/images/app/service_logos/133/thy7s40vsa02/large.png?1581725062"/>
 										<p class="app_name">PIONEER</p>
 										<p class="app_participants">12 Accountability Partners</p>
-									 </a>
 									</div>
 								</div>
 							</div>
@@ -181,14 +158,13 @@ analytics.track("Builders", {
         </div>
     </div>
     <!-- about  -->
-	<div class="container" style="margin-top:10%">
 	<div class="row">
-		<div class="col-xl-12">
-			<div class="section_title text-center wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".5s" style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.5s;">
-				<p style="font-size:25px;color:black;">You are 95% more likely to complete your goal with a buddy.</p>
-                <p>– American Society for Training and Development<p>
-			</div>
-		</div>
+	<div class="col-xl-12">
+	<div class="section_title text-center wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".5s" style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.5s;">
+	<h3>Unlock full Power</h3>
+	<p>Lorem ipsum dolor sit amet, consectetur adipiscing
+	elit sed do eiusmod <br> tempor incididunt.</p>
+	</div>
 	</div>
 	</div>
 	<div class="features_area " style="background-color:white">
@@ -197,8 +173,8 @@ analytics.track("Builders", {
 				<div class="row  align-items-center">
                             <div class="col-xl-5 col-lg-5 col-md-6">
                                 <div class="features_info2">
-									<h3>Get an <b>accountability partner</b> from your community</h3>
-									<p>To have someone that you can relate to. Sharing each-other progress keeps the <b>motivation up.</b></p>
+                                    <h3>You are 95% more likely to complete your goal with a buddy.</h3>
+                                    <p>– American Society for Training and Development<p>
                                     <div class="about_btn">
 								<a 
 									href="#" onclick="openApp()"
@@ -210,7 +186,7 @@ analytics.track("Builders", {
                             </div>
                             <div class="col-xl-5 col-lg-5 offset-xl-1 offset-lg-1 col-md-6 ">
                                 <div class="about_draw wow fadeInUp" data-wow-duration=".7s" data-wow-delay=".5s">
-									<img class="hacky_img_shadow" src="{% static "img/habiter_builders_0_phone.png" %}" alt="">
+									<img class="hacky_img_shadow" src="{% static "img/habiter1_phone.png" %}" alt="">
                                 </div>
                             </div>
                     </div>
@@ -226,13 +202,73 @@ analytics.track("Builders", {
                             <div class="col-xl-5 col-lg-5 offset-xl-1 offset-lg-1 col-md-6 "
 								style="margin-right:8%">
                                 <div class="about_draw wow fadeInUp" data-wow-duration=".7s" data-wow-delay=".5s">
-									<img class="hacky_img_shadow" src="{% static "img/habiter_builders_1_phone.png" %}" alt="">
+									<img class="hacky_img_shadow" src="{% static "img/habiter4_phone.png" %}" alt="">
                                 </div>
                             </div>
                             <div class="col-xl-5 col-lg-5 col-md-6">
                                 <div class="features_info2">
-									<h3>Get online <b>together</b></h3>
-									<p>For regular stand-ups: this will be your <b>focus time</b> to get the ball rolling, without procrastination or distractions. </p>
+                                    <h3>Get accountable.</h3>
+                                    <p>Invite a friend or match a new Habiter. It's easy to talk yourself out of it unless you know your Habiter is counting on you.</p>
+                                    <div class="about_btn">
+								<a 
+									href="#" onclick="openApp()"
+									class="boxed-btn3"
+									style="background-color:#5a60b6">Try Habiter Now
+								</a>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <!--/ about  -->
+
+    <!-- about  -->
+	<div class="features_area " style="background-color:#559AD1">
+        <div class="container">
+            <div class="features_main_wrap">
+				<div class="row  align-items-center">
+                            <div class="col-xl-5 col-lg-5 col-md-6">
+                                <div class="features_info2">
+                                    <h3>Don't give up until the time finishes.</h3>
+                                    <p>Chat with your Habiter, update on each other progress, share the experience.</p>
+                                    <div class="about_btn">
+								<a 
+									href="#" onclick="openApp()"
+									class="boxed-btn3"
+									style="background-color:#5a60b6">Try Habiter Now
+								</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-5 col-lg-5 offset-xl-1 offset-lg-1 col-md-6 ">
+                                <div class="about_draw wow fadeInUp" data-wow-duration=".7s" data-wow-delay=".5s">
+									<img class="hacky_img_shadow" src="{% static "img/habiter2_phone.png" %}" alt="">
+                                </div>
+                            </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <!--/ about  -->
+
+    <!-- about  -->
+	<div class="features_area " 
+    style="background-color:#FF8F98;">
+        <div class="container">
+            <div class="features_main_wrap">
+				<div class="row  align-items-center">
+                            <div class="col-xl-5 col-lg-5 offset-xl-1 offset-lg-1 col-md-6 "
+								style="margin-right:8%">
+                                <div class="about_draw wow fadeInUp" data-wow-duration=".7s" data-wow-delay=".5s">
+									<img class="hacky_img_shadow" src="{% static "img/habiter3_phone.png" %}" alt="">
+								</div>
+                            </div>
+                            <div class="col-xl-5 col-lg-5 col-md-6">
+                                <div class="features_info2">
+                                    <h3>Join the events that spark your interest.</h3>
+                                    <p>Or create your own.</p>
                                     <div class="about_btn">
 								<a 
 									href="#" onclick="openApp()"
