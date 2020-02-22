@@ -34,20 +34,56 @@
 		color: white;
 		font-weight: bold;
 	}
+	.blue_link{
+		color: blue;
+		text-decoration: underline;
+	}
 	</style>
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 	<script>
   !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t,e){var n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src="https://cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(n,a);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.1.0";
+  analytics.load("NFj8y6xu7WHhL2eNjQCHhXSXpSCQY9h9");
+  analytics.page();
+  }}();
 
 function openApp(){
   document.location = 'habiter://';
+	analytics.track("OpenAppButton", {
+	  description: "from Download in the navigator"
+	});
   setTimeout(function(){
       document.location = 'https://play.google.com/store/apps/details?id=com.habiter.habiter';
   }, 300);
 }
 
-analytics.track("About", {
-  description: "generic user opening about"
+function leetcodeTelegramGroup(){
+	analytics.track("LeetcodeTelegram", {
+	  description: "purple button"
+	});
+	document.location = "https://t.me/leetcode_feb_2019";
+}
+
+function alexLinkedin(){
+	analytics.track("AlexLinkedin", {
+	  description: "from /leetcode.html"
+	});
+	document.location = "https://www.linkedin.com/in/solbiatialessandro/";
+}
+function oanaLinkedin(){
+	analytics.track("OanaLinkedin", {
+	  description: "from /leetcode.html"
+	});
+	document.location = "https://www.linkedin.com/in/oana-florescu-97996716a/";
+}
+function oanaVideo(){
+	analytics.track("OanaVideo", {
+	  description: "from /leetcode.html"
+	});
+	document.location = "https://www.youtube.com/watch?v=S7vU513Eiw0";
+}
+
+analytics.track("leetcode", {
+  description: "generic user opening leetcode"
 });
 
 	</script>
@@ -106,7 +142,13 @@ analytics.track("About", {
             <div class="row">
                 <div class="col-xl-12">
                     <div class="bradcam_text">
-                        <h3>The vision behind Habiter</h3>
+                        <h3>Feb 2019 Leetcode Study Group</h3>
+						<p style="text-transform:none">A study group to keep us accountable for our interview preparation, this month we are organising on Telegram.</p>
+						<a 
+							href="#" onclick="leetcodeTelegramGroup()"
+							class="boxed-btn3"
+							style="background-color:#5a60b6">Join Telegram Group
+						</a>
                     </div>
                 </div>
             </div>
@@ -117,12 +159,14 @@ analytics.track("About", {
 	<!-- Start Sample Area -->
 	<section class="sample-text-area">
 		<div class="container box_1170">
-			<h3 class="text-heading">Why we build Habiter</h3>
+			<h3 class="text-heading">Group Rules</h3>
 			<p class="sample-text">
-				What's the problem we are trying to solve?
-				I don't exercise as often as I want. I don't meditate as often as I would like. I would love to have someone that keeps me accountable, and is also going through the same process, so that we could share the experience in the meanwhile.
-				We decided to build an app for collaborative habit tracking, where you join an online meetup of people working toward the same goal. It's like a offline meetup but it reduces all the friction of going to a offline event and dealing with the awkarness of the process. 
-				<b>Let's fix this</b>
+			We are a group of people serious about interview preparation, this group is about doing Leetcode together (100% free).
+			<ul>
+				<li>1. Join the group and share you <b>leetcode handle</b></li>
+				<li>2. You will be matched with another person from the group for accountability</li>
+				<li>3. Come back to the chat with your <b>accountability partner</b> to report your progress, we will keep your stike checking on leetcode if you submitted your problems</li>
+			</ul>
 			</p>
 		</div>
 	</section>
@@ -132,24 +176,16 @@ analytics.track("About", {
 	<div class="whole-wrap">
 		<div class="container box_1170">
 			<div class="section-top-border">
-				<h3 class="mb-30">Oana, building the product </h3>
+				<h3 class="mb-30">Group Organisers</h3>
 				<div class="row">
 					<div class="col-md-3">
 						<img style="border-radius:50%;" src="{% static "img/oana.jpeg" %}" alt="" class="img-fluid">
 					</div>
-					<div class="col-md-9 mt-sm-20">
-						<p>Oana is a Youtuber excited about Start-Up world! She quit her 6 figures salary at a big tech to work full time on habiter. She is excited about getting stuff done and is energised by helping people finding their calling. With Habiter she wants to get people to really getting things done and finding communities they can relate to.</p>
-					</div>
-				</div>
-			</div>
-			<div class="section-top-border text-right">
-				<h3 class="mb-30">Alex, building the tech</h3>
-				<div class="row">
-					<div class="col-md-9">
-						<p>Alex is a Software Engineer at Facebook by day and a Habiter.app Hacker by night. He loves going to offline meetups to get to know new people and cultivate his interests, but he ends up never going. With Habiter he wants to get the ball rolling for people in Tech that want to find a new co-founder, or find some buddy-developer to learn Javascript together.</p>
-					</div>
 					<div class="col-md-3">
-						<img style="border-radius:50%" src="{% static "img/alex.jpeg" %}" alt="" class="img-fluid">
+						<img style="border-radius:50%;" src="{% static "img/alex.jpeg" %}" alt="" class="img-fluid">
+					</div>
+					<div class="col-md-6">
+						<p>We are Oana <a class="blue_link" onclick="oanaLinkedin()" href="#">(ex Facebook intern)</a> and Alex <a class="blue_link" onclick="alexLinkedin()" href="#">(Facebook Software Engineer)</a>. We are passionate about interview preparation , and we help people with their tech interviews (see <a class="blue_link" onclick="oanaVideo()" href="#">Oana video on her YouTube channel</a>). We also run offline and online study group to validate our hypotesis that having an accountability partner can improve substantially your interview preparation, we do it online with Telegram/Slack/Discord groups, and offline at Meetups in London.</p>
 					</div>
 				</div>
 			</div>

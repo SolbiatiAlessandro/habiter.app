@@ -15,6 +15,7 @@ import hello.views
 # Learn more here: https://docs.djangoproject.com/en/2.1/topics/http/urls/
 
 urlpatterns = [
+    path("leetcode", hello.views.leetcode),
     path("SUS", hello.views.sus),
     path("pioneer", hello.views.pioneer),
     path("invite", hello.views.invite),

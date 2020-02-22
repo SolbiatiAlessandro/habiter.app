@@ -42,6 +42,8 @@ def sus(request):
 def builders(request):
     return render(request, "builders.html")
 
+def leetcode(request):
+    return render(request, "leetcode.html")
 
 def db(request):
 
