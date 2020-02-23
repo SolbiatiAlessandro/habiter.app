@@ -102,6 +102,7 @@ def main():
     dp.add_error_handler(error)
 
     # Start the Bot
+    logger.warning("314159 bot is running....")
     print("bot is running....")
     updater.start_polling()
 
