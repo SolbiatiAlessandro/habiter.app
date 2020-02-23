@@ -38,6 +38,9 @@
 		color: blue;
 		text-decoration: underline;
 	}
+	.button-container{
+		margin:20px
+	}
 	</style>
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 	<script>
@@ -56,11 +59,31 @@ function openApp(){
   }, 300);
 }
 
-function leetcodeTelegramGroup(){
+function leetcodeTelegramGroup(group){
 	analytics.track("LeetcodeTelegram", {
-	  description: "purple button"
+	  description: "purple button",
+	  group: group
 	});
-	document.location = "https://t.me/leetcode_feb_2019";
+	switch(group){
+		case "general":
+			document.location = "https://t.me/leetcode_feb_2019";
+			break;
+		case "gmt":
+			document.location = "https://t.me/leetcode_gmt";
+			break;
+		case "est":
+			document.location = "https://t.me/leetcode_est";
+			break;
+		case "ist":
+			document.location = "https://t.me/leetcode_ist";
+			break;
+		case "cst":
+			document.location = "https://t.me/leetcode_cst";
+			break;
+		case "pst":
+			document.location = "https://t.me/leetcode_pst";
+			break;
+	}
 }
 
 function alexLinkedin(){
@@ -142,33 +165,33 @@ analytics.track("leetcode", {
             <div class="row">
                 <div class="col-xl-12">
                     <div class="bradcam_text">
-                        <h3>Feb 2019 Leetcode Study Group</h3>
+                        <h3>Feb 2020 Leetcode Study Group</h3>
 						<p style="text-transform:none">A study group to keep us accountable for our interview preparation, this month we are organising on Telegram. Join the group on your timezone here:</p>
 						<div class='button-container'>
 							<a 
-								href="#" onclick="leetcodeTelegramGroup()"
+								href="#" onclick="leetcodeTelegramGroup('gmt')"
 								class="boxed-btn3"
 								style="background-color:#5a60b6">Join Group GMT (London)
 							</a>
 							<a 
-								href="#" onclick="leetcodeTelegramGroup()"
+								href="#" onclick="leetcodeTelegramGroup('pst')"
 								class="boxed-btn3"
 								style="background-color:#5a60b6">Join Group PST (California)
 							</a>
 							<a 
-								href="#" onclick="leetcodeTelegramGroup()"
+								href="#" onclick="leetcodeTelegramGroup('ist')"
 								class="boxed-btn3"
 								style="background-color:#5a60b6">Join Group IST (Hyderabad)
 							</a>
 						</div>
 						<div class='button-container'>
 							<a 
-								href="#" onclick="leetcodeTelegramGroup()"
+								href="#" onclick="leetcodeTelegramGroup('est')"
 								class="boxed-btn3"
 								style="background-color:#5a60b6">Join Group EST (New York)
 							</a>
 							<a 
-								href="#" onclick="leetcodeTelegramGroup()"
+								href="#" onclick="leetcodeTelegramGroup('cst')"
 								class="boxed-btn3"
 								style="background-color:#5a60b6">Join Group CST (Hong Kong)
 							</a>
