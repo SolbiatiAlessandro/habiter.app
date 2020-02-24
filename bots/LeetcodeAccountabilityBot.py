@@ -16,6 +16,7 @@ bot.
 """
 
 import logging
+import thread
 import os
 from telegram.ext import Updater, CommandHandler
 
@@ -102,17 +103,6 @@ def main():
     # log all errors
     dp.add_error_handler(error)
 
-    #HACK TO OCCUPY $PORT
-    import http.server
-    import socketserver
-
-    PORT = int(os.environ.get('PORT', '8443'))
-    Handler = http.server.SimpleHTTPRequestHandler
-
-    with socketserver.TCPServer(("", PORT), Handler) as httpd:
-        logger.warning("starting dummy server at PORT: "+str(PORT))
-        httpd.serve_forever()
-
     # Start the Bot
     logger.warning("start polling telegram bot")
     update.start_polling()
@@ -123,6 +113,20 @@ def main():
     updater.idle()
     logger.warning("## bot is running ##")
 
+def run_dummy_server():
+    #HACK TO OCCUPY $PORT
+    PORT = int(os.environ.get('PORT', '8443'))
+    import http.server
+    import socketserver
+
+    Handler = http.server.SimpleHTTPRequestHandler
+
+    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+        logger.warning("starting dummy server at PORT: "+str(PORT))
+        httpd.serve_forever()
 
 if __name__ == '__main__':
-    main()
+    thread.start_new_thread(run_dummy_server)
+    thread.start_new_thread(main)
+    
+
