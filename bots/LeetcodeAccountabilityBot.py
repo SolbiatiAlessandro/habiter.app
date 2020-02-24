@@ -104,17 +104,21 @@ def main():
 
     # Start the Bot
     PORT = int(os.environ.get('PORT', '8443'))
+    logger.warning("port is")
+    logger.warning(PORT)
     updater.start_webhook(listen="0.0.0.0",
                       port=PORT,
                       url_path=TOKEN)
-    updater.bot.set_webhook("https://habiter.app:"+str(PORT)+"/" + TOKEN)
-    logger.warning("314159 bot is running on port "+str(PORT))
-    print("bot is running....")
+    webhook_url = "https://habiter.app:8443/" + TOKEN
+    logger.warning("trying to setup webhook for telegram bot at")
+    logger.warning(webhook_url)
+    updater.bot.set_webhook(webhook_url)
 
     # Block until you press Ctrl-C or the process receives SIGINT, SIGTERM or
     # SIGABRT. This should be used most of the time, since start_polling() is
     # non-blocking and will stop the bot gracefully.
     updater.idle()
+    logger.warning("## bot is running ##")
 
 
 if __name__ == '__main__':
