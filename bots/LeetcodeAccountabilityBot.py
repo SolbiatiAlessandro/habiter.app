@@ -55,7 +55,7 @@ def set_leetcode_session(update, context):
     chat_id = update.message.chat_id
     try:
         # args[0] should contain the time for the timer in seconds
-        string_time = context.args[0]
+        string_time = " ".joincontext.args
         logger.warning("Setting a new leetcode session at: {}".format(string_time))
 
         try:
