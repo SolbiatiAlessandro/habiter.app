@@ -16,7 +16,7 @@ bot.
 """
 
 import logging
-import _thread
+import threading
 import os
 from telegram.ext import Updater, CommandHandler
 
@@ -126,7 +126,9 @@ def run_dummy_server():
         httpd.serve_forever()
 
 if __name__ == '__main__':
-    _thread.start_new_thread(run_dummy_server)
-    _thread.start_new_thread(main)
+    t1 = threading.Thread(target=run_dummy_server)
+    t2 = threading.Thread(target=main)
+    t1.start()
+    t2.start()
     
 
