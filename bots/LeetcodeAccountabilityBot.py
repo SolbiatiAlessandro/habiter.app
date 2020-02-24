@@ -108,7 +108,7 @@ def main():
                       port=PORT,
                       url_path=TOKEN)
     updater.bot.set_webhook("https://habiter.app/" + TOKEN)
-    logger.warning("314159 bot is running....")
+    logger.warning("314159 bot is running on port "+PORT)
     print("bot is running....")
 
     # Block until you press Ctrl-C or the process receives SIGINT, SIGTERM or
