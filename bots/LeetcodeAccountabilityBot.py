@@ -19,7 +19,11 @@ import logging
 import threading
 import os
 from time import sleep
+from datetime import datetime
 from telegram.ext import Updater, CommandHandler
+
+
+CTIME_FORMAT = "%a %b %d %H:%M:%S %Y"
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -31,13 +35,52 @@ logger = logging.getLogger(__name__)
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
 def start(update, context):
-    update.message.reply_text('Hi! Use /set <seconds> to set a timer')
+    update.message.reply_text('Hi! I organise Group Leetcode session on Telegram. Type/leetcode <time> to set a new leetcode session. <time> need to be in the format of '+datetime.now().ctime())
 
 
 def alarm(context):
     """Send the alarm message."""
     job = context.job
     context.bot.send_message(job.context, text='Timer finished!')
+
+def run_leetcode_session(context):
+    """
+    leetcode sesssion
+    """
+    job = context.job
+    context.bot.send_message(job.context, text='Leetcode Session starting now')
+
+def set_leetcode_session(update, context):
+    """Set next event session"""
+    chat_id = update.message.chat_id
+    try:
+        # args[0] should contain the time for the timer in seconds
+        string_time = context.args[0]
+        logger.warning("Setting a new leetcode session at: {}".format(string_time))
+
+        try:
+            session_start_time = datetime.strptime(string_time, CTIME_FORMAT)
+            due = (session_start_time - datetime.now()).seconds
+        except ValueError as e:
+            update.message.reply_text("You are setting the time {} with wrong format:".format(string_time))
+            update.message.reply_text(e)
+            return
+        
+        if due < 0:
+            update.message.reply_text('Sorry we can not go back to future!')
+            return
+
+        # Add job to queue and stop current one if there is a timer already
+        if 'job' in context.chat_data:
+            old_job = context.chat_data['job']
+            old_job.schedule_removal()
+        new_job = context.job_queue.run_once(run_leetcode_session, due, context=chat_id)
+        context.chat_data['job'] = new_job
+
+        update.message.reply_text('Leetcode Session successfully set for {}'.format(string_time))
+
+    except (IndexError, ValueError):
+        update.message.reply_text('Usage: /leetcode <seconds>')
 
 
 def set_timer(update, context):
@@ -95,6 +138,10 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", start))
+    dp.add_handler(CommandHandler("leetcode", set_leetcode_session,
+                                  pass_args=True,
+                                  pass_job_queue=True,
+                                  pass_chat_data=True))
     dp.add_handler(CommandHandler("set", set_timer,
                                   pass_args=True,
                                   pass_job_queue=True,
