@@ -1,2 +1,2 @@
 web: gunicorn gettingstarted.wsgi --log-file -
-worker: python bots/LeetcodeAccountabilityBot.py -p 8443
+web: python bots/LeetcodeAccountabilityBot.py -p 8443
