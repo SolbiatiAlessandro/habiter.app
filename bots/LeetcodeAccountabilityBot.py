@@ -18,6 +18,7 @@ bot.
 import logging
 import threading
 import os
+from time import sleep
 from telegram.ext import Updater, CommandHandler
 
 # Enable logging
@@ -132,5 +133,3 @@ if __name__ == '__main__':
     t2 = threading.Thread(target=main)
     t1.start()
     t2.start()
-    
-
