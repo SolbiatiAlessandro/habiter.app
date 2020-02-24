@@ -51,7 +51,7 @@ def run_leetcode_session(context):
     leetcode sesssion
     """
     job = context.job
-    context.bot.send_message(job.context, text='These are the problem all the groups are working on today, you can solve them and then send a screenshot on this chat with your solution! That will counts towards your group strike.')
+    context.bot.send_message(job.context, text="Let's start our Leetcode Session! 🔥🔥🔥 These are the problems we are solving, send a screenshot of your solution.")
     context.bot.send_message(job.context, text=LEETCODE_PROBLEMS[0])
     context.bot.send_message(job.context, text=LEETCODE_PROBLEMS[1])
 
