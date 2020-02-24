@@ -108,16 +108,21 @@ def main():
     logger.warning("start polling telegram bot")
     updater.start_polling()
 
+    # was getting this error:
     # File "/app/.heroku/python/lib/python3.7/site-packages/telegram/ext/updater.py", line 577, in idle
     # ValueError: signal only works in main thread
-    # REWROTE UPDATE.IDLE FUNCTION
+    #
+    # that happens cause we are multithreading
+    # so I rewrote the .idle function without signal handling
+
     logger.warning("## bot is running ##")
     updater.is_idle = True
     while updater.is_idle:
         sleep(1)
 
 def run_dummy_server():
-    #HACK TO OCCUPY $PORT
+    # HACK TO OCCUPY $PORT
+    # otherwise heroku complains
     PORT = int(os.environ.get('PORT', '8443'))
     import http.server
     import socketserver
