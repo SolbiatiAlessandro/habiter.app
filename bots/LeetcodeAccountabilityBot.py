@@ -24,7 +24,7 @@ from telegram.ext import Updater, CommandHandler
 import pytz
 
 
-TIMEFORMAT = "%a, %d %b &Y, at %H:%M:%S (%z)"
+TIMEFORMAT = "%a, %d %b %Y, at %H:%M:%S (%z)"
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
