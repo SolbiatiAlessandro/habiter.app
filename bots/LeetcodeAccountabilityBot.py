@@ -105,7 +105,7 @@ def main():
 
     # Start the Bot
     logger.warning("start polling telegram bot")
-    update.start_polling()
+    updater.start_polling()
 
     # Block until you press Ctrl-C or the process receives SIGINT, SIGTERM or
     # SIGABRT. This should be used most of the time, since start_polling() is
