@@ -84,7 +84,8 @@ def main():
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
-    updater = Updater("1066043441:AAFj7XoIZoJ_03pYSNTQVK4wr-AxoBZup6k", use_context=True)
+    TOKEN="1066043441:AAFj7XoIZoJ_03pYSNTQVK4wr-AxoBZup6k"
+    updater = Updater(TOKEN, use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
@@ -102,10 +103,13 @@ def main():
     dp.add_error_handler(error)
 
     # Start the Bot
+    PORT = int(os.environ.get('PORT', '8443'))
+    updater.start_webhook(listen="0.0.0.0",
+                      port=PORT,
+                      url_path=TOKEN)
+    updater.bot.set_webhook("https://habiter.app/" + TOKEN)
     logger.warning("314159 bot is running....")
     print("bot is running....")
-    port = os.getenv('PORT', default=8000)
-    updater.start_webhook(port=port)
 
     # Block until you press Ctrl-C or the process receives SIGINT, SIGTERM or
     # SIGABRT. This should be used most of the time, since start_polling() is
