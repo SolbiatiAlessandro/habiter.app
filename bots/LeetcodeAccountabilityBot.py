@@ -107,11 +107,13 @@ def main():
     logger.warning("start polling telegram bot")
     updater.start_polling()
 
-    # Block until you press Ctrl-C or the process receives SIGINT, SIGTERM or
-    # SIGABRT. This should be used most of the time, since start_polling() is
-    # non-blocking and will stop the bot gracefully.
-    updater.idle()
+    # File "/app/.heroku/python/lib/python3.7/site-packages/telegram/ext/updater.py", line 577, in idle
+    # ValueError: signal only works in main thread
+    # REWROTE UPDATE.IDLE FUNCTION
     logger.warning("## bot is running ##")
+    updater.is_idle = True
+    while updater.is_idle:
+        sleep(1)
 
 def run_dummy_server():
     #HACK TO OCCUPY $PORT
