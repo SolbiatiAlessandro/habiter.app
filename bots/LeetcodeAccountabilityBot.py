@@ -107,7 +107,7 @@ def main():
     updater.start_webhook(listen="0.0.0.0",
                       port=PORT,
                       url_path=TOKEN)
-    updater.bot.set_webhook("https://habiter.app/" + TOKEN)
+    updater.bot.set_webhook("https://habiter.app:"+str(PORT)+"/" + TOKEN)
     logger.warning("314159 bot is running on port "+str(PORT))
     print("bot is running....")
 
