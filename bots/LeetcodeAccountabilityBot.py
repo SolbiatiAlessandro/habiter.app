@@ -21,9 +21,10 @@ import os
 from time import sleep
 from datetime import datetime
 from telegram.ext import Updater, CommandHandler
+import pytz
 
 
-CTIME_FORMAT = "%a %b %d %H:%M:%S %Y"
+CTIME_FORMAT = "%a %b %d %H:%M:%S %Y %z"
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -35,7 +36,9 @@ logger = logging.getLogger(__name__)
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
 def start(update, context):
-    update.message.reply_text('Hi! I organise Group Leetcode session on Telegram. Type/leetcode <time> to set a new leetcode session. <time> need to be in the format of '+datetime.now().ctime())
+    update.message.reply_text('Hi! I organise Group Leetcode session on Telegram. Type/leetcode <time> to set a new leetcode session. <time> need to be in the format of '+datetime.now().ctime()+' +0000')
+
+LEETCODE_PROBLEMS = ["https://leetcode.com/problems/top-k-frequent-words/", "https://leetcode.com/problems/integer-replacement/"]
 
 
 def alarm(context):
@@ -48,7 +51,10 @@ def run_leetcode_session(context):
     leetcode sesssion
     """
     job = context.job
-    context.bot.send_message(job.context, text='Leetcode Session starting now')
+    context.bot.send_message(job.context, text='These are the problem all the groups are working on today, you can solve them and then send a screenshot on this chat with your solution! That will counts towards your group strike.')
+    context.bot.send_message(job.context, text=LEETCODE_PROBLEMS[0])
+    context.bot.send_message(job.context, text=LEETCODE_PROBLEMS[1])
+
 
 def set_leetcode_session(update, context):
     """Set next event session"""
@@ -60,7 +66,8 @@ def set_leetcode_session(update, context):
 
         try:
             session_start_time = datetime.strptime(string_time, CTIME_FORMAT)
-            due = (session_start_time - datetime.now()).seconds
+            now = datetime.utcnow().replace(tzinfo=pytz.utc)
+            due = (session_start_time - now).seconds
         except ValueError as e:
             update.message.reply_text("You are setting the time {} with wrong format:".format(string_time))
             update.message.reply_text(e)
@@ -74,6 +81,7 @@ def set_leetcode_session(update, context):
         if 'job' in context.chat_data:
             old_job = context.chat_data['job']
             old_job.schedule_removal()
+        logging.info("next session due in {} seconds".format(due))
         new_job = context.job_queue.run_once(run_leetcode_session, due, context=chat_id)
         context.chat_data['job'] = new_job
 
