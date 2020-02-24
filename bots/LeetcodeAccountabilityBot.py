@@ -24,7 +24,7 @@ from telegram.ext import Updater, CommandHandler
 import pytz
 
 
-CTIME_FORMAT = "%a %b %d %H:%M:%S %Y %z"
+TIMEFORMAT = "%a, %d %b &Y, at %H:%M:%S (%z)"
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -36,7 +36,7 @@ logger = logging.getLogger(__name__)
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
 def start(update, context):
-    update.message.reply_text('Hi! I organise Group Leetcode session on Telegram. Type/leetcode <time> to set a new leetcode session. <time> need to be in the format of '+datetime.now().ctime()+' +0000')
+    update.message.reply_text('Hi! I organise Group Leetcode session on Telegram. Type/leetcode <time> to set a new leetcode session. <time> need to be in the format of '+datetime.utcnow().replace(tzinfo=pytz.utc).strftime(TIMEFORMAT))
 
 LEETCODE_PROBLEMS = ["https://leetcode.com/problems/top-k-frequent-words/", "https://leetcode.com/problems/integer-replacement/"]
 
@@ -65,7 +65,7 @@ def set_leetcode_session(update, context):
         logger.warning("Setting a new leetcode session at: {}".format(string_time))
 
         try:
-            session_start_time = datetime.strptime(string_time, CTIME_FORMAT)
+            session_start_time = datetime.strptime(string_time, TIMEFORMAT)
             now = datetime.utcnow().replace(tzinfo=pytz.utc)
             due = (session_start_time - now).seconds
         except ValueError as e:
