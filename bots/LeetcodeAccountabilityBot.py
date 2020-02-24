@@ -16,7 +16,7 @@ bot.
 """
 
 import logging
-
+import os
 from telegram.ext import Updater, CommandHandler
 
 # Enable logging
@@ -104,7 +104,8 @@ def main():
     # Start the Bot
     logger.warning("314159 bot is running....")
     print("bot is running....")
-    updater.start_polling()
+    port = os.getenv('PORT', default=8000)
+    updater.start_polling(port=port)
 
     # Block until you press Ctrl-C or the process receives SIGINT, SIGTERM or
     # SIGABRT. This should be used most of the time, since start_polling() is
