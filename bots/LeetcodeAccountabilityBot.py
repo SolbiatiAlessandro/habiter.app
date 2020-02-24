@@ -105,7 +105,7 @@ def main():
     logger.warning("314159 bot is running....")
     print("bot is running....")
     port = os.getenv('PORT', default=8000)
-    updater.start_polling(port=port)
+    updater.start_webhook(port=port)
 
     # Block until you press Ctrl-C or the process receives SIGINT, SIGTERM or
     # SIGABRT. This should be used most of the time, since start_polling() is
