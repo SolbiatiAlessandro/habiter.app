@@ -102,17 +102,20 @@ def main():
     # log all errors
     dp.add_error_handler(error)
 
-    # Start the Bot
+    #HACK TO OCCUPY $PORT
+    import http.server
+    import socketserver
+
     PORT = int(os.environ.get('PORT', '8443'))
-    logger.warning("port is")
-    logger.warning(PORT)
-    updater.start_webhook(listen="0.0.0.0",
-                      port=PORT,
-                      url_path=TOKEN)
-    webhook_url = "https://habiter.app:8443/" + TOKEN
-    logger.warning("trying to setup webhook for telegram bot at")
-    logger.warning(webhook_url)
-    updater.bot.set_webhook(webhook_url)
+    Handler = http.server.SimpleHTTPRequestHandler
+
+    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+        logger.warning("starting dummy server at PORT: "+str(PORT))
+        httpd.serve_forever()
+
+    # Start the Bot
+    logger.warning("start polling telegram bot")
+    update.start_polling()
 
     # Block until you press Ctrl-C or the process receives SIGINT, SIGTERM or
     # SIGABRT. This should be used most of the time, since start_polling() is
