@@ -14,6 +14,7 @@ Basic Alarm Bot example, sends a message after a set time.
 Press Ctrl-C on the command line or send a signal to the process to stop the
 bot.
 """
+from html import escape
 
 import logging
 import threading
@@ -23,7 +24,7 @@ from datetime import datetime
 from telegram.ext import Updater, CommandHandler, Filters, MessageHandler
 from telegram.ext.dispatcher import run_async
 import pytz
-
+BOTNAME = "LeetcodeAccountabilityBot"
 
 TIMEFORMAT = "%a, %d %b %Y, at %H:%M:%S (%z)"
 
@@ -143,20 +144,20 @@ def welcome(bot, update):
 
     message = update.message
     chat_id = message.chat.id
-    logger.info('%s joined to chat %d (%s)'
-                 % (escape(message.new_chat_member.first_name),
-                    chat_id,
-                    escape(message.chat.title)))
+    for member in message.new_chat_members:
+        logger.info('%s joined to chat %d (%s)'
+                     % (escape(member.first_name),
+                        chat_id,
+                        escape(message.chat.title)))
 
-    # Use default message if there's no custom one set
-    if text is None:
+        # Use default message if there's no custom one set
         text = 'Hello $username! Welcome to $title %s' 
 
-    # Replace placeholders and send message
-    text = text.replace('$username',
-                        message.new_chat_member.first_name)\
-        .replace('$title', message.chat.title)
-    send_async(bot, chat_id=chat_id, text=text, parse_mode=ParseMode.HTML)
+        # Replace placeholders and send message
+        text = text.replace('$username',
+                            member.first_name)\
+            .replace('$title', message.chat.title)
+        update.message.reply_text(text)
 
 # Welcome a user to the chat
 def goodbye(bot, update):
@@ -169,21 +170,15 @@ def goodbye(bot, update):
                     chat_id,
                     escape(message.chat.title)))
 
-    # Goodbye was disabled
-    if text is False:
-        return
-
-    # Use default message if there's no custom one set
-    if text is None:
-        text = 'Goodbye, $username!'
+    text = 'Goodbye, $username!'
 
     # Replace placeholders and send message
     text = text.replace('$username',
                         message.left_chat_member.first_name)\
         .replace('$title', message.chat.title)
-    send_async(bot, chat_id=chat_id, text=text, parse_mode=ParseMode.HTML)
+    update.message.reply_text(text)
 
-def chat_event(bot, update):
+def chat_event(update, bot):
     """
     Empty messages could be status messages, so we check them if there is a new
     group member, someone left the chat or if the bot has been added somewhere.
@@ -199,16 +194,19 @@ def chat_event(bot, update):
         logger.info("I have been added to %d chats" % len(chats))
     """
 
-    if update.message.new_chat_member is not None:
+    if update.message.new_chat_members:
+        logging.info("1")
         # Bot was added to a group chat
-        if update.message.new_chat_member.username == BOTNAME:
-            return introduce(bot, update)
+        for member in update.message.new_chat_members:
+            if member.username == BOTNAME:
+                return introduce(bot, update)
         # Another user joined the chat
         else:
             return welcome(bot, update)
 
     # Someone left the chat
     elif update.message.left_chat_member is not None:
+        logging.info("2")
         if update.message.left_chat_member.username != BOTNAME:
             return goodbye(bot, update)
 
@@ -228,7 +226,7 @@ def introduce(bot, update):
     text = 'Hello %s! I will now greet anyone who joins this chat with a' \
            ' nice message \nCheck the /start command for more info!'\
            % (update.message.chat.title)
-    send_async(bot, chat_id=chat_id, text=text)
+    update.message.reply_text(text)
 
 
 def main():
@@ -292,6 +290,6 @@ def run_dummy_server():
 
 if __name__ == '__main__':
     t1 = threading.Thread(target=run_dummy_server)
-    #t2 = threading.Thread(target=main)
+    t2 = threading.Thread(target=main)
     t1.start()
-    #t2.start()
+    t2.start()
