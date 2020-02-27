@@ -45,6 +45,8 @@ def builders(request):
 def leetcode(request):
     return render(request, "leetcode.html")
 
+from hello.matching import leetcode__get_team_invite_link
+
 def leetcode_match(request):
     """
     matches a new team for leetcode
@@ -55,7 +57,7 @@ def leetcode_match(request):
         logging.error(request.GET)
         team_invite_link = "https://t.me/leetcode_feb_2019"
     else:
-        team_invite_link = timezone+".com"
+        team_invite_link = leetcode__get_team_invite_link(timezone)
     data = {
         'team_invite_link': team_invite_link
     }
