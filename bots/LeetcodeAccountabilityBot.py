@@ -290,6 +290,6 @@ def run_dummy_server():
 
 if __name__ == '__main__':
     t1 = threading.Thread(target=run_dummy_server)
-    t2 = threading.Thread(target=main)
+    #t2 = threading.Thread(target=main)
     t1.start()
-    t2.start()
+    #t2.start()

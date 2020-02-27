@@ -64,6 +64,19 @@ function leetcodeTelegramGroup(group){
 	  description: "purple button",
 	  group: group
 	});
+
+	$.ajax({
+        url: '/ajax/leetcode_match/',
+        data: {
+          'timezone': group
+        },
+        dataType: 'json',
+        success: function (data) {
+			alert(data.team_invite_link)
+        }
+    });
+
+	/*
 	switch(group){
 		case "general":
 			document.location = "https://t.me/leetcode_feb_2019";
@@ -84,6 +97,7 @@ function leetcodeTelegramGroup(group){
 			document.location = "https://t.me/leetcode_pst";
 			break;
 	}
+	*/
 }
 
 function alexLinkedin(){

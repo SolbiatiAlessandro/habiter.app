@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import logging
 
 from .models import Greeting
@@ -44,6 +44,22 @@ def builders(request):
 
 def leetcode(request):
     return render(request, "leetcode.html")
+
+def leetcode_match(request):
+    """
+    matches a new team for leetcode
+    """
+    timezone = request.GET.get('timezone', None)
+    if not timezone:
+        logging.error("no timezone found when trying to match team")
+        logging.error(request.GET)
+        team_invite_link = "https://t.me/leetcode_feb_2019"
+    else:
+        team_invite_link = timezone+".com"
+    data = {
+        'team_invite_link': team_invite_link
+    }
+    return JsonResponse(data)
 
 def db(request):
 
