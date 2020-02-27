@@ -1,3 +1,12 @@
+
+DB
+
+local
+set DATABASE_URL postgres://(whoami)
+
+heroku pg:pull postgresql-perpendicular-23539 habiter_db
+heroku pg:push habiter_db postgresql-perpendicular-23539
+====
 habiter.app
 
 some eraly stage commits
