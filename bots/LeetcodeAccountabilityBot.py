@@ -20,7 +20,8 @@ import threading
 import os
 from time import sleep
 from datetime import datetime
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, Filters, MessageHandler
+from telegram.ext.dispatcher import run_async
 import pytz
 
 
@@ -131,6 +132,104 @@ def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
+"""FOLLOWING COMES FROM https://github.com/jh0ker/welcomebot/blob/master/bot.py"""
+@run_async
+def send_async(bot, *args, **kwargs):
+    bot.sendMessage(*args, **kwargs);
+
+# Welcome a user to the chat
+def welcome(bot, update):
+    """ Welcomes a user to the chat """
+
+    message = update.message
+    chat_id = message.chat.id
+    logger.info('%s joined to chat %d (%s)'
+                 % (escape(message.new_chat_member.first_name),
+                    chat_id,
+                    escape(message.chat.title)))
+
+    # Use default message if there's no custom one set
+    if text is None:
+        text = 'Hello $username! Welcome to $title %s' 
+
+    # Replace placeholders and send message
+    text = text.replace('$username',
+                        message.new_chat_member.first_name)\
+        .replace('$title', message.chat.title)
+    send_async(bot, chat_id=chat_id, text=text, parse_mode=ParseMode.HTML)
+
+# Welcome a user to the chat
+def goodbye(bot, update):
+    """ Sends goodbye message when a user left the chat """
+
+    message = update.message
+    chat_id = message.chat.id
+    logger.info('%s left chat %d (%s)'
+                 % (escape(message.left_chat_member.first_name),
+                    chat_id,
+                    escape(message.chat.title)))
+
+    # Goodbye was disabled
+    if text is False:
+        return
+
+    # Use default message if there's no custom one set
+    if text is None:
+        text = 'Goodbye, $username!'
+
+    # Replace placeholders and send message
+    text = text.replace('$username',
+                        message.left_chat_member.first_name)\
+        .replace('$title', message.chat.title)
+    send_async(bot, chat_id=chat_id, text=text, parse_mode=ParseMode.HTML)
+
+def chat_event(bot, update):
+    """
+    Empty messages could be status messages, so we check them if there is a new
+    group member, someone left the chat or if the bot has been added somewhere.
+    """
+
+    """ WE DON'T HAVE A DB
+    # Keep chatlist
+    chats = db.get('chats')
+
+    if update.message.chat.id not in chats:
+        chats.append(update.message.chat.id)
+        db.set('chats', chats)
+        logger.info("I have been added to %d chats" % len(chats))
+    """
+
+    if update.message.new_chat_member is not None:
+        # Bot was added to a group chat
+        if update.message.new_chat_member.username == BOTNAME:
+            return introduce(bot, update)
+        # Another user joined the chat
+        else:
+            return welcome(bot, update)
+
+    # Someone left the chat
+    elif update.message.left_chat_member is not None:
+        if update.message.left_chat_member.username != BOTNAME:
+            return goodbye(bot, update)
+
+# Introduce the bot to a chat its been added to
+def introduce(bot, update):
+    """
+    Introduces the bot to a chat its been added to and saves the user id of the
+    user who invited us.
+    """
+
+    chat_id = update.message.chat.id
+    invited = update.message.from_user.id
+
+    logger.info('Invited by %s to chat %d (%s)'
+                % (invited, chat_id, update.message.chat.title))
+
+    text = 'Hello %s! I will now greet anyone who joins this chat with a' \
+           ' nice message \nCheck the /start command for more info!'\
+           % (update.message.chat.title)
+    send_async(bot, chat_id=chat_id, text=text)
+
 
 def main():
     """Run bot."""
@@ -155,6 +254,9 @@ def main():
                                   pass_job_queue=True,
                                   pass_chat_data=True))
     dp.add_handler(CommandHandler("unset", unset, pass_chat_data=True))
+
+    #welcome bot taken from https://github.com/jh0ker/welcomebot/blob/master/bot.py
+    dp.add_handler(MessageHandler(Filters.status_update, chat_event))
 
     # log all errors
     dp.add_error_handler(error)
@@ -190,6 +292,6 @@ def run_dummy_server():
 
 if __name__ == '__main__':
     t1 = threading.Thread(target=run_dummy_server)
-    t2 = threading.Thread(target=main)
+    #t2 = threading.Thread(target=main)
     t1.start()
-    t2.start()
+    #t2.start()
