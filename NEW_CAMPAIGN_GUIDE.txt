@@ -1,0 +1,41 @@
+how to create a new campaign
+
+git heroku pull master
+
+# 1 Add url
+vim gettingstarted/urls.py
+path("CAMPAIGN_NAME", hello.views.CAMPAIGN_NAME)
+
+# 2 Add view
+vim hello/views.py
+
+def CAMPAIGN_NAME(request):
+ return render(request, "CAMPAIGN_NAME.html")
+
+# 3 Add template
+cd hello/templates
+cp leetcode.html "CAMPAIGN_NAME.html"
+
+# 4 Edit template
+search for  leetcode "/leetcode" and change text
+search for  leetcode "/Leetcode" and change text
+
+change leetcodeTelegramGroup(group) function
+
+search for "/t.me"
+
+kill
+
+# 5 Try locally
+if you are able to activate venv
+source venv/bin/acticate
+heroku local
+
+# 6 Push
+(this will kill all bots for 1 minute, reset timers)
+git add *
+git commit
+git push heroku master
+
+# 7 Breaks?
+heroku logs --tail
