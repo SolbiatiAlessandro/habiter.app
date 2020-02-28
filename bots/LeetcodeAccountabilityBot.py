@@ -150,6 +150,9 @@ def welcome(bot, update):
                         chat_id,
                         escape(message.chat.title)))
 
+        # CALL PSYCOPG2 TO UPDATE DATABASE THAT ONE INVITE
+        # HAS BEEN CONFIRMED
+
         # Use default message if there's no custom one set
         text = 'Hello $username! Welcome to $title %s' 
 
