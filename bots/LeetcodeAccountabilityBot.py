@@ -24,6 +24,7 @@ from datetime import datetime
 from telegram.ext import Updater, CommandHandler, Filters, MessageHandler
 from telegram.ext.dispatcher import run_async
 import pytz
+import psycopg2
 BOTNAME = "LeetcodeAccountabilityBot"
 
 TIMEFORMAT = "%a, %d %b %Y, at %H:%M:%S (%z)"
@@ -152,6 +153,8 @@ def welcome(bot, update):
 
         # CALL PSYCOPG2 TO UPDATE DATABASE THAT ONE INVITE
         # HAS BEEN CONFIRMED
+
+
 
         # Use default message if there's no custom one set
         text = 'Hello $username! Welcome to $title %s' 

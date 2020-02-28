@@ -61,12 +61,9 @@ def leetcode_match(request):
     try:
         timezone = request.GET.get('timezone', None)
         invite = db__get_next_leetcode_team_invite(timezone)
-        if not invite:
-            logging.error("!!INVITE ARE FINISHED for timezone "+timezone+"!!")
-            raise Exception
-        (invite_id, team_invite_link, team_name) = invite
+        (team_id, team_invite_link, team_name) = invite
         data = {
-            'invite_id': invite_id,
+            'team_id': team_id,
             'team_invite_link': team_invite_link,
             'team_name': team_name
         }
@@ -75,7 +72,7 @@ def leetcode_match(request):
         logging.error("!!ERROR in leetcode_match")
         logging.error(e)
         data = {
-            'invite_id': -1,
+            'team_id': -1,
             'team_invite_link': 'https://t.me/leetcode_feb_2019',
             'team_name': 'FEB 2020 TEAM'
         }
@@ -87,14 +84,16 @@ def leetcode_invite_sent_confirmation(request):
     joined the event 
 
     request:{
-    'invite_id':2
+    'team_id':2
     }
     """
-    invite_id = request.GET.get('invite_id', None)
-    if not invite_id:
-        logger.error("ERROR!!!!send confirmation is breaking because no invite_id provided")
+    team_id = request.GET.get('team_id', None)
+    if not team_id:
+        logger.error("ERROR!!!!send confirmation is breaking because no team_id provided")
         logger.error(request.GET)
-    db__leetcode_invite_sent_confirmation(invite_id)
+        return JsonResponse({'result':'ERROR: no team_id provided'})
+
+    db__leetcode_invite_sent_confirmation(team_id)
     return JsonResponse({'result':'SUCCESS'})
 
 

@@ -10,13 +10,14 @@ heroku pg:push habiter_db postgresql-perpendicular-23539
 https://devcenter.heroku.com/articles/heroku-postgresql
 
 
-CREATE TABLE leetcode_team_invites(
+CREATE TABLE leetcode_teams(
    id serial PRIMARY KEY,
    link VARCHAR (100) NOT NULL,
    team_name VARCHAR(100),
    timezone VARCHAR(30) NOT NULL,
    created_on TIMESTAMP NOT NULL DEFAULT NOW(),
-   sent BOOLEAN DEFAULT FALSE
+   sent INTEGER DEFAULT 0,
+   claimed INTEGER DEFAULT 0
 );
 
 >>> habiter_db=# \dt
