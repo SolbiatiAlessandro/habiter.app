@@ -26,6 +26,7 @@ from telegram.ext.dispatcher import run_async
 import pytz
 import psycopg2
 BOTNAME = "LeetcodeAccountabilityBot"
+DATABASE_URL = os.environ['DATABASE_URL']
 
 TIMEFORMAT = "%a, %d %b %Y, at %H:%M:%S (%z)"
 
@@ -164,6 +165,16 @@ def welcome(bot, update):
                             member.first_name)\
             .replace('$title', message.chat.title)
         update.message.reply_text(text)
+
+        #update DB that  user joined
+        team_name = message.chat.title
+        conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+        cur = conn.cursor()
+        cur.execute("UPDATE leetcode_teams SET claimed = claimed + 1 WHERE team_name = %s", (team_name, ))
+        conn.commit()
+        cur.close()
+        conn.close()
+
 
 # Welcome a user to the chat
 def goodbye(bot, update):
