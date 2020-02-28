@@ -158,8 +158,7 @@ def welcome(bot, update):
 
 
         # Use default message if there's no custom one set
-        text = 'Hello $username! Welcome to $title %s' 
-
+        text = 'Hi $username! Please read the pinned post and feel free to introduce yourself here, are you preparing for an interview?'
         # Replace placeholders and send message
         text = text.replace('$username',
                             member.first_name)\
