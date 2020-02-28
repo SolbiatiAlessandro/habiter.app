@@ -60,8 +60,8 @@ function openApp(){
 }
 
 function leetcodeTelegramGroup(group){
-	analytics.track("LeetcodeTelegram", {
-	  description: "purple button",
+	analytics.track("LeetcodeTelegram_JoinTeamRequest", {
+	  description: "JoinTeamRequest",
 	  group: group
 	});
 
@@ -72,7 +72,32 @@ function leetcodeTelegramGroup(group){
         },
         dataType: 'json',
         success: function (data) {
-			alert(data.team_invite_link)
+			analytics.track("LeetcodeTelegram_JoinTeamRequestDialogue", {
+			  description: "JoinTeamRequest",
+			  group: group
+			});
+			console.log(data)
+			const invite_id = data.invite_id
+			if (confirm("We found an available team in "+group+" timezone: "+data.team_name+". Do you want to join it?")){
+				// sending event confirmation back to server
+				console.log(invite_id);
+				$.ajax({
+					url: '/ajax/leetcode_invite_sent_confirmation',
+					data: {
+						'invite_id': invite_id
+					},
+					dataType: 'json',
+					success: function(data) {
+						analytics.track("LeetcodeTelegram_JoinTeamRequestConfirmed", {
+						  description: "JoinTeamRequest",
+						  group: group
+						});
+						console.log("Event joined confirmed");
+					}
+				});
+				// opening invite
+				document.location = data.team_invite_link;
+			}
         }
     });
 

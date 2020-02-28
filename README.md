@@ -2,12 +2,31 @@
 DB
 
 local
-set DATABASE_URL postgres://(whoami)
+set -x DATABASE_URL postgresql://localhost/habiter_db
 
 heroku pg:pull postgresql-perpendicular-23539 habiter_db
 heroku pg:push habiter_db postgresql-perpendicular-23539
 
 https://devcenter.heroku.com/articles/heroku-postgresql
+
+
+CREATE TABLE leetcode_team_invites(
+   id serial PRIMARY KEY,
+   link VARCHAR (100) NOT NULL,
+   team_name VARCHAR(100),
+   timezone VARCHAR(30) NOT NULL,
+   created_on TIMESTAMP NOT NULL DEFAULT NOW(),
+   sent BOOLEAN DEFAULT FALSE
+);
+
+>>> habiter_db=# \dt
+             List of relations
+ Schema |     Name     | Type  |   Owner
+--------+--------------+-------+-----------
+ public | leetcode_team_invites | table | lessandro
+(1 row)
+
+UPDATE leetcode_team_invites SET sent = FALSE;
 
 
 ====

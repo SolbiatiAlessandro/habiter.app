@@ -26,4 +26,5 @@ urlpatterns = [
     path("db/", hello.views.db, name="db"),
     path("admin/", admin.site.urls),
     url(r'^ajax/leetcode_match/$', hello.views.leetcode_match, name='leetcode_match'),
+    url(r'^ajax/leetcode_invite_sent_confirmation/$', hello.views.leetcode_invite_sent_confirmation, name='leetcode_invite_sent_confirmation'),
 ]

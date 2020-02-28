@@ -1,5 +1,8 @@
 how to create a new campaign
 
+
+#### FRONT END ######
+
 git heroku pull master
 
 # 1 Add url
@@ -39,3 +42,39 @@ git push heroku master
 
 # 7 Breaks?
 heroku logs --tail
+
+
+
+###### BACK END #######
+
+need to do this from Alex computer
+
+1. create a new table on database (pull and then push it to heroku) following:
+CREATE TABLE leetcode_team_invites(
+   id serial PRIMARY KEY,
+   link VARCHAR (100) NOT NULL,
+   team_name VARCHAR(100),
+   timezone VARCHAR(30) NOT NULL,
+   created_on TIMESTAMP NOT NULL DEFAULT NOW(),
+   sent BOOLEAN DEFAULT FALSE
+);
+
+2. duplicate three the methods you need in matching with the new table name, and add hardcoded events with script
+hello/matching.py
+- db__get_next_campaign_team_invite
+- db__campaign_invite_sent_confirmation
+- db__add_campaign_team_invite
+
+
+3. add new routes for views for ajax call from new campaign
+hello/views.py
+- campaign_match
+- campaign_invite_sent_confirmation
+
+4. change ajax calls in campaign front end
+templates/campaign.html
+function campaignTelegramGroup
+
+
+
+

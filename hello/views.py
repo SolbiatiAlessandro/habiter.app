@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 import logging
+logger = logging.getLogger(__name__)
 
 from .models import Greeting
 
@@ -45,23 +46,58 @@ def builders(request):
 def leetcode(request):
     return render(request, "leetcode.html")
 
-from hello.matching import leetcode__get_team_invite_link
+from hello.matching import db__get_next_leetcode_team_invite, db__leetcode_invite_sent_confirmation
 
 def leetcode_match(request):
     """
     matches a new team for leetcode
-    """
-    timezone = request.GET.get('timezone', None)
-    if not timezone:
-        logging.error("no timezone found when trying to match team")
-        logging.error(request.GET)
-        team_invite_link = "https://t.me/leetcode_feb_2019"
-    else:
-        team_invite_link = leetcode__get_team_invite_link(timezone)
-    data = {
-        'team_invite_link': team_invite_link
+
+    request: 
+    {
+    'timezone':'pst'
     }
-    return JsonResponse(data)
+    """
+    # THIS IS UGLY BUT NEED TO CATCH ALL EXCPETION, OTHERWISE WE LOSE USERS
+    try:
+        timezone = request.GET.get('timezone', None)
+        invite = db__get_next_leetcode_team_invite(timezone)
+        if not invite:
+            logging.error("!!INVITE ARE FINISHED for timezone "+timezone+"!!")
+            raise Exception
+        (invite_id, team_invite_link, team_name) = invite
+        data = {
+            'invite_id': invite_id,
+            'team_invite_link': team_invite_link,
+            'team_name': team_name
+        }
+        return JsonResponse(data)
+    except Exception as e:
+        logging.error("!!ERROR in leetcode_match")
+        logging.error(e)
+        data = {
+            'invite_id': -1,
+            'team_invite_link': 'https://t.me/leetcode_feb_2019',
+            'team_name': 'FEB 2020 TEAM'
+        }
+        return JsonResponse(data)
+
+def leetcode_invite_sent_confirmation(request):
+    """
+    confirmed that invite was sent, we assume the user
+    joined the event 
+
+    request:{
+    'invite_id':2
+    }
+    """
+    invite_id = request.GET.get('invite_id', None)
+    if not invite_id:
+        logger.error("ERROR!!!!send confirmation is breaking because no invite_id provided")
+        logger.error(request.GET)
+    db__leetcode_invite_sent_confirmation(invite_id)
+    return JsonResponse({'result':'SUCCESS'})
+
+
 
 def db(request):
 
