@@ -70,7 +70,7 @@ def db__leetcode_invite_sent_confirmation(team_id):
     conn.close()
 
     # set timer
-    duration = 10 * 2
+    duration = 60 * 2
     t = Timer(duration, db__leetcode_check_claimed_invite, team_id)
     t.start()
 
