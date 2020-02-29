@@ -45,6 +45,7 @@ def db__get_next_leetcode_team_invite(timezone):
 
 def db__leetcode_check_claimed_invite(team_id):
     """
+    TODO: there is an error here about argument numerb
     """
     logger.warning("checking claimed invite: start")
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
