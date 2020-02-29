@@ -20,26 +20,23 @@ def db__get_next_leetcode_team_invite(timezone):
     cur.execute("SELECT id, link, team_name, sent, claimed  FROM leetcode_teams WHERE timezone = %s ORDER BY created_on;", (timezone,))
     teams = cur.fetchall()
 
+    if not teams:
+        logging.warning("!!!! QUERY ERROR: no teams found")
+        logging.warning(timezone)
+        return (1, "https://t.me/joinchat/NLhKahiHwJoXczR7n-Kkwg", "Leetcode Team 508")
+
     # auto-scaling matching algorithm
     MAX_TEAM_PARTICIPANTS = 3
     invite = None
     logging.warning("starting auto-scaling matching algorithm")
     while not invite:
         logging.warning("[auto-scaling matching algorithm] MAX_TEAM_PARTICIPANTS = {}".format(MAX_TEAM_PARTICIPANTS))
-        for team in teams:
+        for team in teams: # made sure above teams is never empty
             (_id, _link, _name, _sent, _claimed) = team
             # does team have space for new participant?
             if max(int(_sent), int(_claimed)) < MAX_TEAM_PARTICIPANTS:
                 invite = (_id, _link, _name)
         MAX_TEAM_PARTICIPANTS += 1
-
-        # exception in case it loops infinite
-        if (MAX_TEAM_PARTICIPANTS >= 99):
-            logging.warning("ERROR in auto-scaling algorithm:")
-            logging.warning("MAX_TEAM_PARTICIPANTS >= 99")
-            logging.warning(teams)
-            (_id, _link, _name, _sent, _claimed) = teams[0]
-            invite = (_id, _link, _name)
 
     conn.commit()
     cur.close()
