@@ -42,7 +42,7 @@ logger = logging.getLogger(__name__)
 def start(update, context):
     update.message.reply_text('Hi! I organise Group Leetcode session on Telegram. Type/leetcode <time> to set a new leetcode session. <time> need to be in the format of '+datetime.utcnow().replace(tzinfo=pytz.utc).strftime(TIMEFORMAT))
 
-LEETCODE_PROBLEMS = ["https://leetcode.com/problems/top-k-frequent-words/", "https://leetcode.com/problems/integer-replacement/","https://leetcode.com/problems/minimum-path-sum/","https://leetcode.com/problems/longest-repeating-character-replacement/","https://leetcode.com/problems/maximum-difference-between-node-and-ancestor/","https://leetcode.com/problems/hand-of-straights/","https://leetcode.com/problems/4sum-ii/","https://leetcode.com/problems/longest-substring-with-at-least-k-repeating-characters/"]
+LEETCODE_PROBLEMS = ["https://leetcode.com/problems/top-k-frequent-words/", "https://leetcode.com/problems/integer-replacement/","https://leetcode.com/problems/minimum-path-sum/","https://leetcode.com/problems/longest-repeating-character-replacement/","https://leetcode.com/problems/maximum-difference-between-node-and-ancestor/","https://leetcode.com/problems/hand-of-straights/","https://leetcode.com/problems/4sum-ii/","https://leetcode.com/problems/longest-substring-with-at-least-k-repeating-characters/","https://leetcode.com/problems/shuffle-an-array/","https://leetcode.com/problems/insert-delete-getrandom-o1/"]
 
 
 def alarm(context):
@@ -56,8 +56,8 @@ def run_leetcode_session(context):
     """
     job = context.job
     context.bot.send_message(job.context, text="Let's start our Leetcode Session! 🔥🔥🔥 These are the problems we are solving, send a screenshot of your solution.")
-    context.bot.send_message(job.context, text=LEETCODE_PROBLEMS[6])
-    context.bot.send_message(job.context, text=LEETCODE_PROBLEMS[7])
+    context.bot.send_message(job.context, text=LEETCODE_PROBLEMS[8])
+    context.bot.send_message(job.context, text=LEETCODE_PROBLEMS[9])
 
 
 def set_leetcode_session(update, context):
