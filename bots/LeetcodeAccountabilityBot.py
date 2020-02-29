@@ -25,8 +25,11 @@ from telegram.ext import Updater, CommandHandler, Filters, MessageHandler
 from telegram.ext.dispatcher import run_async
 import pytz
 import psycopg2
+import analytics
+
 DATABASE_URL = os.environ['DATABASE_URL']
 BOTNAME = "LeetcodeAccountabilityBot"
+analytics.write_key = 'KGYQIoNehP4kak6fK24iPfH3i7FTIYht'
 
 TIMEFORMAT = "%a, %d %b %Y, at %H:%M:%S (%z)"
 
@@ -155,8 +158,6 @@ def welcome(bot, update):
         # CALL PSYCOPG2 TO UPDATE DATABASE THAT ONE INVITE
         # HAS BEEN CONFIRMED
 
-
-
         # Use default message if there's no custom one set
         text = 'Hi $username! Please read the pinned post and feel free to introduce yourself here, are you preparing for an interview?'
         # Replace placeholders and send message
@@ -174,7 +175,16 @@ def welcome(bot, update):
         cur.close()
         conn.close()
 
-        update.message.reply_text("user has been claimed")
+        analytics.identify(member.id, {
+            'first_name': member.first_name,
+            'last_name': member.last_name,
+        })
+
+        analytics.track(member.id, 'LeetcodeClaimed', {
+          'team_name': team_name
+        })
+
+        update.message.reply_text("I am happy now :)")
 
 
 # Welcome a user to the chat
