@@ -184,7 +184,7 @@ def welcome(bot, update):
           'team_name': team_name
         })
 
-        update.message.reply_text("I am a bit of a crazy bot, here to help. I am happy now that you're here.")
+        #update.message.reply_text("I am a bit of a crazy bot, here to help. I am happy now that you're here.")
 
 
 # Welcome a user to the chat
