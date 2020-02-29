@@ -159,7 +159,7 @@ def welcome(bot, update):
         # HAS BEEN CONFIRMED
 
         # Use default message if there's no custom one set
-        text = 'Hi $username! Please read the pinned post and feel free to introduce yourself here, are you preparing for an interview?'
+        text = 'Hi $username! Please read the pinned post and feel free to introduce yourself.'
         # Replace placeholders and send message
         text = text.replace('$username',
                             member.first_name)\
@@ -184,7 +184,7 @@ def welcome(bot, update):
           'team_name': team_name
         })
 
-        update.message.reply_text("I am happy now :)")
+        update.message.reply_text("I am a bit of a crazy bot, here to help. I am happy now that you're here.")
 
 
 # Welcome a user to the chat
