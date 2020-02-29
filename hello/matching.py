@@ -33,6 +33,14 @@ def db__get_next_leetcode_team_invite(timezone):
                 invite = (_id, _link, _name)
         MAX_TEAM_PARTICIPANTS += 1
 
+        # exception in case it loops infinite
+        if (MAX_TEAM_PARTICIPANTS >= 99):
+            logging.warning("ERROR in auto-scaling algorithm:")
+            logging.warning("MAX_TEAM_PARTICIPANTS >= 99")
+            logging.warning(teams)
+            (_id, _link, _name, _sent, _claimed) = teams[0]
+            invite = (_id, _link, _name)
+
     conn.commit()
     cur.close()
     conn.close()
