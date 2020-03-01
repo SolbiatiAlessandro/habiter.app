@@ -46,8 +46,36 @@ def builders(request):
 def leetcode(request):
     return render(request, "leetcode.html")
 
-from hello.matching import db__get_next_leetcode_team_invite, db__leetcode_invite_sent_confirmation
+from django import forms
+class LeetcodeProblemsForm(forms.Form):
+    link1 = forms.CharField()
+    link2 = forms.CharField()
 
+from hello.matching import db__get_all_leetcode_teams, db__get_active_leetcode_problems
+from hello.matching import db__set_active_leetcode_problems
+def leetcode_admin(request):
+    # TIME HEAVY QUERY
+    teams = {
+        'pst':db__get_all_leetcode_teams("pst"),
+        'est':db__get_all_leetcode_teams("est"),
+        'gmt':db__get_all_leetcode_teams("gmt"),
+        'ist':db__get_all_leetcode_teams("ist"),
+        'gmt8':db__get_all_leetcode_teams("gmt+8"),
+    }
+    form = LeetcodeProblemsForm(request.POST)
+    if form.is_valid():
+        response = db__set_active_leetcode_problems(form.cleaned_data['link1'],form.cleaned_data['link2'])
+
+    return render(request, "admin.html", 
+                {
+                    'problems':  db__get_active_leetcode_problems(),
+                    'teams': teams,
+                    'form': form
+                }
+            )
+
+
+from hello.matching import db__get_next_leetcode_team_invite, db__leetcode_invite_sent_confirmation
 def leetcode_match(request):
     """
     matches a new team for leetcode

@@ -43,11 +43,16 @@ def db__get_next_leetcode_team_invite(timezone):
     conn.close()
     return invite
 
-def db__leetcode_check_claimed_invite(team_id):
+def db__leetcode_check_claimed_invite(*args):
     """
     TODO: there is an error here about argument numerb
+    2020-02-29T23:50:38.510553+00:00 app[web.1]: self.function(*self.args, **self.kwargs)
+    2020-02-29T23:50:38.510553+00:00 app[web.1]: TypeError: db__leetcode_check_claimed_invite() takes 1 positional argument but 2 were given
+    should be fixed by args
     """
     logger.warning("checking claimed invite: start")
+    logger.warning(args)
+    team_id = args[0]
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
     # FAULTY LOGIC, but simple to implement so I leave it here
@@ -102,6 +107,49 @@ def db__add_leetcode_team(
     conn.commit()
     cur.close()
     conn.close()
+
+def db__get_all_leetcode_teams(timezone):
+    """
+    returns [(id, team_name, sent, claimed)]
+    """
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("SELECT id, team_name, sent, claimed FROM leetcode_teams WHERE timezone = %s ORDER BY claimed DESC;", (timezone, ))
+    teams = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return teams
+
+def db__set_active_leetcode_problems(link1, link2):
+    """
+    all other inactive
+    """
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("UPDATE leetcode_problems SET active = FALSE;")
+    cur.execute("INSERT INTO leetcode_problems (link) VALUES (%s)", (link1, ))
+    cur.execute("INSERT INTO leetcode_problems (link) VALUES (%s)", (link2, ))
+    conn.commit()
+    cur.close()
+    conn.close()
+    return {"result":"success"}
+
+def db__get_active_leetcode_problems():
+    """
+    return [(id, link)]
+    """
+    try:
+        conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+        cur = conn.cursor()
+        cur.execute("SELECT id, link FROM leetcode_problems WHERE active = TRUE;")
+        problems = cur.fetchall()
+        conn.commit()
+        cur.close()
+        conn.close()
+        return problems
+    except Exception as e:
+        return {"result":"server error 500", "error":e}
 
 if __name__ == "__main__":
     print("CLI application to insert teams by hand in DB")
