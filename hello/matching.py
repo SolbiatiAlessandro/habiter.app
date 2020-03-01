@@ -52,7 +52,7 @@ def db__leetcode_check_claimed_invite(*args):
     """
     logger.warning("checking claimed invite: start")
     logger.warning(args)
-    team_id = args[0]
+    team_id = ''.join(args)
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
     # FAULTY LOGIC, but simple to implement so I leave it here
