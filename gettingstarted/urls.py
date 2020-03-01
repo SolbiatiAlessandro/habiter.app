@@ -17,6 +17,7 @@ import hello.views
 
 urlpatterns = [
     path("leetcode", hello.views.leetcode),
+    path("leetcode_admin", hello.views.leetcode_admin),
     path("SUS", hello.views.sus),
     path("pioneer", hello.views.pioneer),
     path("invite", hello.views.invite),

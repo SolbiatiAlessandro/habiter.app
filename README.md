@@ -9,6 +9,12 @@ heroku pg:push habiter_db postgresql-perpendicular-23539
 
 https://devcenter.heroku.com/articles/heroku-postgresql
 
+CREATE TABLE leetcode_problems(
+   id serial PRIMARY KEY,
+   link VARCHAR (500) NOT NULL,
+   active BOOLEAN DEFAULT TRUE
+)
+
 
 CREATE TABLE leetcode_teams(
    id serial PRIMARY KEY,

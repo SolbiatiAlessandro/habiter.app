@@ -1,7 +1,7 @@
 import os
 import psycopg2
 import logging
-import json
+import json 
 from threading import Timer
 from psycopg2.extras import RealDictCursor, DictCursor
 
