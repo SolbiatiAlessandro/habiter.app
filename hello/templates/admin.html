@@ -43,7 +43,7 @@
 		<div class="container">
 			<h1>Manage your Habiter community</h1>
 			<br>
-			<h2>Leetcode Problems</h2>
+			<h2>{{ admin_title }} Problems</h2>
 			<p>Here are the leetcode active problems (get them with /leetcode_problems in HabiterBot)</p>
 			<div class="progress-table-wrap">
 				<div class="progress-table">
@@ -67,7 +67,7 @@
 				<input type="submit" value="Submit">
 			</form>
 			<br>
-			<h2>Leetcode Teams</h2>
+			<h2>{{ admin_title }} Teams</h2>
 			<p>insert team here, watchout for timezones (gmt,gmt+8,ist,est,pst)</p>
 			<form action="/leetcode_admin" method="POST">
 				{% csrf_token %}

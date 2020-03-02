@@ -27,6 +27,7 @@ def _autoscale_get_invite(teams):
         MAX_TEAM_PARTICIPANTS += 1
     return invite
 
+# LEETCODE
 
 def db__get_next_leetcode_team_invite(timezone):
     """
@@ -90,29 +91,6 @@ def db__leetcode_invite_sent_confirmation(team_id):
     duration = 60 * 2
     t = Timer(duration, db__leetcode_check_claimed_invite, team_id)
     t.start()
-
-def db__add_founders_club(
-        link,
-        team_name,
-        timezone
-        ):
-    """
-            db__add_leetcode_team(
-                    "https://t.me/joinchat/NLhKahTCOb0kU7dsCtwB_g",
-                    "Leetcode Team 506",
-                    timezone
-            )
-    """
-    conn = psycopg2.connect(DATABASE_URL)
-    cur = conn.cursor()
-    logger.info("inserting team invite with args:")
-    insert_args = (link, team_name, timezone)
-    logger.info(insert_args)
-    cur.execute("INSERT INTO founders_clubs (link, team_name, timezone) VALUES (%s, %s, %s)",
-            insert_args)
-    conn.commit()
-    cur.close()
-    conn.close()
 
 def db__add_leetcode_team(
         link,
@@ -179,6 +157,101 @@ def db__get_active_leetcode_problems():
         return problems
     except Exception as e:
         return {"result":"server error 500", "error":e}
+
+# FOUNDERS 
+
+def db__add_founders_club(
+        link,
+        team_name,
+        timezone
+        ):
+    """
+            db__add_leetcode_team(
+                    "https://t.me/joinchat/NLhKahTCOb0kU7dsCtwB_g",
+                    "Leetcode Team 506",
+                    timezone
+            )
+    """
+    conn = psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor()
+    logger.info("inserting team invite with args:")
+    insert_args = (link, team_name, timezone)
+    logger.info(insert_args)
+    cur.execute("INSERT INTO founders_clubs (link, team_name, timezone) VALUES (%s, %s, %s)",
+            insert_args)
+    conn.commit()
+    cur.close()
+    conn.close()
+
+def db__get_next_founders_team_invite(timezone):
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("SELECT id, link, team_name, sent, claimed  FROM founders_clubs WHERE timezone = %s ORDER BY created_on;", (timezone,))
+    teams = cur.fetchall()
+
+    if not teams:
+        logging.warning("!!!! QUERY ERROR: no teams found")
+        logging.warning(timezone)
+        return (1, "https://t.me/joinchat/NLhKahiHwJoXczR7n-Kkwg", "Leetcode Team 508")
+    invite = _autoscale_get_invite(teams)
+
+    conn.commit()
+    cur.close()
+    conn.close()
+    return invite
+
+def db__founders_invite_sent_confirmation(team_id):
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("UPDATE founders_clubs SET sent = sent + 1 WHERE id = %s", (team_id, ))
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    # set timer
+    logger.info("starting countdown to claim invite")
+    duration = 60 * 2
+    t = Timer(duration, db__founders_check_claimed_invite, team_id)
+    t.start()
+
+def db__founders_check_claimed_invite(*args):
+    """
+    TODO: there is an error here about argument numerb
+    2020-02-29T23:50:38.510553+00:00 app[web.1]: self.function(*self.args, **self.kwargs)
+    2020-02-29T23:50:38.510553+00:00 app[web.1]: TypeError: db__leetcode_check_claimed_invite() takes 1 positional argument but 2 were given
+    should be fixed by args
+    """
+    logger.warning("checking claimed invite: start")
+    logger.warning(args)
+    team_id = ''.join(args)
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    # FAULTY LOGIC, but simple to implement so I leave it here
+    # failing example is:
+    # U1 sent + 1
+    # U2 sent + 1
+    # U1 claimed 
+    # (here sent -= 1 get triggered )
+    # U2 claimed
+    # now there is 1 sent and 2 claimed
+    cur.execute("UPDATE founders_clubs SET sent = sent - 1 WHERE id = %s AND sent > claimed ", (team_id, ))
+    logger.warning("checking claimed invite: updated")
+    conn.commit()
+    cur.close()
+    conn.close()
+
+def db__get_all_founders_clubs(timezone):
+    """
+    returns [(id, team_name, sent, claimed)]
+    """
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("SELECT id, team_name, sent, claimed FROM founders_clubs WHERE timezone = %s ORDER BY claimed DESC;", (timezone, ))
+    teams = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return teams
 
 if __name__ == "__main__":
     print("CLI application to insert teams by hand in DB")
