@@ -63,11 +63,17 @@
 			<p>You can set here 2 new active problems that will replace the previous one</p>
 			<form action="/leetcode_admin" method="POST">
 				{% csrf_token %}
-				{{ form }}
+				{{ problems_form }}
 				<input type="submit" value="Submit">
 			</form>
 			<br>
 			<h2>Leetcode Teams</h2>
+			<p>insert team here, watchout for timezones (gmt,gmt+8,ist,est,pst)</p>
+			<form action="/leetcode_admin" method="POST">
+				{% csrf_token %}
+				{{ team_form }}
+				<input type="submit" value="Submit">
+			</form>
 			<p>You can view here all your teams split by timezone</p>
 			<h3>PST</h3>
 			<div class="progress-table-wrap">

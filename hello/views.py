@@ -51,8 +51,13 @@ class LeetcodeProblemsForm(forms.Form):
     link1 = forms.CharField()
     link2 = forms.CharField()
 
+class LeetcodeTeamForm(forms.Form):
+    team_name = forms.CharField()
+    team_invite = forms.CharField()
+    timezone = forms.CharField()
+
 from hello.matching import db__get_all_leetcode_teams, db__get_active_leetcode_problems
-from hello.matching import db__set_active_leetcode_problems
+from hello.matching import db__set_active_leetcode_problems, db__add_leetcode_team
 def leetcode_admin(request):
     # TIME HEAVY QUERY
     teams = {
@@ -62,15 +67,24 @@ def leetcode_admin(request):
         'ist':db__get_all_leetcode_teams("ist"),
         'gmt8':db__get_all_leetcode_teams("gmt+8"),
     }
-    form = LeetcodeProblemsForm(request.POST)
-    if form.is_valid():
-        response = db__set_active_leetcode_problems(form.cleaned_data['link1'],form.cleaned_data['link2'])
+    problems_form = LeetcodeProblemsForm(request.POST)
+    if problems_form.is_valid():
+        response = db__set_active_leetcode_problems(problems_form.cleaned_data['link1'],problems_form.cleaned_data['link2'])
+
+    team_form = LeetcodeTeamForm(request.POST)
+    if team_form.is_valid():
+        response = db__add_leetcode_team(
+                team_form.cleaned_data['team_invite'],
+                team_form.cleaned_data['team_name'],
+                team_form.cleaned_data['timezone'],
+                )
 
     return render(request, "admin.html", 
                 {
                     'problems':  db__get_active_leetcode_problems(),
                     'teams': teams,
-                    'form': form
+                    'problems_form': problems_form,
+                    'team_form': team_form
                 }
             )
 

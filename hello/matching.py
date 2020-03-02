@@ -9,6 +9,24 @@ DATABASE_URL = os.environ['DATABASE_URL']
 
 logger = logging.getLogger(__name__)
 
+def _autoscale_get_invite(teams):
+    """
+    return invite (id, link, name)
+    """
+    # auto-scaling matching algorithm
+    MAX_TEAM_PARTICIPANTS = 3
+    invite = None
+    logging.warning("starting auto-scaling matching algorithm")
+    while not invite:
+        logging.warning("[auto-scaling matching algorithm] MAX_TEAM_PARTICIPANTS = {}".format(MAX_TEAM_PARTICIPANTS))
+        for team in teams: # made sure above teams is never empty
+            (_id, _link, _name, _sent, _claimed) = team
+            # does team have space for new participant?
+            if max(int(_sent), int(_claimed)) < MAX_TEAM_PARTICIPANTS:
+                invite = (_id, _link, _name)
+        MAX_TEAM_PARTICIPANTS += 1
+    return invite
+
 
 def db__get_next_leetcode_team_invite(timezone):
     """
@@ -24,19 +42,7 @@ def db__get_next_leetcode_team_invite(timezone):
         logging.warning("!!!! QUERY ERROR: no teams found")
         logging.warning(timezone)
         return (1, "https://t.me/joinchat/NLhKahiHwJoXczR7n-Kkwg", "Leetcode Team 508")
-
-    # auto-scaling matching algorithm
-    MAX_TEAM_PARTICIPANTS = 3
-    invite = None
-    logging.warning("starting auto-scaling matching algorithm")
-    while not invite:
-        logging.warning("[auto-scaling matching algorithm] MAX_TEAM_PARTICIPANTS = {}".format(MAX_TEAM_PARTICIPANTS))
-        for team in teams: # made sure above teams is never empty
-            (_id, _link, _name, _sent, _claimed) = team
-            # does team have space for new participant?
-            if max(int(_sent), int(_claimed)) < MAX_TEAM_PARTICIPANTS:
-                invite = (_id, _link, _name)
-        MAX_TEAM_PARTICIPANTS += 1
+    invite = _autoscale_get_invite(teams)
 
     conn.commit()
     cur.close()
@@ -84,6 +90,29 @@ def db__leetcode_invite_sent_confirmation(team_id):
     duration = 60 * 2
     t = Timer(duration, db__leetcode_check_claimed_invite, team_id)
     t.start()
+
+def db__add_founders_club(
+        link,
+        team_name,
+        timezone
+        ):
+    """
+            db__add_leetcode_team(
+                    "https://t.me/joinchat/NLhKahTCOb0kU7dsCtwB_g",
+                    "Leetcode Team 506",
+                    timezone
+            )
+    """
+    conn = psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor()
+    logger.info("inserting team invite with args:")
+    insert_args = (link, team_name, timezone)
+    logger.info(insert_args)
+    cur.execute("INSERT INTO founders_clubs (link, team_name, timezone) VALUES (%s, %s, %s)",
+            insert_args)
+    conn.commit()
+    cur.close()
+    conn.close()
 
 def db__add_leetcode_team(
         link,
@@ -154,17 +183,34 @@ def db__get_active_leetcode_problems():
 if __name__ == "__main__":
     print("CLI application to insert teams by hand in DB")
     while True:
-        print("timezone(pst,ist,est,gmt,gmt+8)=")
-        timezone=input()
-        print("invite_link=")
-        link=input()
-        print("team_name=")
-        team_name=input()
-        db__add_leetcode_team(
-                link,
-                team_name,
-                timezone
-        )
-        print("ADDED SUCCESFULLY, add another team now:")
+        print("leetcode(L),founders(F)")
+        campaign=input()
+        if campaign=="L":
+            print("timezone(pst,ist,est,gmt,gmt+8)=")
+            timezone=input()
+            print("invite_link=")
+            link=input()
+            print("team_name=")
+            team_name=input()
+            db__add_leetcode_team(
+                    link,
+                    team_name,
+                    timezone
+            )
+            print("ADDED SUCCESFULLY, add another team now:")
+        if campaign=="F":
+            print("timezone(pst,ist,est,gmt,gmt+8)=")
+            timezone=input()
+            print("invite_link=")
+            link=input()
+            print("team_name=")
+            team_name=input()
+            db__add_founders_club(
+                    link,
+                    team_name,
+                    timezone
+            )
+            print("ADDED SUCCESFULLY, add another team now:")
+
 
 
