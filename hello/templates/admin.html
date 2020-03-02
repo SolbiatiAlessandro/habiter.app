@@ -69,7 +69,7 @@
 			<br>
 			<h2>{{ admin_title }} Teams</h2>
 			<p>insert team here, watchout for timezones (gmt,gmt+8,ist,est,pst)</p>
-			<form action="/leetcode_admin" method="POST">
+			<form action="{{ form_action }}" method="POST">
 				{% csrf_token %}
 				{{ team_form }}
 				<input type="submit" value="Submit">

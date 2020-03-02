@@ -85,6 +85,7 @@ def leetcode_admin(request):
                     'teams': teams,
                     'problems_form': problems_form,
                     'team_form': team_form,
+                    'form_action': '/leetcode_admin',
                     'admin_title': "Leetcode"
                 }
             )
@@ -194,10 +195,11 @@ def founders_admin(request):
 
     return render(request, "admin.html", 
                 {
-                    'problems':  ('NO PROBLEMs','NO PROBLEMs'),
+                    'problems':  (('',''),('','')),
                     'teams': teams,
-                    'problems_form': {"<p>no form</p>"},
+                    'problems_form': {""},
                     'team_form': team_form,
+                    'form_action': '/founders_admin',
                     'admin_title': "Founders"
                 }
             )
