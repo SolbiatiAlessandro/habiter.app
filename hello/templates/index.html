@@ -37,6 +37,14 @@
 		font-size: 21px !important;
 		color: black !important;
 	}
+	.slider_area .col-xl-3{
+		text-align:center;
+		padding:0;
+	}
+	.boxed-btn3{
+		margin: 10px 0px 10px 0px;
+		width:93%;
+	}
 	</style>
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 	<script>
@@ -47,6 +55,14 @@
   analytics.load("NFj8y6xu7WHhL2eNjQCHhXSXpSCQY9h9");
   analytics.page();
   }}();
+
+function notReadyYet(theme){
+	  analytics.track("NotReadyYet", {
+		  description: "click on not ready yet button",
+		  theme: theme
+		});
+	alert("We are not running this category right now, but we are taking note of your interest! In the meanwhile you can check out our most popular category 'Tech Interview Preparation'.")
+}
 
 function openApp(){
   document.location = 'habiter://';
@@ -122,20 +138,42 @@ analytics.track("Landed", {
                             <h3 class="wow fadeInDown" data-wow-duration="1s" data-wow-delay=".1s" style="font-size:45px;line-height:50px;">  
 								Find someone that keeps you accountable
 							</h3>
-							<p class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".1s">
+							<p class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".1s" style="margin-bottom:25px">
 							through our study groups and daily stand-ups on Telegram.
 							</p>
 							
-                            <div class="video_service_btn wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".1s">
+						</div>
+					</div>
+					</div>
+					<div class="row align-items-center" style="width:93%;margin:auto;">
+						<div class="col-xl-3 col-md-3">
 								<a 
 									href="/founders"
 									class="boxed-btn3"
-									style="background-color:#5a60b6">Building your Startup
+									style="background-color:#5a60b6">Side projects
 								</a>
+						</div>
+						<div class="col-xl-3 col-md-3">
 								<a 
 									href="/leetcode" 
 									class="boxed-btn3"
-									style="background-color:#5a60b6">Tech Interview Preparation
+									style="background-color:#5a60b6">Tech Interviews
+								</a>
+						</div>
+						<div class="col-xl-3 col-md-3">
+								<a 
+									href="#" 
+									 onClick="notReadyYet('online_courses')"
+									class="boxed-btn3"
+									 style="background-color:#5a60b6">Online Courses
+								</a>
+						</div>
+						<div class="col-xl-3 col-md-3">
+								<a 
+									href="/leetcode" 
+									 onClick="notReadyYet('college_admission')"
+									class="boxed-btn3"
+									 style="background-color:#5a60b6">College Admission
 								</a>
                             </div>
                         </div>
