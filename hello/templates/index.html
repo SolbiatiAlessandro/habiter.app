@@ -33,6 +33,10 @@
 		color: white;
 		font-weight: bold;
 	}
+	.landing_paragraph{
+		font-size: 21px !important;
+		color: black !important;
+	}
 	</style>
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 	<script>
@@ -94,7 +98,6 @@ analytics.track("Landed", {
                         <div class="col-xl-3 col-lg-3 d-none d-lg-block">
                             <div class="Appointment">
                                 <div class="book_btn d-none d-lg-block">
-                                    <a  onclick="openApp()" href="#">Download</a>
                                 </div>
                             </div>
                         </div>
@@ -117,10 +120,12 @@ analytics.track("Landed", {
                         <div class="slider_text " style="text-align:center">
 							<img width=311 src="{% static "habiter.png" %}"/>
                             <h3 class="wow fadeInDown" data-wow-duration="1s" data-wow-delay=".1s" style="font-size:45px;line-height:50px;">  
-								Achieve your goals by getting an accountability partner. 
+								Find someone that keeps you accountable
 							</h3>
-                            <p class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".1s">
-							Same goal, same time, different places. </p>
+							<p class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".1s">
+							through our study groups and daily stand-ups on Telegram.
+							</p>
+							
                             <div class="video_service_btn wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".1s">
 								<a 
 									href="/founders"
@@ -128,7 +133,7 @@ analytics.track("Landed", {
 									style="background-color:#5a60b6">Building your Startup
 								</a>
 								<a 
-									href="/leetcode" onclick="openApp()"
+									href="/leetcode" 
 									class="boxed-btn3"
 									style="background-color:#5a60b6">Tech Interview Preparation
 								</a>
@@ -146,13 +151,13 @@ analytics.track("Landed", {
 				<div class="row  align-items-center">
                             <div class="col-xl-5 col-lg-5 col-md-6">
                                 <div class="features_info2">
-                                    <h3>Schedule your events,</h3>
-                                    <p>Make time for what matters to you.</p>
+									<h3>Are you preparing for an interview?</h3>
+									<p class="landing_paragraph">We get into small teams and run daily study sessions. Everyone submits their progress and you get <b>kicked out</b> if you miss two days in a row.</p>
                                     <div class="about_btn">
 								<a 
-									href="#" onclick="openApp()"
+									href="/leetcode" 
 									class="boxed-btn3"
-									style="background-color:#5a60b6">Try Habiter Now
+									style="background-color:#5a60b6">Tech Interview study groups
 								</a>
                                     </div>
                                 </div>
@@ -168,7 +173,7 @@ analytics.track("Landed", {
     </div>
     <!--/ about  -->
     <!-- about  -->
-	<div class="features_area " style="background-color:#7BCDC8">
+	<div class="features_area " style="background-color:#f1f1f1">
         <div class="container">
             <div class="features_main_wrap">
 				<div class="row  align-items-center">
@@ -180,13 +185,13 @@ analytics.track("Landed", {
                             </div>
                             <div class="col-xl-5 col-lg-5 col-md-6">
                                 <div class="features_info2">
-                                    <h3>Get accountable.</h3>
-                                    <p>Invite a friend or match a new Habiter. It's easy to talk yourself out of it unless you know your Habiter is counting on you.</p>
+                                    <h3>We make sure you don't skip leg day</h3>
+									<p class="landing_paragraph">Our <b>Telegram bots</b> will count how many updates you sends, and other people from your team will replace you fast if you are being lazy. </p>
                                     <div class="about_btn">
 								<a 
-									href="#" onclick="openApp()"
+									href="/founders" 
 									class="boxed-btn3"
-									style="background-color:#5a60b6">Try Habiter Now
+									style="background-color:#5a60b6">Daily Stand-ups for Founders
 								</a>
                                     </div>
                                 </div>
@@ -198,19 +203,19 @@ analytics.track("Landed", {
     <!--/ about  -->
 
     <!-- about  -->
-	<div class="features_area " style="background-color:#559AD1">
+	<div class="features_area " style="background-color:white">
         <div class="container">
             <div class="features_main_wrap">
 				<div class="row  align-items-center">
                             <div class="col-xl-5 col-lg-5 col-md-6">
                                 <div class="features_info2">
-                                    <h3>Don't give up until the time finishes.</h3>
-                                    <p>Chat with your Habiter, update on each other progress, share the experience.</p>
+                                    <h3>Aren't you bored of coding by yourself?</h3>
+									<p class="landing_paragraph">You might find friends along the way that are also trying to crack the coding interview. <b>Get help live</b> by your team-mates when you get stuck.</p>
                                     <div class="about_btn">
 								<a 
-									href="#" onclick="openApp()"
+									href="/leetcode" 
 									class="boxed-btn3"
-									style="background-color:#5a60b6">Try Habiter Now
+									style="background-color:#5a60b6">Live coding sessions 
 								</a>
                                     </div>
                                 </div>
@@ -227,8 +232,7 @@ analytics.track("Landed", {
     <!--/ about  -->
 
     <!-- about  -->
-	<div class="features_area " 
-    style="background-color:#FF8F98;">
+	<div class="features_area " style="background-color:#f1f1f1">
         <div class="container">
             <div class="features_main_wrap">
 				<div class="row  align-items-center">
@@ -240,13 +244,13 @@ analytics.track("Landed", {
                             </div>
                             <div class="col-xl-5 col-lg-5 col-md-6">
                                 <div class="features_info2">
-                                    <h3>Join the events that spark your interest.</h3>
-                                    <p>Or create your own.</p>
+                                    <h3>If you want to go far, go together.</h3>
+									<p class="landing_paragraph">Sharing your highs and lows with your team-mates will <b>increase your endurance.</b> You  will hear the stories of who has just been thorugh it.</p>
                                     <div class="about_btn">
 								<a 
-									href="#" onclick="openApp()"
+									href="/founders" 
 									class="boxed-btn3"
-									style="background-color:#5a60b6">Try Habiter Now
+									style="background-color:#5a60b6">Find other Solo Founders
 								</a>
                                     </div>
                                 </div>
@@ -422,7 +426,7 @@ analytics.track("Landed", {
 -->
     <!--/ prising_area  -->
 
-    <!-- productivity_area  -->
+    <!-- productivity_area  
     <div class="productivity_area" style="background-color:#EFECE7;">
         <div class="container">
             <div class="row align-items-center">
@@ -436,21 +440,19 @@ analytics.track("Landed", {
 									class="boxed-btn3"
 									style="background-color:#5a60b6">Try Habiter Now
 								</a>
-								<!--
                         <a href="#" >
 							<img src="{% static "img/ilstrator/app.svg" %}" alt="">
                         </a>
                         <a href="#">
 							<img src="{% static "img/ilstrator/play.svg" %}" alt="">
                         </a>
-								-->
                         
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!--/ productivity_area  -->
+     productivity_area  -->
 
     <!-- footer start -->
     <footer class="footer">
@@ -466,28 +468,8 @@ analytics.track("Landed", {
                             </div>
                             <p>
 							Habiter is built with 💛 by <a class="white_link" href="http://www.lessand.ro">Alessandro</a> and <a class="white_link" href="https://www.youtube.com/watch?v=S7vU513Eiw0&t">Oana.</a></p>
-							<p>You can reach out to us at <a class="white_link" href="mailto://oana@habiter.com">oana@habiter.app</a> and  <a class="white_link" href="mailto://alex@habiter.com">alex@habiter.app</a>or visit our freshly created <a class="white_link" href="https://www.youtube.com/channel/UCrrQ55QjxXEDbJ4ojOjXvTw">YouTube channel.</a>
                                 
                             </p>
-                            <div class="social_links">
-                                <ul>
-                                    <li>
-                                        <a href="https://www.facebook.com/oana.florescu.71/">
-                                            <i class="ti-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://twitter.com/lessand_ro">
-                                            <i class="ti-twitter-alt"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="https://www.instagram.com/alexander_solbia/">
-                                            <i class="fa fa-instagram"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
 
                         </div>
                     </div>
