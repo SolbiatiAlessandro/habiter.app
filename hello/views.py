@@ -43,8 +43,10 @@ def sus(request):
 def builders(request):
     return render(request, "builders.html")
 
+from hello.matching import db__get_leaderboard
 def leetcode(request):
-    return render(request, "leetcode.html")
+    leaderboard = db__get_leaderboard()
+    return render(request, "leetcode.html", {'leaderboard': leaderboard})
 
 from django import forms
 class LeetcodeProblemsForm(forms.Form):

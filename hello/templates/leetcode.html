@@ -80,7 +80,7 @@ function leetcodeTelegramGroup(group){
 			});
 			console.log(data)
 			const team_id = data.team_id
-			if (confirm("We found an available team in "+group+" timezone: "+data.team_name+". Do you want to join it?")){
+			if (confirm("Amazing! There is an available team in "+group+" timezone: "+data.team_name+". Join now.")){
 				// sending event confirmation back to server
 				console.log(team_id);
 				$.ajax({
@@ -153,6 +153,62 @@ analytics.track("leetcode", {
 });
 
 	</script>
+      <style>
+.progress-table .serial{
+	width:20%;
+		color:#5CB664;
+}
+         .app_image{
+         border-radius:20%;
+         height: 100px;
+         }
+         .app_name{
+         text-decoration: underline;
+         margin-bottom: -5px !important;
+         }
+         .hacky_img_shadow{
+         box-shadow: #2e2e2e 1px 1px 40px;
+         border-radius: 60px;
+         }
+         .white_link{
+         color: white;
+         font-weight: bold;
+         }
+         .blue_link{
+         color: blue;
+         text-decoration: underline;
+         }
+         .button-container{
+			 padding:20px 0px 20px 0px;
+         }
+
+		 .habiter_container{
+			box-shadow: 0 10px 30px rgba(0,0,0,.05);
+			margin-bottom: 30px;
+		 }
+		 .habiter_container ul li{
+			 font-size: 19px;
+			line-height: 30px;
+			color: #727272;
+			margin-bottom: 30px;
+		 }
+		 .habiter_container ul {
+			 padding: 30px 0px 30px 0px
+		 }
+		 .habiter_button {
+			 display: inline-block;
+			font-size: 18px;
+			color: white;
+				background-color: #5CB664;
+			text-transform: capitalize;
+			padding: 8px 28px;
+			font-weight: 500;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+				margin:8px;
+		 }
+      </style>
 </head>
 
 <body>
@@ -202,175 +258,217 @@ analytics.track("leetcode", {
     </header>
 
     <!-- bradcam_area  -->
-	<section class="sample-text-area" style="background-color:#F6F6F6">
-		<div class="container box_1170">
+      <section class="service_area" style="background-color:#F6F6F6">
+         <div class="container">
             <div class="row">
-                <div class="col-xl-12">
-                    <div >
-                        <h2>March 2020 Leetcode Study Group</h2>
-						<p style="text-transform:none"> Are you serious about preparing for your next  interview? Stay consistent with your practice and make the process more fun by joining other engineers preparing to land their next job.</p>
-						<div class='button-container'>
-							<a 
-								href="#" onclick="leetcodeTelegramGroup('gmt')"
-								class="genric-btn info circle e-large"
-								>Join Team GMT (London)
-							</a>
-							<a 
-								href="#" onclick="leetcodeTelegramGroup('pst')"
-								class="genric-btn info circle e-large"
-								>Join Team PST (California)
-							</a>
-							<a 
-								href="#" onclick="leetcodeTelegramGroup('ist')"
-								class="genric-btn info circle e-large"
-								>Join Team IST (Hyderabad)
-							</a>
-						</div>
-						<div class='button-container'>
-							<a 
-								href="#" onclick="leetcodeTelegramGroup('est')"
-								class="genric-btn info circle e-large"
-								>Join Team EST (New York)
-							</a>
-							<a 
-								href="#" onclick="leetcodeTelegramGroup('gmt+8')"
-								class="genric-btn info circle e-large"
-								>Join Team GMT+8 (China)
-							</a>
-						</div>
-                    </div>
-                </div>
+               <div class="col-xl-12">
+                  <div class="section_title">
+					  <h3> Tech Interview Preparation - March 2020 Study Group</h2>
+                     <p style="text-transform:none"> 
+					 Are you serious about preparing for your next interview? Stay consistent with your practice and make the process more fun by joining a team of 2/3 people preparing to land their next job. These are the communities we come from:
+					 </p>
+                  </div>
+               </div>
             </div>
-        </div>
-    </section>
-    <!-- /bradcam_area  -->
-	<!-- Start Sample Area -->
-	<section class="sample-text-area">
-		<div class="container box_1170">
-			<h3 class="text-heading">Group Rules</h3>
-			<p class="sample-text">
-			We are a group of people serious about interview preparation, this group is about doing Leetcode together (100% free).
+            <div class="row">
+               <div class="col-lg-4 col-md-4">
+                  <div class="single_service text-center wow fadeInUp" data-wow-duration=".6s" data-wow-delay=".4s" style="visibility: visible; animation-duration: 0.6s; animation-delay: 0.4s;">
+                        <img src="https://leetcode.com/static/images/LeetCode_logo.png" class="app_image"/>
+                     <h3>Leetcode<br></h3>
+                  </div>
+               </div>
+               <div class="col-lg-4 col-md-4">
+                  <div class="single_service text-center wow fadeInUp" data-wow-duration=".7s" data-wow-delay=".5s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.5s;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/HackerRank_logo.png" alt="" class="app_image">
+                     <h3>HackerRank</h3>
+                  </div>
+               </div>
+               <div class="col-lg-4 col-md-4">
+                  <div class="single_service text-center wow fadeInUp" data-wow-duration=".8s" data-wow-delay=".6s" style="visibility: visible; animation-duration: 0.8s; animation-delay: 0.6s;">
+                        <img class="app_image"src="https://indiejobs.co/img/logos/indiejobs-logos-topcoder.png"/>
+                     <h3>TopCoder</h3>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+    <!-- /JOIN  -->
+      <section class="sample-text-area" style="padding-bottom:0px">
+         <div class="container box_1170">
+			 <div class="single_prising text-center wow fadeInUp habiter_container" data-wow-duration=".7s" data-wow-delay=".8s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.8s;">
+				 <div class="prising_header d-flex justify-content-between" style="background:#e9f4fe;padding:3%">
+					 <h3 style="font-size: 21px;margin-bottom: 0px;">Click on your timezone to <b style="color:#5CB664">join a Preparation Team</b> on Telegram</h3> 
+				 </div>
+                     <div class='button-container'>
+                        <a 
+                           href="#" onclick="leetcodeTelegramGroup('gmt')"
+                           class="habiter_button"
+                           >GMT (London)
+                        </a>
+                        <a 
+                           href="#" onclick="leetcodeTelegramGroup('pst')"
+                           class="habiter_button"
+                           >PST (California)
+                        </a>
+                        <a 
+                           href="#" onclick="leetcodeTelegramGroup('ist')"
+                           class="habiter_button"
+                           >IST (Hyderabad)
+                        </a>
+                        <a 
+                           href="#" onclick="leetcodeTelegramGroup('est')"
+                           class="habiter_button"
+                           >EST (New York)
+                        </a>
+                        <a 
+                           href="#" onclick="leetcodeTelegramGroup('gmt+8')"
+                           class="habiter_button"
+                           >GMT+8 (China)
+                        </a>
+         </div>
+			   </div>
+			</div>
+         </div>
+      </section>
+    <!--  -->
+	<!-- RULESs -->
+      <section class="sample-text-area" style="padding-top:40px;padding-bottom:0px"> 
+         <div class="container box_1170">
+			 <div class="single_prising text-center wow fadeInUp habiter_container" data-wow-duration=".7s" data-wow-delay=".8s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.8s;">
+				 <div class="prising_header d-flex justify-content-between" style="background:#e9f4fe;padding:3%">
+					<h3 style="font-size: 21px;margin-bottom: 0px;">Group rules</h3> 
+				 </div>
 			<ul>
 				<li>1. You are added to a team of 2/3 people</li>
-				<li>2. We run a daily practice at 9 PM</li>
+				<li>2. We run a <b style="color:#5CB664">daily practice at 9 PM</b></li>
 				<li>3. There are 2 problems proposed. You solve one problem, you post a screenshot with the solution. </li>
-				<li>4. At the end, you briefly explain you solution. </li>
 				<li>If not active for more then 2 days (no message sent), you are removed from the group. </li>
 			</ul>
-			</p>
-		</div>
-	</section>
+			   </div>
+			</div>
+         </div>
+      </section>
 	<!-- End Sample Area -->
 
-	<section class="sample-text-area">
+	  <!-- LEADERBOARD -->
+	<section class="sample-text-area" style="padding-top:50px">
 		<div class="container box_1170">
-			<h3 class="text-heading">Leaderboard -  Top 10 Teams Worldwide</h3>
+			<div class="habiter_container">
+			 <div class="prising_header d-flex justify-content-between" style="background:#e9f4fe;padding:3%">
+				<h3 style="font-size: 21px;margin-bottom: 0px;">Teams Leaderboard</h3> 
+			 </div>
 			<p class="sample-text">
 			<div class="progress-table-wrap">
-				<div class="progress-table">
+				<div class="progress-table" style="background:white;padding-top:0px;"> 
 					<div class="table-head">
-						<div class="serial">Time Zone</div>
-						<div class="serial">Team Name</div>
-						<div class='visit'>Strike</div>
-						<div class="country">Problem solved</div>
+						<div class="serial">Problem solved</div>
+						<div class="country">Team Name</div>
 						<div class="visit">Participants</div>
 					</div>
+					{% for row in leaderboard %}
 					<div class="table-row">
-						<div class="serial">GMT+8</div>
-						<div class="serial">Leetcode Team 101</div>
-						<div class='visit'>7</div>
-						<div class='country'>52</div>
-						<div class="visit">Duy, Tuan, Oscar</div>
+						<div class='serial'>{{ row.1 }}</div>
+						<div class="country">{{ row.0 }}</div>
+						<div class="visit">{{ row.2 }}</div>
 					</div>
-					<div class="table-row">
-						<div class="serial">PST</div>
-						<div class="serial">Leetcode Practice 84</div>
-						<div class='visit'>5</div>
-						<div class='country'>45</div>
-						<div class="visit">Aroop, Sam, A</div>
-					</div>
-					<div class="table-row">
-						<div class="serial">PST</div>
-						<div class="serial">Leetcode Team 62</div>
-						<div class='visit'>4</div>
-						<div class='country'>34</div>
-						<div class="visit">A R, Lorem Ipsum, Jim</div>
-					</div>
-					<div class="table-row">
-						<div class="serial">EST</div>
-						<div class="serial">Leetcode Team 1</div>
-						<div class='visit'>4</div>
-						<div class='country'>33</div>
-						<div class="visit">Grr, Ben, Abhishek</div>
-					</div>
-					<div class="table-row">
-						<div class="serial">EST</div>
-						<div class="serial">Leetcode Team 3</div>
-						<div class='visit'>3</div>
-						<div class='country'>32</div>
-						<div class="visit">Peter, Anil</div>
-					</div>
-					<div class="table-row">
-						<div class="serial">IST</div>
-						<div class="serial">Leetcode Team 123</div>
-						<div class='visit'>3</div>
-						<div class='country'>32</div>
-						<div class="visit">Raghav, Saiprasad, Prabodth</div>
-					</div>
-					<div class="table-row">
-						<div class="serial">GMT+8</div>
-						<div class="serial">Leetcode Team 100</div>
-						<div class='visit'>3</div>
-						<div class='country'>24</div>
-						<div class="visit">n y, aziyat</div>
-					</div>
-					<div class="table-row">
-						<div class="serial">PST</div>
-						<div class="serial">Leetcode Team 4</div>
-						<div class='visit'>2</div>
-						<div class='country'>10</div>
-						<div class="visit">Ajay, Prada</div>
-					</div>
-					<div class="table-row">
-						<div class="serial">GMT</div>
-						<div class="serial">Leetcode Team 178</div>
-						<div class='visit'>0</div>
-						<div class='country'>0</div>
-						<div class="visit">Raghav, Navneet, Abdelfattah</div>
-					</div>
+					{% endfor %}
 				</div>
 			</div>
 			</p>
-		</div>
-	</section>
-
-
-	<!-- Start Align Area -->
-	<div class="whole-wrap">
-		<div class="container box_1170">
-			<div class="section-top-border">
-				<h3 class="mb-30">Group Organisers</h3>
-				<div class="row">
-					<div class="col-md-3">
-						<img style="border-radius:50%;" src="{% static "img/oana.jpeg" %}" alt="" class="img-fluid">
-					</div>
-					<div class="col-md-3">
-						<img style="border-radius:50%;" src="{% static "img/alex.jpeg" %}" alt="" class="img-fluid">
-					</div>
-					<div class="col-md-6">
-						<p>We are Oana <a class="blue_link" onclick="oanaLinkedin()" href="#">(ex Facebook intern)</a> and Alex <a class="blue_link" onclick="alexLinkedin()" href="#">(Facebook Software Engineer)</a>. We are passionate about interview preparation , and we help people with their tech interviews (see <a class="blue_link" onclick="oanaVideo()" href="#">Oana video on her YouTube channel</a>). We also run offline and online study group to validate our hypotesis that having an accountability partner can improve substantially your interview preparation, we do it online with Telegram/Slack/Discord groups, and offline at Meetups in London.</p>
-					</div>
-				</div>
 			</div>
 		</div>
-	</div>
+	</section>
+	<!---->
+
+    <!-- /JOIN  -->
+      <section class="sample-text-area" style="padding-top:0px">
+         <div class="container box_1170">
+			 <div class="single_prising text-center wow fadeInUp habiter_container" data-wow-duration=".7s" data-wow-delay=".8s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.8s;">
+				 <div class="prising_header d-flex justify-content-between" style="background:#e9f4fe;padding:3%">
+					 <h3 style="font-size: 21px;margin-bottom: 0px;">Click on your timezone to <b style="color:#5CB664">join a Preparation Team</b> on Telegram</h3> 
+				 </div>
+                     <div class='button-container'>
+                        <a 
+                           href="#" onclick="leetcodeTelegramGroup('gmt')"
+                           class="habiter_button"
+                           >GMT (London)
+                        </a>
+                        <a 
+                           href="#" onclick="leetcodeTelegramGroup('pst')"
+                           class="habiter_button"
+                           >PST (California)
+                        </a>
+                        <a 
+                           href="#" onclick="leetcodeTelegramGroup('ist')"
+                           class="habiter_button"
+                           >IST (Hyderabad)
+                        </a>
+                        <a 
+                           href="#" onclick="leetcodeTelegramGroup('est')"
+                           class="habiter_button"
+                           >EST (New York)
+                        </a>
+                        <a 
+                           href="#" onclick="leetcodeTelegramGroup('gmt+8')"
+                           class="habiter_button"
+                           >GMT+8 (China)
+                        </a>
+         </div>
+			   </div>
+			</div>
+         </div>
+      </section>
+    <!--  -->
+
+
+	<!-- FOUNDERS -->
+      <section class="sample-text-area" style="padding-top:0px;padding-bottom:0px"> 
+         <div class="container box_1170">
+			 <div class="single_prising text-center wow fadeInUp habiter_container" data-wow-duration=".7s" data-wow-delay=".8s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.8s;">
+				 <div class="prising_header d-flex justify-content-between" style="background:#e9f4fe;padding:3%">
+					<h3 style="font-size: 21px;margin-bottom: 0px;">Group Organisers</h3> 
+				 </div>
+				 <div style="padding:5%">
+					<div class="row">
+						<div class="col-md-3">
+							<img style="border-radius:50%;" src="{% static "img/oana.jpeg" %}" alt="" class="img-fluid">
+						</div>
+						<div class="col-md-3">
+							<img style="border-radius:50%;" src="{% static "img/alex.jpeg" %}" alt="" class="img-fluid">
+						</div>
+						<div class="col-md-6">
+							<p>We are Oana <a class="blue_link" onclick="oanaLinkedin()" href="#">(ex Facebook intern)</a> and Alex <a class="blue_link" onclick="alexLinkedin()" href="#">(Facebook Software Engineer)</a>. We are passionate about interview preparation , and we help people with their tech interviews (see <a class="blue_link" onclick="oanaVideo()" href="#">Oana video on her YouTube channel</a>). We also run offline and online study group to validate our hypotesis that having an accountability partner can improve substantially your interview preparation, we do it online with Telegram/Slack/Discord groups, and offline at Meetups in London.</p>
+						</div>
+					</div>
+				 </div>
+			</div>
+		</div>
+	</section>
 	<!-- End Align Area -->
+
+	<!-- FOUNDERS -->
+      <section class="sample-text-area" style="padding-top:0px;padding-bottom:0px"> 
+         <div class="container box_1170">
+			 <div class="single_prising text-center wow fadeInUp habiter_container" data-wow-duration=".7s" data-wow-delay=".8s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.8s;">
+				 <div class="prising_header d-flex justify-content-between" style="background:#e9f4fe;padding:3%">
+					<h3 style="font-size: 21px;margin-bottom: 0px;">Still here? </h3> 
+				 </div>
+				 <div style="padding:5%">
+					 <h3>You can check out our other group <a href="/founders"><b>Daily Standups for Founders</b></a></h3>
+				 </div>
+			</div>
+		</div>
+	</section>
+	<!-- End Align Area -->
+
+
     <!-- footer start -->
-    <footer class="footer">
-        <div class="footer_top">
+    <footer class="footer" style="padding-top:50px">
+        <div class="footer_top" style="padding:30px;text-align:center;">
             <div class="container">
                 <div class="row">
-                    <div class="col-xl-4 col-md-6 col-lg-4">
+                    <div class="col-xl-12 col-md-12 col-lg-12">
                         <div class="footer_widget">
                             <div class="footer_logo">
                                 <a href="#">

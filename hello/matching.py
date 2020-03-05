@@ -160,8 +160,20 @@ def db__get_active_leetcode_problems():
     except Exception as e:
         return {"result":"server error 500", "error":e}
 
-# FOUNDERS 
+def db__get_leaderboard():
+    """
+    SELECT team_id, SUM(screenshot_submitted), STRING_AGG(name, ', ') FROM leetcode_users GROUP BY team_id ORDER BY sum DESC;
+    """
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("SELECT team_id, SUM(screenshot_submitted), STRING_AGG(name, ', ') FROM leetcode_users GROUP BY team_id ORDER BY sum DESC;")
+    leaderboard = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return leaderboard
 
+# FOUNDERS 
 def db__add_founders_club(
         link,
         team_name,
