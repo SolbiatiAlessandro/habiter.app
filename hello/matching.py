@@ -36,7 +36,9 @@ def db__get_next_leetcode_team_invite(timezone):
     """
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
-    cur.execute("SELECT id, link, team_name, sent, claimed  FROM leetcode_teams WHERE timezone = %s ORDER BY created_on;", (timezone,))
+    # teams that have habiter.app in the name means that 
+    # where created before of the auto-scaling
+    cur.execute("SELECT id, link, team_name, sent, claimed  FROM leetcode_teams WHERE timezone = %s AND link != 'https://habiter.app' ORDER BY created_on;", (timezone,))
     teams = cur.fetchall()
 
     if not teams:

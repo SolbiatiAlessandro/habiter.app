@@ -9,6 +9,13 @@ heroku pg:push habiter_db postgresql-perpendicular-23539
 
 https://devcenter.heroku.com/articles/heroku-postgresql
 
+### POSTGRESQL QUERIES
+
+UPDATE leetcode_teams SET timezone = 'pst' WHERE team_name ~ '.* 5..';
+
+ALTER TABLE leetcode_teams ADD CONSTRAINT unique_team_name UNIQUE (team_name);
+INSERT INTO leetcode_teams(team_name, link, timezone) SELECT DISTINCT team_id, 'https://habiter.app', 'gmt' FROM leetcode_users ON CONFLICT ON CONSTRAINT unique_team_name DO NOTHING;
+INSERT 0 11
 
 CREATE TABLE leetcode_users(
 	id serial PRIMARY KEY,
