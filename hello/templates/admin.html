@@ -33,6 +33,9 @@
 		color: white;
 		font-weight: bold;
 	}
+	.amplitude_image{
+		width:100%;border: grey;border-width: 3px;border-style: solid;margin: 10px;
+	}
 	input {
     line-height: 40px;
     border: none;
@@ -104,6 +107,39 @@
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insert_team_modal">
 					  Insert New Team
 				</button>
+			</div>
+
+			<div class="admin_card shadow">
+				<h2>{{ admin_title }} Users</h2>
+				<p>insert team here, watchout for timezones (gmt,gmt+8,ist,est,pst)</p>
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit_bot_modal">
+					Manage Bots Content
+				</button>
+				<button type="button" class="btn btn-primary" onclick="location.href = 'https://analytics.amplitude.com/habiter/dashboard/umgznt7'">
+					Go to Amplitude dashboard
+				</button>
+				<div class="container" style="width: 120%;padding-top: 40px;" >
+					<div class="row">
+						<div class="col">
+						<a href="https://analytics.amplitude.com/habiter/chart/d39c8rl">
+							<img src="{% static 'amplitude/churning.png' %}" class="amplitude_image"/>
+							<p>View Churning Users</p>
+						</a>
+						</div>
+						<div class="col">
+						<a href="https://analytics.amplitude.com/habiter/chart/yaitee4">
+							<img src="{% static 'amplitude/users.png' %}" class="amplitude_image"/>
+							<p>View Users Activity Breakdown</p>
+						</a>
+						</div>
+						<div class="col">
+						<a href="https://analytics.amplitude.com/habiter/chart/yzev0y5">
+							<img src="{% static 'amplitude/dau.png' %}" class="amplitude_image"/>
+							<p>View Daily Active Users</p>
+						</a>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -342,6 +378,55 @@
 		</div>
 	</div>
 
+	<!-- edit bot modal -->
+	<div class="modal fade" id="edit_bot_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+		<div class="modal-dialog" role="document" style="max-width: 70%">
+			<div class="modal-content">
+			  <div class="modal-header">
+				  <h5 class="modal-title" id="exampleModalLabel">{{ admin_title }} Bot </h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				<div class="row">
+					<div class="col-sm">
+						<form action="{{ form_action }}" method="POST" >
+							{% csrf_token %}
+								<div class="input_wrapper">
+									<label for="{{ bot_form.content_id.id_for_label}}">ID:</label>
+									{{bot_form.content_id}}
+								</div>
+								<div class="input_wrapper">
+									<label for="{{ bot_form.new_content.id_for_label}}">New Content:</label>
+									{{bot_form.new_content}}
+								</div>
+							<input type="submit" value="Submit">
+						</form>
+					</div>
+					<div class="col-sm border-left" >
+						<div class="progress-table-wrap">
+							<div class="progress-table">
+								<div class="table-head">
+									<div class="serial">#</div>
+									<div class="country">Description</div>
+									<div class="country">Content</div>
+								</div>
+								{% for content_item in bot_content %}
+								<div class="table-row">
+									<div class="serial">{{ content_item.0 }}</div>
+									<div class="country">{{ content_item.1 }}</div>
+									<div class="country">{{ content_item.2 }}</div>
+								</div>
+								{% endfor %}
+							</div>
+					  </div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
 
     <!-- JS here -->
 	<script src="{% static "js/vendor/modernizr-3.5.0.min.js" %}"></script>

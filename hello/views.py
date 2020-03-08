@@ -72,16 +72,23 @@ class TeamForm(forms.Form):
 class LeetcodeTeamForm(TeamForm):
     label = forms.ChoiceField(choices=LEETCODE_LABELS)
 
-from hello.habiterDB import get_community_content, add_community_content_item, get_community_teams_by_timezone, add_community_team
+class EditBotForm(forms.Form):
+    content_id = forms.CharField()
+    new_content = forms.CharField()
+
+
+from hello.habiterDB import get_community_content, add_community_content_item, get_community_teams_by_timezone, add_community_team, get_bot_content, edit_bot_content
 def leetcode_admin(request):
     # TIME HEAVY QUERY
+    """
     teams = {
         'pst':get_community_teams_by_timezone("Leetcode", "pst"),
         'est':get_community_teams_by_timezone("Leetcode", "est"),
         'gmt':get_community_teams_by_timezone("Leetcode", "gmt"),
         'ist':get_community_teams_by_timezone("Leetcode", "ist"),
         'gmt8':get_community_teams_by_timezone("Leetcode", "gmt+8"),
-    }
+    }"""
+    teams = {}
     alert = None
 
     input_content_form = InputContentForm(request.POST)
@@ -110,6 +117,16 @@ def leetcode_admin(request):
                 )
         alert = "Content added succesfully: "+" | ".join([team_name, team_invite, timezone, label])
 
+
+    bot_form = EditBotForm(request.POST)
+    if bot_form.is_valid():
+        content_id  = bot_form.cleaned_data['content_id']
+        new_content  = bot_form.cleaned_data['new_content']
+        edit_bot_content(content_id, new_content)
+        alert = "Content added succesfully: "+" | ".join([content_id, new_content])
+
+    bot_content =  get_bot_content()
+
     return render(request, "admin.html", 
                 {
                     'community_content':  get_community_content("Leetcode"),
@@ -118,7 +135,9 @@ def leetcode_admin(request):
                     'team_form': team_form,
                     'form_action': '/leetcode_admin',
                     'admin_title': "Leetcode",
-                    'alert': alert
+                    'alert': alert,
+                    'bot_content':bot_content,
+                    'bot_form':bot_form
                 }
             )
 

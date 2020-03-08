@@ -68,7 +68,6 @@ def get_community_content(community):
 move later to commmunity.TEAMS
 """
 
-
 def get_community_teams_by_timezone(community, timezone):
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
@@ -114,4 +113,24 @@ def add_community_team(
     conn.close()
 
 
+"""
+community.BOTS
+"""
 
+def get_bot_content():
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("SELECT id, description, content FROM bots;")
+    content = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return content
+
+def edit_bot_content(content_id, new_content):
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("UPDATE bots SET content = %s WHERE id = %s;", (new_content, content_id))
+    conn.commit()
+    cur.close()
+    conn.close()
