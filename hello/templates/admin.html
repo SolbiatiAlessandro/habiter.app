@@ -33,6 +33,42 @@
 		color: white;
 		font-weight: bold;
 	}
+	input {
+    line-height: 40px;
+    border: none;
+    outline: none;
+    background: #e6e5fb;
+    padding: 0 20px;
+	}
+	.input_wrapper{
+		display: flex;
+    justify-content: space-between;
+    background: #f9f9ff;
+    line-height: 40px;
+    padding: 0px 0px 0px 20px;
+		margin: 10px;
+    box-shadow: #e6e6e6 0px 0px 10px;
+	}
+
+	form{
+		text-align:center;
+	}
+	.admin_card{
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #e3e6f0;
+    border-radius: .35rem;
+	padding:5%;
+		margin-top:30px;
+	}
+	.shadow{
+		box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
+	}
+	.modal-backdrop{
+		z-index:0 !important;
+	}
 	</style>
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 	<script>
@@ -41,141 +77,269 @@
 <body>
 	<section class="sample-text-area">
 		<div class="container">
-			<h1>Manage your Habiter community</h1>
-			<br>
-			<h2>{{ admin_title }} Problems</h2>
-			<p>Here are the leetcode active problems (get them with /leetcode_problems in HabiterBot)</p>
-			<div class="progress-table-wrap">
-				<div class="progress-table">
-					<div class="table-head">
-						<div class="serial">#</div>
-						<div class="serial">link</div>
-					</div>
-					{% for problem in problems %}
-					<div class="table-row">
-						<div class="serial">{{ problem.0 }}</div>
-						<div class="serial">{{ problem.1 }}</div>
-					</div>
-					{% endfor %}
-				</div>
+			<h1>Manage your {{admin_title}} community</h1>
+			{% if alert %}
+			<div class="alert alert-success" role="alert">
+				{{alert}}
 			</div>
-			<br>
-			<p>You can set here 2 new active problems that will replace the previous one</p>
-			<form action="/leetcode_admin" method="POST">
-				{% csrf_token %}
-				{{ problems_form }}
-				<input type="submit" value="Submit">
-			</form>
-			<br>
-			<h2>{{ admin_title }} Teams</h2>
-			<p>insert team here, watchout for timezones (gmt,gmt+8,ist,est,pst)</p>
-			<form action="{{ form_action }}" method="POST">
-				{% csrf_token %}
-				{{ team_form }}
-				<input type="submit" value="Submit">
-			</form>
-			<p>You can view here all your teams split by timezone</p>
-			<h3>PST</h3>
-			<div class="progress-table-wrap">
-				<div class="progress-table">
-					<div class="table-head">
-						<div class="serial">#</div>
-						<div class="serial">team_name</div>
-						<div class="serial">sent</div>
-						<div class="serial">claimed</div>
-					</div>
-					{% for team in teams.pst %}
-					<div class="table-row">
-						<div class="serial">{{ team.0 }}</div>
-						<div class="serial">{{ team.1 }}</div>
-						<div class="serial">{{ team.2 }}</div>
-						<div class="serial">{{ team.3 }}</div>
-					</div>
-					{% endfor %}
-				</div>
+			{% endif %}
+
+			<div class="admin_card shadow">
+				<h2>{{ admin_title }} Community Content</h2>
+				<p>Here you can find the content for your community that is send out every session by Habiter bots.</p>
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#view_content_modal">
+					  View Content
+				</button>
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#upload_content_modal">
+					  Upload Content
+				</button>
 			</div>
-			<br>
-			<h3>EST</h3>
-			<div class="progress-table-wrap">
-				<div class="progress-table">
-					<div class="table-head">
-						<div class="serial">#</div>
-						<div class="serial">team_name</div>
-						<div class="serial">sent</div>
-						<div class="serial">claimed</div>
-					</div>
-					{% for team in teams.est %}
-					<div class="table-row">
-						<div class="serial">{{ team.0 }}</div>
-						<div class="serial">{{ team.1 }}</div>
-						<div class="serial">{{ team.2 }}</div>
-						<div class="serial">{{ team.3 }}</div>
-					</div>
-					{% endfor %}
-				</div>
-			</div>
-			<br>
-			<h3>GMT</h3>
-			<div class="progress-table-wrap">
-				<div class="progress-table">
-					<div class="table-head">
-						<div class="serial">#</div>
-						<div class="serial">team_name</div>
-						<div class="serial">sent</div>
-						<div class="serial">claimed</div>
-					</div>
-					{% for team in teams.gmt %}
-					<div class="table-row">
-						<div class="serial">{{ team.0 }}</div>
-						<div class="serial">{{ team.1 }}</div>
-						<div class="serial">{{ team.2 }}</div>
-						<div class="serial">{{ team.3 }}</div>
-					</div>
-					{% endfor %}
-				</div>
-			</div>
-			<br>
-			<h3>IST</h3>
-			<div class="progress-table-wrap">
-				<div class="progress-table">
-					<div class="table-head">
-						<div class="serial">#</div>
-						<div class="serial">team_name</div>
-						<div class="serial">sent</div>
-						<div class="serial">claimed</div>
-					</div>
-					{% for team in teams.ist %}
-					<div class="table-row">
-						<div class="serial">{{ team.0 }}</div>
-						<div class="serial">{{ team.1 }}</div>
-						<div class="serial">{{ team.2 }}</div>
-						<div class="serial">{{ team.3 }}</div>
-					</div>
-					{% endfor %}
-				</div>
-			</div>
-			<br>
-			<h3>GMT+8</h3>
-			<div class="progress-table-wrap">
-				<div class="progress-table">
-					<div class="table-head">
-						<div class="serial">#</div>
-						<div class="serial">team_name</div>
-						<div class="serial">sent</div>
-						<div class="serial">claimed</div>
-					</div>
-					{% for team in teams.gmt8 %}
-					<div class="table-row">
-						<div class="serial">{{ team.0 }}</div>
-						<div class="serial">{{ team.1 }}</div>
-						<div class="serial">{{ team.2 }}</div>
-						<div class="serial">{{ team.3 }}</div>
-					</div>
-					{% endfor %}
-				</div>
+
+			<div class="admin_card shadow">
+				<h2>{{ admin_title }} Teams</h2>
+				<p>insert team here, watchout for timezones (gmt,gmt+8,ist,est,pst)</p>
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#view_teams_modal">
+					  View Teams List
+				</button>
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insert_team_modal">
+					  Insert New Team
+				</button>
 			</div>
 		</div>
 	</section>
+
+
+
+	<!--view content modal-->
+	<div class="modal fade" id="view_content_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+		<div class="modal-dialog" role="document" style="max-width: 70%">
+		<div class="modal-content">
+		  <div class="modal-header">
+			  <h5 class="modal-title" id="exampleModalLabel">{{ admin_title }} Community Content</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		  </div>
+			<div class="progress-table-wrap">
+				<div class="progress-table">
+					<div class="table-head">
+						<div class="serial">#</div>
+						<div class="country">Link</div>
+						<div class="serial">Label</div>
+						<div class="country">Teams on this index</div>
+					</div>
+					{% for content_item in community_content %}
+					<div class="table-row">
+						<div class="serial">{{ content_item.0 }}</div>
+						<div class="country">{{ content_item.1 }}</div>
+						<div class="serial">{{ content_item.2 }}</div>
+						<div class="country">{{ content_item.3 }}</div>
+					</div>
+					{% endfor %}
+				</div>
+		  </div>
+		</div>
+		</div>
+	</div>
+
+	<!--view teams modal-->
+	<div class="modal fade" id="view_teams_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+		<div class="modal-dialog" role="document" style="max-width: 70%">
+		<div class="modal-content">
+		  <div class="modal-header">
+			  <h5 class="modal-title" id="exampleModalLabel">{{ admin_title }} Community Content</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		  </div>
+				<h3>PST</h3>
+				<div class="progress-table-wrap">
+					<div class="progress-table">
+						<div class="table-head">
+							<div class="serial">#</div>
+							<div class="serial">team_name</div>
+							<div class="serial">sent</div>
+							<div class="serial">claimed</div>
+						</div>
+						{% for team in teams.pst %}
+						<div class="table-row">
+							<div class="serial">{{ team.0 }}</div>
+							<div class="serial">{{ team.1 }}</div>
+							<div class="serial">{{ team.2 }}</div>
+							<div class="serial">{{ team.3 }}</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				<br>
+				<h3>EST</h3>
+				<div class="progress-table-wrap">
+					<div class="progress-table">
+						<div class="table-head">
+							<div class="serial">#</div>
+							<div class="serial">team_name</div>
+							<div class="serial">sent</div>
+							<div class="serial">claimed</div>
+						</div>
+						{% for team in teams.est %}
+						<div class="table-row">
+							<div class="serial">{{ team.0 }}</div>
+							<div class="serial">{{ team.1 }}</div>
+							<div class="serial">{{ team.2 }}</div>
+							<div class="serial">{{ team.3 }}</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				<br>
+				<h3>GMT</h3>
+				<div class="progress-table-wrap">
+					<div class="progress-table">
+						<div class="table-head">
+							<div class="serial">#</div>
+							<div class="serial">team_name</div>
+							<div class="serial">sent</div>
+							<div class="serial">claimed</div>
+						</div>
+						{% for team in teams.gmt %}
+						<div class="table-row">
+							<div class="serial">{{ team.0 }}</div>
+							<div class="serial">{{ team.1 }}</div>
+							<div class="serial">{{ team.2 }}</div>
+							<div class="serial">{{ team.3 }}</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				<br>
+				<h3>IST</h3>
+				<div class="progress-table-wrap">
+					<div class="progress-table">
+						<div class="table-head">
+							<div class="serial">#</div>
+							<div class="serial">team_name</div>
+							<div class="serial">sent</div>
+							<div class="serial">claimed</div>
+						</div>
+						{% for team in teams.ist %}
+						<div class="table-row">
+							<div class="serial">{{ team.0 }}</div>
+							<div class="serial">{{ team.1 }}</div>
+							<div class="serial">{{ team.2 }}</div>
+							<div class="serial">{{ team.3 }}</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				<br>
+				<h3>GMT+8</h3>
+				<div class="progress-table-wrap">
+					<div class="progress-table">
+						<div class="table-head">
+							<div class="serial">#</div>
+							<div class="serial">team_name</div>
+							<div class="serial">sent</div>
+							<div class="serial">claimed</div>
+						</div>
+						{% for team in teams.gmt8 %}
+						<div class="table-row">
+							<div class="serial">{{ team.0 }}</div>
+							<div class="serial">{{ team.1 }}</div>
+							<div class="serial">{{ team.2 }}</div>
+							<div class="serial">{{ team.3 }}</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				</div>
+		  </div>
+		</div>
+		</div>
+	</div>
+
+	<!-- upload content model-->
+	<div class="modal fade" id="upload_content_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+		<div class="modal-dialog" role="document" style="max-width: 70%">
+		<div class="modal-content">
+		  <div class="modal-header">
+			  <h5 class="modal-title" id="exampleModalLabel">{{ admin_title }} Community Content</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		  </div>
+		  <div class="modal-body">
+			<div class="row">
+				<div class="col-sm">
+				<p>You can input by hand a new content item</p>
+					<form action="/leetcode_admin" method="POST">
+						{% csrf_token %}
+						<div class="input_wrapper">
+							<label for="{{ input_content_form.link.id_for_label}}">Link:</label>
+							{{input_content_form.link}}
+						</div>
+						<div class="input_wrapper">
+							<label for="{{ input_content_form.label.id_for_label}}">Label:</label>
+							{{input_content_form.label}}
+						</div>
+						<input type="submit" value="Submit">
+					</form>
+				</div>
+				<div class="col-sm border-left" >
+					<p>Upload by API coming soon</p>
+				</div>
+			</div>
+		  </div>
+		</div>
+		</div>
+	</div>
+
+	<!-- insert team modal -->
+	<div class="modal fade" id="insert_team_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+		<div class="modal-dialog" role="document" style="max-width: 70%">
+			<div class="modal-content">
+			  <div class="modal-header">
+				  <h5 class="modal-title" id="exampleModalLabel">{{ admin_title }} Community Teams</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				<div class="row">
+					<div class="col-sm">
+						<p>UI to input new team by hand, some observations
+						<ul>
+							<li>put "https://habiter.app" if you want the team to enter the matching system</li>
+							<li>session_time is set based on timezone as 21:00 GMT (e.g. 'est' put to 02:00)</li>
+						</p>
+						<form action="{{ form_action }}" method="POST" >
+							{% csrf_token %}
+								<div class="input_wrapper">
+									<label for="{{ team_form.team_name.id_for_label}}">Team Name:</label>
+									{{team_form.team_name}}
+								</div>
+								<div class="input_wrapper">
+									<label for="{{ team_form.team_invite.id_for_label}}">Team Invite:</label>
+									{{team_form.team_invite}}
+								</div>
+								<div class="input_wrapper">
+									<label for="{{ team_form.timezone.id_for_label}}">Timezone:</label>
+									{{team_form.timezone}}
+								</div>
+								<div class="input_wrapper">
+									<label for="{{ team_form.label.id_for_label}}">Label:</label>
+									{{team_form.label}}
+								</div>
+							<input type="submit" value="Submit">
+						</form>
+					</div>
+					<div class="col-sm border-left" >
+						<p>Automatic group creation by API coming soon</p>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
 
 
     <!-- JS here -->

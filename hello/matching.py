@@ -97,7 +97,8 @@ def db__leetcode_invite_sent_confirmation(team_id):
 def db__add_leetcode_team(
         link,
         team_name,
-        timezone
+        timezone,
+        label
         ):
     """
             db__add_leetcode_team(
@@ -108,10 +109,15 @@ def db__add_leetcode_team(
     """
     conn = psycopg2.connect(DATABASE_URL)
     cur = conn.cursor()
+    session_time = '21:00'
+    if timezone == 'est': session_time = '02:00'
+    if timezone == 'pst': session_time = '05:00'
+    if timezone == 'gmt+8': session_time = '13:00'
+    if timezone == 'ist': session_time = '15:30'
     logger.info("inserting team invite with args:")
-    insert_args = (link, team_name, timezone)
+    insert_args = (link, team_name, timezone, label, session_time)
     logger.info(insert_args)
-    cur.execute("INSERT INTO leetcode_teams (link, team_name, timezone) VALUES (%s, %s, %s)",
+    cur.execute("INSERT INTO leetcode_teams (link, team_name, timezone, label, session_time) VALUES (%s, %s, %s, %s, %s)",
             insert_args)
     conn.commit()
     cur.close()
@@ -130,7 +136,7 @@ def db__get_all_leetcode_teams(timezone):
     conn.close()
     return teams
 
-def db__set_active_leetcode_problems(link1, link2):
+def db__set_active_leetcode_problems(link1, link2, labels):
     """
     all other inactive
     """
@@ -151,7 +157,7 @@ def db__get_active_leetcode_problems():
     try:
         conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
         cur = conn.cursor()
-        cur.execute("SELECT id, link FROM leetcode_problems WHERE active = TRUE;")
+        cur.execute("SELECT id, link, labels FROM leetcode_problems WHERE active = TRUE;")
         problems = cur.fetchall()
         conn.commit()
         cur.close()

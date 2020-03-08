@@ -49,17 +49,32 @@ def leetcode(request):
     return render(request, "leetcode.html", {'leaderboard': leaderboard})
 
 from django import forms
+#DEPRECATED
 class LeetcodeProblemsForm(forms.Form):
     link1 = forms.CharField()
     link2 = forms.CharField()
+
+LEETCODE_LABELS = (
+    ('Easy', 'Leetcode Easy Problem'),
+    ('Medium', 'Leetcode Medium Problem'),
+    ('Hard', 'Leetcode Hard Problem')
+    )
+
+class InputContentForm(forms.Form):
+    link = forms.CharField()
+    label = forms.ChoiceField(choices=LEETCODE_LABELS)
 
 class TeamForm(forms.Form):
     team_name = forms.CharField()
     team_invite = forms.CharField()
     timezone = forms.CharField()
 
+class LeetcodeTeamForm(TeamForm):
+    label = forms.ChoiceField(choices=LEETCODE_LABELS)
+
 from hello.matching import db__get_all_leetcode_teams, db__get_active_leetcode_problems
 from hello.matching import db__set_active_leetcode_problems, db__add_leetcode_team
+from hello.habiterDB import get_community_content, add_community_content_item
 def leetcode_admin(request):
     # TIME HEAVY QUERY
     teams = {
@@ -69,26 +84,42 @@ def leetcode_admin(request):
         'ist':db__get_all_leetcode_teams("ist"),
         'gmt8':db__get_all_leetcode_teams("gmt+8"),
     }
-    problems_form = LeetcodeProblemsForm(request.POST)
-    if problems_form.is_valid():
-        response = db__set_active_leetcode_problems(problems_form.cleaned_data['link1'],problems_form.cleaned_data['link2'])
+    alert = None
 
-    team_form = TeamForm(request.POST)
-    if team_form.is_valid():
-        response = db__add_leetcode_team(
-                team_form.cleaned_data['team_invite'],
-                team_form.cleaned_data['team_name'],
-                team_form.cleaned_data['timezone'],
+    input_content_form = InputContentForm(request.POST)
+    if input_content_form.is_valid():
+        link = input_content_form.cleaned_data.get('link')
+        label = input_content_form.cleaned_data.get('label')
+        response =  add_community_content_item(
+                link,
+                label,
+                'Leetcode'
                 )
+        alert = "Content added succesfully: "+link+", "+label
+
+    team_form = LeetcodeTeamForm(request.POST)
+    if team_form.is_valid():
+        team_invite = team_form.cleaned_data['team_invite']
+        team_name = team_form.cleaned_data['team_name']
+        timezone = team_form.cleaned_data['timezone']
+        label = team_form.cleaned_data.get('label')
+        response = db__add_leetcode_team(
+                team_invite,
+                team_name,
+                timezone,
+                label
+                )
+        alert = "Content added succesfully: "+" | ".join(team_name, team_invite, timezone, label)
 
     return render(request, "admin.html", 
                 {
-                    'problems':  db__get_active_leetcode_problems(),
+                    'community_content':  get_community_content("Leetcode"),
                     'teams': teams,
-                    'problems_form': problems_form,
+                    'input_content_form': input_content_form,
                     'team_form': team_form,
                     'form_action': '/leetcode_admin',
-                    'admin_title': "Leetcode"
+                    'admin_title': "Leetcode",
+                    'alert': alert
                 }
             )
 
