@@ -51,19 +51,21 @@
 
 function openApp(){
   document.location = 'habiter://';
+	/*
 	analytics.track("OpenAppButton", {
 	  description: "from Download in the navigator"
-	});
+	});*/
   setTimeout(function(){
       document.location = 'https://play.google.com/store/apps/details?id=com.habiter.habiter';
   }, 300);
 }
 
 function leetcodeTelegramGroup(group){
+	/*
 	analytics.track("LeetcodeTelegram_JoinTeamRequest", {
 	  description: "JoinTeamRequest",
 	  group: group
-	});
+	});*/
 
 	$.ajax({
         url: '/ajax/leetcode_match/',
@@ -72,12 +74,13 @@ function leetcodeTelegramGroup(group){
         },
         dataType: 'json',
         success: function (data) {
+			/*
 			analytics.track("LeetcodeTelegram_JoinTeamRequestDialogue", {
 			  description: "JoinTeamRequest",
 			  group: group,
 			  team_id: data.team_id,
 			  team_name: data.team_name
-			});
+			});*/
 			console.log(data)
 			const team_id = data.team_id
 			if (confirm("Amazing! There is an available team in "+group+" timezone: "+data.team_name+". Join now.")){
@@ -90,12 +93,13 @@ function leetcodeTelegramGroup(group){
 					},
 					dataType: 'json',
 					success: function(data) {
+						/*
 						analytics.track("LeetcodeTelegram_JoinTeamRequestConfirmed", {
 						  description: "JoinTeamRequest",
 						  team_id: data.team_id,
 						  team_name: data.team_name,
 						  group: group
-						});
+						});*/
 						console.log("Event joined confirmed");
 					}
 				});
@@ -130,27 +134,31 @@ function leetcodeTelegramGroup(group){
 }
 
 function alexLinkedin(){
+	/*
 	analytics.track("AlexLinkedin", {
 	  description: "from /leetcode.html"
-	});
+	});*/
 	document.location = "https://www.linkedin.com/in/solbiatialessandro/";
 }
 function oanaLinkedin(){
+	/*
 	analytics.track("OanaLinkedin", {
 	  description: "from /leetcode.html"
-	});
+	});*/
 	document.location = "https://www.linkedin.com/in/oana-florescu-97996716a/";
 }
 function oanaVideo(){
+	/*
 	analytics.track("OanaVideo", {
 	  description: "from /leetcode.html"
-	});
+	});*/
 	document.location = "https://www.youtube.com/watch?v=S7vU513Eiw0";
 }
 
+/*
 analytics.track("leetcode", {
   description: "generic user opening leetcode"
-});
+});*/
 
 	</script>
       <style>

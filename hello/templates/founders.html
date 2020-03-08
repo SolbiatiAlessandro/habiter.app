@@ -83,19 +83,21 @@
          
          function openApp(){
          document.location = 'habiter://';
+			 /*
          analytics.track("OpenAppButton", {
           description: "from Download in the navigator"
-         });
+         });*/
          setTimeout(function(){
              document.location = 'https://play.google.com/store/apps/details?id=com.habiter.habiter';
          }, 300);
          }
          
          function foundersTelegramGroup(group){
+			 /*
          analytics.track("FoundersTelegram_JoinTeamRequest", {
           description: "JoinTeamRequest",
           group: group
-         });
+         });*/
          
          $.ajax({
                url: '/ajax/founders_match/',
@@ -104,12 +106,13 @@
                },
                dataType: 'json',
                success: function (data) {
+				   /*
          	analytics.track("FoundersTelegram_JoinTeamRequestDialogue", {
          	  description: "JoinTeamRequest",
          	  group: group,
          	  team_id: data.team_id,
          	  team_name: data.team_name
-         	});
+         	});*/
          	console.log(data)
          	const team_id = data.team_id
          	if (confirm("We found an available team in "+group+" timezone: "+data.team_name+". Do you want to join it?")){
@@ -122,12 +125,13 @@
          			},
          			dataType: 'json',
          			success: function(data) {
+						/*
          				analytics.track("FoundersTelegram_JoinTeamRequestConfirmed", {
          				  description: "JoinTeamRequest",
          				  team_id: data.team_id,
          				  team_name: data.team_name,
          				  group: group
-         				});
+         				});*/
          				console.log("Event joined confirmed");
          			}
          		});
@@ -140,27 +144,32 @@
          }
          
          function alexLinkedin(){
+			 /*
          analytics.track("AlexLinkedin", {
           description: "from founders.html"
-         });
+         });*/
          document.location = "https://www.linkedin.com/in/solbiatialessandro/";
          }
          function oanaLinkedin(){
+			 /*
          analytics.track("OanaLinkedin", {
           description: "from founders.html"
-         });
+         });*/
          document.location = "https://www.linkedin.com/in/oana-florescu-97996716a/";
          }
          function oanaVideo(){
+			 /*
          analytics.track("OanaVideo", {
           description: "from founders.html"
-         });
+         });*/
          document.location = "https://www.youtube.com/watch?v=S7vU513Eiw0";
          }
          
+/*
          analytics.track("founders", {
          description: "generic user opening founders"
          });
+		 */
          
       </script>
    </head>

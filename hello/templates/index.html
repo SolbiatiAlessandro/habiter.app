@@ -78,26 +78,31 @@ background:#8999e7;padding:3%
   }}();
 
 function notReadyYet(theme){
+	/*
 	  analytics.track("NotReadyYet", {
 		  description: "click on not ready yet button",
 		  theme: theme
 		});
+		*/
 	alert("We are still working on this.. but we are taking note of your interest! Have a look at our 'Tech Interview Preparation' in the meanwhile.")
 }
 
 function openApp(){
   document.location = 'habiter://';
+	/*
   analytics.track("OpenAppButton", {
 	  description: "generic user clicked on Open App button"
 	});
+	*/
   setTimeout(function(){
       document.location = 'https://play.google.com/store/apps/details?id=com.habiter.habiter';
   }, 300);
 }
 
+/*
 analytics.track("Landed", {
   description: "generic user landing on home page"
-});
+});*/
 
 	</script>
 </head>
