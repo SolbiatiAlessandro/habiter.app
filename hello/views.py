@@ -109,7 +109,7 @@ def leetcode_admin(request):
                 timezone,
                 label
                 )
-        alert = "Content added succesfully: "+" | ".join(team_name, team_invite, timezone, label)
+        alert = "Content added succesfully: "+" | ".join([team_name, team_invite, timezone, label])
 
     return render(request, "admin.html", 
                 {
