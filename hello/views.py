@@ -72,7 +72,7 @@ class TeamForm(forms.Form):
 class LeetcodeTeamForm(TeamForm):
     label = forms.ChoiceField(choices=LEETCODE_LABELS)
 
-from hello.HabiterDB import get_community_content, add_community_content_item, get_community_teams_by_timezone, add_community_team
+from hello.habiterDB import get_community_content, add_community_content_item, get_community_teams_by_timezone, add_community_team
 def leetcode_admin(request):
     # TIME HEAVY QUERY
     teams = {
