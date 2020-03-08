@@ -44,9 +44,10 @@ def get_community_content(community):
     """
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
-    cur.execute("SELECT id, link, label FROM content WHERE community = %s;", (community,))
+    cur.execute("SELECT id, link, label FROM content WHERE community = %s ORDER BY id;", (community,))
     content = cur.fetchall()
-    cur.execute("SELECT id, team_name, content_index FROM teams WHERE community = %s;", (community,))
+    #cur.execute("SELECT id, team_name, content_index FROM teams WHERE community = %s;", (community,))
+    cur.execute("SELECT id, team_name, content_index FROM leetcode_teams;")
     teams = cur.fetchall()
     conn.commit()
     cur.close()

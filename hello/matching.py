@@ -114,10 +114,16 @@ def db__add_leetcode_team(
     if timezone == 'pst': session_time = '05:00'
     if timezone == 'gmt+8': session_time = '13:00'
     if timezone == 'ist': session_time = '15:30'
+
+    # starting for problems
+    content_index = 1
+    if label == 'Easy': content_index = 17
+    if label == 'Hard': content_index = 25
+
     logger.info("inserting team invite with args:")
     insert_args = (link, team_name, timezone, label, session_time)
     logger.info(insert_args)
-    cur.execute("INSERT INTO leetcode_teams (link, team_name, timezone, label, session_time) VALUES (%s, %s, %s, %s, %s)",
+    cur.execute("INSERT INTO leetcode_teams (link, team_name, timezone, label, session_time, content_index) VALUES (%s, %s, %s, %s, %s)",
             insert_args)
     conn.commit()
     cur.close()

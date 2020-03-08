@@ -306,10 +306,11 @@
 			  <div class="modal-body">
 				<div class="row">
 					<div class="col-sm">
-						<p>UI to input new team by hand, some observations
+						<p>Add team checklist
 						<ul>
 							<li>put "https://habiter.app" if you want the team to enter the matching system</li>
 							<li>session_time is set based on timezone as 21:00 GMT (e.g. 'est' put to 02:00)</li>
+							<li>you need to run /next_session inside the chat, otherwise problems will not be sent</li>
 						</p>
 						<form action="{{ form_action }}" method="POST" >
 							{% csrf_token %}
