@@ -25,6 +25,27 @@
 	<link rel="stylesheet" href="{% static "css/slicknav.css" %}">
 	<link rel="stylesheet" href="{% static "css/style.css" %}">
 	<style>
+.app_box p {
+margin-bottom:0px
+}
+.app_box .row {
+background-color:#dfe4fb;text-align:center;padding:10px;width:100%;margin:0px
+}
+.app_header h3  {
+font-size: 21px;margin-bottom: 0px;color:white;
+}
+.app_header{
+background:#8999e7;padding:3%
+}
+.app_box{
+	margin-top:10px;
+	box-shadow: 0 10px 30px rgba(0,0,0,.3);width:100%;
+}
+
+	 .app_image{
+	 border-radius:20%;
+	 height: 60px;
+	 }
 	.hacky_img_shadow{
 		box-shadow: #2e2e2e 1px 1px 40px;
 		border-radius: 60px;
@@ -132,52 +153,84 @@ analytics.track("Landed", {
         <div class="single_slider  d-flex align-items-center slider_bg_1">
             <div class="container" style="margin-top:-000px">
                 <div class="row align-items-center">
-                    <div class="col-xl-12 col-md-12">
+
+                    <div class="col-xl-6 col-md-6">
                         <div class="slider_text " style="text-align:center">
-							<img width=311 src="{% static "habiter.png" %}"/>
-                            <h3 class="wow fadeInDown" data-wow-duration="1s" data-wow-delay=".1s" style="font-size:45px;line-height:50px;">  
+							<img src="{% static 'habiter.png' %}"/>
+                            <h3 class="wow fadeInDown" data-wow-duration="1s" data-wow-delay=".1s" style="font-size:45px;line-height:50px;text-align:center;">  
 								Find someone that keeps you accountable
 							</h3>
-							<p class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".1s" style="margin-bottom:25px">
+							<p class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".1s" style="margin-bottom:25px;text-align:center;">
 							through our study groups and daily stand-ups on Telegram.
 							</p>
 							
 						</div>
 					</div>
+
+					<div class="col-xl-6 col-md-6">
+						<div class="row align-items-center" style="width:93%;margin:auto;">
+
+							<a href="/leetcode" class="app_box">
+							 <div class="prising_header d-flex justify-content-between app_header"  >
+								<h3 >Preparing your Tech Interview</h3> 
+							 </div>
+							 <div class="row" style="">
+								 <div class="col-sm">
+									<img src="https://leetcode.com/static/images/LeetCode_logo.png" class="app_image"/>
+									<p >Leetcode</p>
+								 </div>
+								 <div class="col-sm">
+									<img src="https://upload.wikimedia.org/wikipedia/commons/6/65/HackerRank_logo.png" alt="" class="app_image">
+									<p >HackerRank</p>
+								 </div>
+								 <div class="col-sm">
+									<img class="app_image"src="https://indiejobs.co/img/logos/indiejobs-logos-topcoder.png"/>
+									<p >TopCoder</p>
+								 </div>
+							 </div>
+							</a>
+
+							<a href="/founders" class="app_box">
+							 <div class="prising_header d-flex justify-content-between app_header"  >
+								<h3 >Building your Startup</h3> 
+							 </div>
+							 <div class="row" style="">
+								 <div class="col-sm">
+									<img src="https://www.indiehackers.com/images/logos/indie-hackers-logo__glyph--light.svg" class="app_image"/>
+									<p >IndieHackers</p>
+								 </div>
+								 <div class="col-sm">
+									<img src="https://d1l6icgp8w0hse.cloudfront.net/assets/ycdc/ycombinator-logo-7481412385fe6d0f7d4a3339d90fe12309432ca41983e8d350b232301d5d8684.png" alt="" class="app_image">
+									<p >YC SUS</p>
+								 </div>
+								 <div class="col-sm">
+									<img class="app_image"src="https://www.saashub.com/images/app/service_logos/133/thy7s40vsa02/large.png?1581725062"/>
+									<p >Pioneer.app</p>
+								 </div>
+							 </div>
+							</a>
+
+							<a href="/leetcode" class="app_box"
+						   onClick="notReadyYet('online_courses')">
+							 <div class="prising_header d-flex justify-content-between app_header"  >
+								<h3 >Taking Online Courses</h3> 
+								<p>coming soon</p>
+							 </div>
+							</a>
+
+							<a 
+								href="/leetcode" 
+								 onClick="notReadyYet('college_admission')"
+								 class='app_box'>
+							 <div class="prising_header d-flex justify-content-between app_header"  >
+								
+								<h3 >Preparing College Admission</h3> 
+								<p>coming soon</p>
+							 </div>
+							</a>
+								</div>
+						</div>
 					</div>
-					<div class="row align-items-center" style="width:93%;margin:auto;">
-						<div class="col-xl-3 col-md-3">
-								<a 
-									href="/founders"
-									class="boxed-btn3"
-									style="background-color:#5a60b6">Side projects
-								</a>
-						</div>
-						<div class="col-xl-3 col-md-3">
-								<a 
-									href="/leetcode" 
-									class="boxed-btn3"
-									style="background-color:#5a60b6">Tech Interviews
-								</a>
-						</div>
-						<div class="col-xl-3 col-md-3">
-								<a 
-									href="/leetcode" 
-									 onClick="notReadyYet('online_courses')"
-									class="boxed-btn3"
-									 style="background-color:#5a60b6">Online Courses
-								</a>
-						</div>
-						<div class="col-xl-3 col-md-3">
-								<a 
-									href="/leetcode" 
-									 onClick="notReadyYet('college_admission')"
-									class="boxed-btn3"
-									 style="background-color:#5a60b6">College Admission
-								</a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

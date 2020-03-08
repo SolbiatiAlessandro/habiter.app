@@ -12,6 +12,10 @@ DATABASE_URL = os.environ['DATABASE_URL']
 
 logger = logging.getLogger(__name__)
 
+"""
+move later to community.CONTENT
+"""
+
 def add_community_content_item(link, label, community):
     """
     """
@@ -46,8 +50,7 @@ def get_community_content(community):
     cur = conn.cursor()
     cur.execute("SELECT id, link, label FROM content WHERE community = %s ORDER BY id;", (community,))
     content = cur.fetchall()
-    #cur.execute("SELECT id, team_name, content_index FROM teams WHERE community = %s;", (community,))
-    cur.execute("SELECT id, team_name, content_index FROM leetcode_teams;")
+    cur.execute("SELECT id, team_name, content_index FROM teams WHERE community = %s;", (community,))
     teams = cur.fetchall()
     conn.commit()
     cur.close()
@@ -60,4 +63,55 @@ def get_community_content(community):
         augmented_item = list((item)) + [teams_on_index]
         augmented_content.append(augmented_item)
     return augmented_content
-    
+
+"""
+move later to commmunity.TEAMS
+"""
+
+
+def get_community_teams_by_timezone(community, timezone):
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("SELECT id, team_name, sent, claimed FROM teams WHERE community = %s AND timezone = %s ORDER BY claimed DESC;", (community, timezone))
+    teams = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return teams
+
+def add_community_team(
+        community,
+        link,
+        team_name,
+        timezone,
+        label):
+    """
+    TODO: add chat_id
+    TODO: make this call automatically from bot, not from UI
+    """
+    conn = psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor()
+
+    # TODO: how to deal better with this hardcoded stuff?
+    session_time = '21:00'
+    if timezone == 'est': session_time = '02:00'
+    if timezone == 'pst': session_time = '05:00'
+    if timezone == 'gmt+8': session_time = '13:00'
+    if timezone == 'ist': session_time = '15:30'
+
+    # starting content_index for problems
+    content_index = 1
+    if label == 'Easy': content_index = 17
+    if label == 'Hard': content_index = 25
+
+    logger.info("inserting team invite with args:")
+    insert_args = (community, link, team_name, timezone, label, session_time, content_index)
+    logger.info(insert_args)
+    cur.execute("INSERT INTO teams (community, link, team_name, timezone, label, session_time, content_index) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            insert_args)
+    conn.commit()
+    cur.close()
+    conn.close()
+
+
+

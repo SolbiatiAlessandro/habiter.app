@@ -72,17 +72,15 @@ class TeamForm(forms.Form):
 class LeetcodeTeamForm(TeamForm):
     label = forms.ChoiceField(choices=LEETCODE_LABELS)
 
-from hello.matching import db__get_all_leetcode_teams, db__get_active_leetcode_problems
-from hello.matching import db__set_active_leetcode_problems, db__add_leetcode_team
-from hello.habiterDB import get_community_content, add_community_content_item
+from hello.HabiterDB import get_community_content, add_community_content_item, get_community_teams_by_timezone, add_community_team
 def leetcode_admin(request):
     # TIME HEAVY QUERY
     teams = {
-        'pst':db__get_all_leetcode_teams("pst"),
-        'est':db__get_all_leetcode_teams("est"),
-        'gmt':db__get_all_leetcode_teams("gmt"),
-        'ist':db__get_all_leetcode_teams("ist"),
-        'gmt8':db__get_all_leetcode_teams("gmt+8"),
+        'pst':get_community_teams_by_timezone("Leetcode", "pst"),
+        'est':get_community_teams_by_timezone("Leetcode", "est"),
+        'gmt':get_community_teams_by_timezone("Leetcode", "gmt"),
+        'ist':get_community_teams_by_timezone("Leetcode", "ist"),
+        'gmt8':get_community_teams_by_timezone("Leetcode", "gmt+8"),
     }
     alert = None
 
@@ -103,7 +101,8 @@ def leetcode_admin(request):
         team_name = team_form.cleaned_data['team_name']
         timezone = team_form.cleaned_data['timezone']
         label = team_form.cleaned_data.get('label')
-        response = db__add_leetcode_team(
+        response = add_community_team(
+                "Leetcode",
                 team_invite,
                 team_name,
                 timezone,
@@ -124,7 +123,7 @@ def leetcode_admin(request):
             )
 
 
-from hello.matching import db__get_next_leetcode_team_invite, db__leetcode_invite_sent_confirmation
+from hello.matching import get_community_team_invite, sent_invite
 def leetcode_match(request):
     """
     matches a new team for leetcode
@@ -137,7 +136,7 @@ def leetcode_match(request):
     # THIS IS UGLY BUT NEED TO CATCH ALL EXCPETION, OTHERWISE WE LOSE USERS
     try:
         timezone = request.GET.get('timezone', None)
-        invite = db__get_next_leetcode_team_invite(timezone)
+        invite = get_community_team_invite("Leetcode", timezone)
         (team_id, team_invite_link, team_name) = invite
         data = {
             'team_id': team_id,
@@ -170,7 +169,7 @@ def leetcode_invite_sent_confirmation(request):
         logger.error(request.GET)
         return JsonResponse({'result':'ERROR: no team_id provided'})
 
-    db__leetcode_invite_sent_confirmation(team_id)
+    sent_invite(team_id)
     return JsonResponse({'result':'SUCCESS'})
 
 def founders(request):
