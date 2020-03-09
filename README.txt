@@ -11,6 +11,18 @@ https://devcenter.heroku.com/articles/heroku-postgresql
 
 ### POSTGRESQL QUERIES
 
+CREATE TABLE user_actions(
+	id serial PRIMARY KEY,
+    community VARCHAR(100),
+	time TIMESTAMP NOT NULL DEFAULT NOW(),
+    chat_name VARCHAR(100),
+    chat_id VARCHAR(100),
+    username VARCHAR(100),
+    user_id VARCHAR(100),
+    text TEXT
+);
+
+
 CREATE TABLE content(
    id serial PRIMARY KEY,
    link VARCHAR (500) NOT NULL,

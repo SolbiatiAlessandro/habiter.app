@@ -80,15 +80,14 @@ class EditBotForm(forms.Form):
 from hello.habiterDB import get_community_content, add_community_content_item, get_community_teams_by_timezone, add_community_team, get_bot_content, edit_bot_content
 def leetcode_admin(request):
     # TIME HEAVY QUERY
-    """
     teams = {
         'pst':get_community_teams_by_timezone("Leetcode", "pst"),
         'est':get_community_teams_by_timezone("Leetcode", "est"),
         'gmt':get_community_teams_by_timezone("Leetcode", "gmt"),
         'ist':get_community_teams_by_timezone("Leetcode", "ist"),
         'gmt8':get_community_teams_by_timezone("Leetcode", "gmt+8"),
-    }"""
-    teams = {}
+    }
+    #teams = {}
     alert = None
 
     input_content_form = InputContentForm(request.POST)
