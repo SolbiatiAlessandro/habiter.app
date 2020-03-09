@@ -365,20 +365,23 @@ analytics.track("leetcode", {
 			<div class="habiter_container">
 			 <div class="prising_header d-flex justify-content-between" style="background:#e9f4fe;padding:3%">
 				<h3 style="font-size: 21px;margin-bottom: 0px;">Teams Leaderboard</h3> 
+				<p>SCORE is computed as number of problem solved over number of participants in the team</p>
 			 </div>
 			<p class="sample-text">
 			<div class="progress-table-wrap">
 				<div class="progress-table" style="background:white;padding-top:0px;"> 
 					<div class="table-head">
+						<div class="serial">SCORE</div>
 						<div class="serial">Problem solved</div>
 						<div class="country">Team Name</div>
 						<div class="visit">Participants</div>
 					</div>
 					{% for row in leaderboard %}
 					<div class="table-row">
+						<div class='serial'>{{ row.2 }}</div>
 						<div class='serial'>{{ row.1 }}</div>
 						<div class="country">{{ row.0 }}</div>
-						<div class="visit">{{ row.2 }}</div>
+						<div class="visit">{{ row.3 }}</div>
 					</div>
 					{% endfor %}
 				</div>

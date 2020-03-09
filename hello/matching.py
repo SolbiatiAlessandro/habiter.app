@@ -139,7 +139,7 @@ def db__get_leaderboard():
     """
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
-    cur.execute("SELECT team_id, SUM(screenshot_submitted), STRING_AGG(name, ', ') FROM leetcode_users GROUP BY team_id ORDER BY sum DESC;")
+    cur.execute("SELECT team_id, SUM(screenshot_submitted) as solved_problems, SUM(screenshot_submitted)/COUNT(name) as score, STRING_AGG(name, ', ') FROM leetcode_users GROUP BY team_id ORDER BY score DESC;")
     leaderboard = cur.fetchall()
     conn.commit()
     cur.close()
