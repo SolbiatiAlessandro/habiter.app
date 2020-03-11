@@ -107,7 +107,7 @@ def leetcode_admin(request):
     for timezone in ['pst','est','gmt','ist','gmt+8']:
         teams[timezone] = get_community_teams_by_timezone("Leetcode", timezone)
         teams[timezone+"_capacity"] = compute_teams_capacity(teams[timezone])
-        teams["overall_capacity"] += teams[timezone+"_capacity"]
+        teams["overall_capacity"] += teams[timezone+"_capacity"]['open_capacity']
 
     teams["gmt8"] = teams["gmt+8"]
     teams["gmt8_capacity"] = teams["gmt+8_capacity"]
