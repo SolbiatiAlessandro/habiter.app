@@ -81,6 +81,11 @@
 	<section class="sample-text-area">
 		<div class="container">
 			<h1>Manage your {{admin_title}} community</h1>
+			{% if error %}
+			<div class="alert alert-danger" role="alert">
+				{{error}}
+			</div>
+			{% endif %}
 			{% if alert %}
 			<div class="alert alert-success" role="alert">
 				{{alert}}

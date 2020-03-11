@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+import psycopg2
 import logging
 logger = logging.getLogger(__name__)
 
@@ -101,7 +102,7 @@ def compute_teams_capacity(teams):
 
 from hello.habiterDB import get_community_content, add_community_content_item, get_community_teams_by_timezone, add_community_team, get_bot_content, edit_bot_content
 def leetcode_admin(request):
-    alert = None
+    alert, error  = None, None
     teams = {"overall_capacity":0}
     # TIME HEAVY QUERIES HERE
     for timezone in ['pst','est','gmt','ist','gmt+8']:
@@ -116,12 +117,21 @@ def leetcode_admin(request):
     if input_content_form.is_valid():
         link = input_content_form.cleaned_data.get('link')
         label = input_content_form.cleaned_data.get('label')
-        response =  add_community_content_item(
-                link,
-                label,
-                'Leetcode'
-                )
-        alert = "Content added succesfully: "+link+", "+label
+        try:
+            response =  add_community_content_item(
+                    link,
+                    label,
+                    'Leetcode'
+                    )
+        except psycopg2.Error as e:
+            # unique violation constraint
+            # https://www.postgresql.org/docs/current/errcodes-appendix.html#ERRCODES-TABLE
+            if e.pgcode == "23505": 
+                error = "Oops.. You are trying to insert content that is already present!"
+                error += "\n\n"+e.pgerror
+            else:
+                error = "Oops.. Looks like there is some problem in uploading your content:"
+                error += "\n\n"+e.pgerror
 
     team_form = LeetcodeTeamForm(request.POST)
     if team_form.is_valid():
@@ -157,6 +167,7 @@ def leetcode_admin(request):
                     'form_action': '/leetcode_admin',
                     'admin_title': "Leetcode",
                     'alert': alert,
+                    'error': error,
                     'bot_content':bot_content,
                     'bot_form':bot_form
                 }
