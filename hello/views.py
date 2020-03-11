@@ -123,6 +123,7 @@ def leetcode_admin(request):
                     label,
                     'Leetcode'
                     )
+            alert = "Content uploaded succesfully, "+"|".join([link, label])
         except psycopg2.Error as e:
             # unique violation constraint
             # https://www.postgresql.org/docs/current/errcodes-appendix.html#ERRCODES-TABLE
