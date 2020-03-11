@@ -85,10 +85,10 @@ def compute_teams_capacity(teams):
     """
     MAX_CAPACITY = 3
     capacity_info = {
-            'total_teams_len':len(teams),
-            'open_teams_len':0,
-            'open_capacity':0
-            }
+        'total_teams_len':len(teams),
+        'open_teams_len':0,
+        'open_capacity':0
+    }
     for team in teams:
         # team[4]: link
         if team[4] != "https://habiter.app":
@@ -102,11 +102,12 @@ def compute_teams_capacity(teams):
 from hello.habiterDB import get_community_content, add_community_content_item, get_community_teams_by_timezone, add_community_team, get_bot_content, edit_bot_content
 def leetcode_admin(request):
     alert = None
-    teams = {}
+    teams = {"overall_capacity":0}
     # TIME HEAVY QUERIES HERE
     for timezone in ['pst','est','gmt','ist','gmt+8']:
         teams[timezone] = get_community_teams_by_timezone("Leetcode", timezone)
         teams[timezone+"_capacity"] = compute_teams_capacity(teams[timezone])
+        teams["overall_capacity"] += teams[timezone+"_capacity"]
 
     teams["gmt8"] = teams["gmt+8"]
     teams["gmt8_capacity"] = teams["gmt+8_capacity"]

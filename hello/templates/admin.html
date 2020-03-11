@@ -107,6 +107,9 @@
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#insert_team_modal">
 					  Insert New Team
 				</button>
+				<button type="button" class="btn btn-success {% if teams.overall_capacity < 40 %}btn-warning{% endif %} {% if teams.overall_capacity < 20 %}btn-danger{% endif %}">
+					Overall New-Users Capacity: {{ teams.overall_capacity }}
+				</button>
 			</div>
 
 			<div class="admin_card shadow">
@@ -218,7 +221,7 @@
 							<div class="serial">{{ team.2 }}</div>
 							<div class="serial">{{ team.3 }}</div>
 							<div class="serial">{{ team.5 }}</div>
-							<div class="serial">{{ team.r }}</div>
+							<div class="serial">{{ team.4 }}</div>
 						</div>
 						{% endfor %}
 					</div>
@@ -253,7 +256,7 @@
 							<div class="serial">{{ team.2 }}</div>
 							<div class="serial">{{ team.3 }}</div>
 							<div class="serial">{{ team.5 }}</div>
-							<div class="serial">{{ team.r }}</div>
+							<div class="serial">{{ team.4 }}</div>
 						</div>
 						{% endfor %}
 					</div>
@@ -288,7 +291,7 @@
 							<div class="serial">{{ team.2 }}</div>
 							<div class="serial">{{ team.3 }}</div>
 							<div class="serial">{{ team.5 }}</div>
-							<div class="serial">{{ team.r }}</div>
+							<div class="serial">{{ team.4 }}</div>
 						</div>
 						{% endfor %}
 					</div>
@@ -323,7 +326,7 @@
 							<div class="serial">{{ team.2 }}</div>
 							<div class="serial">{{ team.3 }}</div>
 							<div class="serial">{{ team.5 }}</div>
-							<div class="serial">{{ team.r }}</div>
+							<div class="serial">{{ team.4 }}</div>
 						</div>
 						{% endfor %}
 					</div>
@@ -358,7 +361,7 @@
 							<div class="serial">{{ team.2 }}</div>
 							<div class="serial">{{ team.3 }}</div>
 							<div class="serial">{{ team.5 }}</div>
-							<div class="serial">{{ team.r }}</div>
+							<div class="serial">{{ team.4 }}</div>
 						</div>
 						{% endfor %}
 					</div>
