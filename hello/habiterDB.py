@@ -71,7 +71,7 @@ move later to commmunity.TEAMS
 def get_community_teams_by_timezone(community, timezone):
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
-    cur.execute("SELECT id, team_name, sent, claimed FROM teams WHERE community = %s AND timezone = %s ORDER BY claimed DESC;", (community, timezone))
+    cur.execute("SELECT id, team_name, sent, claimed, link, label FROM teams WHERE community = %s AND timezone = %s ORDER BY team_name DESC;", (community, timezone))
     teams = cur.fetchall()
     conn.commit()
     cur.close()

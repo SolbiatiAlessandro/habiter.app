@@ -77,18 +77,39 @@ class EditBotForm(forms.Form):
     new_content = forms.CharField()
 
 
+def compute_teams_capacity(teams):
+    """
+    given a set of teams compute how many people can hold 
+    from this query 
+    SELECT id, team_name, sent, claimed, link, label FROM teams
+    """
+    MAX_CAPACITY = 3
+    capacity_info = {
+            'total_teams_len':len(teams),
+            'open_teams_len':0,
+            'open_capacity':0
+            }
+    for team in teams:
+        # team[4]: link
+        if team[4] != "https://habiter.app":
+            # team[3] : claimed
+            if int(team[3]) < MAX_CAPACITY:
+                capacity_info['open_teams_len']+=1
+                capacity_info['open_capacity']+=MAX_CAPACITY - int(team[3])
+    return capacity_info
+
+
 from hello.habiterDB import get_community_content, add_community_content_item, get_community_teams_by_timezone, add_community_team, get_bot_content, edit_bot_content
 def leetcode_admin(request):
-    # TIME HEAVY QUERY
-    teams = {
-        'pst':get_community_teams_by_timezone("Leetcode", "pst"),
-        'est':get_community_teams_by_timezone("Leetcode", "est"),
-        'gmt':get_community_teams_by_timezone("Leetcode", "gmt"),
-        'ist':get_community_teams_by_timezone("Leetcode", "ist"),
-        'gmt8':get_community_teams_by_timezone("Leetcode", "gmt+8"),
-    }
-    #teams = {}
     alert = None
+    teams = {}
+    # TIME HEAVY QUERIES HERE
+    for timezone in ['pst','est','gmt','ist','gmt+8']:
+        teams[timezone] = get_community_teams_by_timezone("Leetcode", timezone)
+        teams[timezone+"_capacity"] = compute_teams_capacity(teams[timezone])
+
+    teams["gmt8"] = teams["gmt+8"]
+    teams["gmt8_capacity"] = teams["gmt+8_capacity"]
 
     input_content_form = InputContentForm(request.POST)
     if input_content_form.is_valid():

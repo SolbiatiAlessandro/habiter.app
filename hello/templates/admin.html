@@ -182,13 +182,25 @@
 	<div class="modal fade" id="view_teams_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
 		<div class="modal-dialog" role="document" style="max-width: 70%">
 		<div class="modal-content">
+
 		  <div class="modal-header">
 			  <h5 class="modal-title" id="exampleModalLabel">{{ admin_title }} Community Content</h5>
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			  <span aria-hidden="true">&times;</span>
 			</button>
 		  </div>
-				<h3>PST</h3>
+
+				  <!-- PST -->
+				<div class="row p-5">
+					<div class="col-4">
+					<h3>PST</h3>
+					</div>
+					<div class="col-sm">
+					<button class="btn btn-secondary">Total number of Teams: {{ teams.pst_capacity.total_teams_len }}</button>
+					<button class="btn btn-secondary">Number of Open Teams: {{ teams.pst_capacity.open_teams_len }}</button>
+					<button class="btn btn-primary">Open Capacity: {{ teams.pst_capacity.open_capacity }}</button>
+					</div>
+				</div>
 				<div class="progress-table-wrap">
 					<div class="progress-table">
 						<div class="table-head">
@@ -196,6 +208,8 @@
 							<div class="serial">team_name</div>
 							<div class="serial">sent</div>
 							<div class="serial">claimed</div>
+							<div class="serial">label</div>
+							<div class="serial">link</div>
 						</div>
 						{% for team in teams.pst %}
 						<div class="table-row">
@@ -203,12 +217,25 @@
 							<div class="serial">{{ team.1 }}</div>
 							<div class="serial">{{ team.2 }}</div>
 							<div class="serial">{{ team.3 }}</div>
+							<div class="serial">{{ team.5 }}</div>
+							<div class="serial">{{ team.r }}</div>
 						</div>
 						{% endfor %}
 					</div>
 				</div>
 				<br>
-				<h3>EST</h3>
+
+				  <!-- EST -->
+				<div class="row p-5">
+					<div class="col-4">
+					<h3>EST</h3>
+					</div>
+					<div class="col-sm">
+					<button class="btn btn-secondary">Total number of Teams: {{ teams.est_capacity.total_teams_len }}</button>
+					<button class="btn btn-secondary">Number of Open Teams: {{ teams.est_capacity.open_teams_len }}</button>
+					<button class="btn btn-primary">Open Capacity: {{ teams.est_capacity.open_capacity }}</button>
+					</div>
+				</div>
 				<div class="progress-table-wrap">
 					<div class="progress-table">
 						<div class="table-head">
@@ -216,6 +243,8 @@
 							<div class="serial">team_name</div>
 							<div class="serial">sent</div>
 							<div class="serial">claimed</div>
+							<div class="serial">label</div>
+							<div class="serial">link</div>
 						</div>
 						{% for team in teams.est %}
 						<div class="table-row">
@@ -223,12 +252,25 @@
 							<div class="serial">{{ team.1 }}</div>
 							<div class="serial">{{ team.2 }}</div>
 							<div class="serial">{{ team.3 }}</div>
+							<div class="serial">{{ team.5 }}</div>
+							<div class="serial">{{ team.r }}</div>
 						</div>
 						{% endfor %}
 					</div>
 				</div>
 				<br>
-				<h3>GMT</h3>
+
+				  <!-- GMT -->
+				<div class="row p-5">
+					<div class="col-4">
+					<h3>GMT</h3>
+					</div>
+					<div class="col-sm">
+					<button class="btn btn-secondary">Total number of Teams: {{ teams.gmt_capacity.total_teams_len }}</button>
+					<button class="btn btn-secondary">Number of Open Teams: {{ teams.gmt_capacity.open_teams_len }}</button>
+					<button class="btn btn-primary">Open Capacity: {{ teams.gmt_capacity.open_capacity }}</button>
+					</div>
+				</div>
 				<div class="progress-table-wrap">
 					<div class="progress-table">
 						<div class="table-head">
@@ -236,6 +278,8 @@
 							<div class="serial">team_name</div>
 							<div class="serial">sent</div>
 							<div class="serial">claimed</div>
+							<div class="serial">label</div>
+							<div class="serial">link</div>
 						</div>
 						{% for team in teams.gmt %}
 						<div class="table-row">
@@ -243,12 +287,25 @@
 							<div class="serial">{{ team.1 }}</div>
 							<div class="serial">{{ team.2 }}</div>
 							<div class="serial">{{ team.3 }}</div>
+							<div class="serial">{{ team.5 }}</div>
+							<div class="serial">{{ team.r }}</div>
 						</div>
 						{% endfor %}
 					</div>
 				</div>
 				<br>
-				<h3>IST</h3>
+
+				  <!-- IST -->
+				<div class="row p-5">
+					<div class="col-4">
+					<h3>IST</h3>
+					</div>
+					<div class="col-sm">
+					<button class="btn btn-secondary">Total number of Teams: {{ teams.ist_capacity.total_teams_len }}</button>
+					<button class="btn btn-secondary">Number of Open Teams: {{ teams.ist_capacity.open_teams_len }}</button>
+					<button class="btn btn-primary">Open Capacity: {{ teams.ist_capacity.open_capacity }}</button>
+					</div>
+				</div>
 				<div class="progress-table-wrap">
 					<div class="progress-table">
 						<div class="table-head">
@@ -256,6 +313,8 @@
 							<div class="serial">team_name</div>
 							<div class="serial">sent</div>
 							<div class="serial">claimed</div>
+							<div class="serial">label</div>
+							<div class="serial">link</div>
 						</div>
 						{% for team in teams.ist %}
 						<div class="table-row">
@@ -263,12 +322,25 @@
 							<div class="serial">{{ team.1 }}</div>
 							<div class="serial">{{ team.2 }}</div>
 							<div class="serial">{{ team.3 }}</div>
+							<div class="serial">{{ team.5 }}</div>
+							<div class="serial">{{ team.r }}</div>
 						</div>
 						{% endfor %}
 					</div>
 				</div>
 				<br>
-				<h3>GMT+8</h3>
+
+				  <!-- GMT+8 -->
+				<div class="row p-5">
+					<div class="col-4">
+					<h3>GMT+8</h3>
+					</div>
+					<div class="col-sm">
+					<button class="btn btn-secondary">Total number of Teams: {{ teams.gmt8_capacity.total_teams_len }}</button>
+					<button class="btn btn-secondary">Number of Open Teams: {{ teams.gmt8_capacity.open_teams_len }}</button>
+					<button class="btn btn-primary">Open Capacity: {{ teams.gmt8_capacity.open_capacity }}</button>
+					</div>
+				</div>
 				<div class="progress-table-wrap">
 					<div class="progress-table">
 						<div class="table-head">
@@ -276,6 +348,8 @@
 							<div class="serial">team_name</div>
 							<div class="serial">sent</div>
 							<div class="serial">claimed</div>
+							<div class="serial">label</div>
+							<div class="serial">link</div>
 						</div>
 						{% for team in teams.gmt8 %}
 						<div class="table-row">
@@ -283,12 +357,14 @@
 							<div class="serial">{{ team.1 }}</div>
 							<div class="serial">{{ team.2 }}</div>
 							<div class="serial">{{ team.3 }}</div>
+							<div class="serial">{{ team.5 }}</div>
+							<div class="serial">{{ team.r }}</div>
 						</div>
 						{% endfor %}
 					</div>
 				</div>
-				</div>
-		  </div>
+				<br>
+
 		</div>
 		</div>
 	</div>
