@@ -68,6 +68,16 @@ def get_community_content(community):
 move later to commmunity.TEAMS
 """
 
+def get_community_teams(community):
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("SELECT id, team_name, sent, claimed, link, label FROM teams WHERE community = %s ORDER BY team_name DESC;", (community, ))
+    teams = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return teams
+
 def get_community_teams_by_timezone(community, timezone):
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()

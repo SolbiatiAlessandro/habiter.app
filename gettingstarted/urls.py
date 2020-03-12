@@ -5,7 +5,7 @@ from django.contrib import admin
 
 admin.autodiscover()
 
-import hello.views
+import hello.views, hello.admin
 
 # To add a new path, first import the app:
 # import blog
@@ -18,6 +18,7 @@ import hello.views
 urlpatterns = [
     path("leetcode", hello.views.leetcode),
     path("leetcode_admin", hello.views.leetcode_admin),
+    path("_leetcode_admin", hello.views._leetcode_admin),
     path("SUS", hello.views.sus),
     path("pioneer", hello.views.pioneer),
     path("invite", hello.views.invite),
@@ -28,6 +29,10 @@ urlpatterns = [
     path("", hello.views.index, name="index"),
     path("db/", hello.views.db, name="db"),
     path("admin/", admin.site.urls),
+    url("community/home", hello.views._leetcode_admin, name="community_home"),
+    url("community/users", hello.admin.users, name="community_users"),
+    url("community/teams", hello.admin.teams, name="community_teams"),
+    url("community/content", hello.admin.content, name="community_content"),
     url(r'^ajax/leetcode_match/$', hello.views.leetcode_match, name='leetcode_match'),
     url(r'^ajax/leetcode_invite_sent_confirmation/$', hello.views.leetcode_invite_sent_confirmation, name='leetcode_invite_sent_confirmation'),
     url(r'^ajax/founders_match/$', hello.views.founders_match, name='founders_match'),

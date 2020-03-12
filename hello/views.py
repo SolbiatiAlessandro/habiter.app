@@ -174,6 +174,9 @@ def leetcode_admin(request):
                 }
             )
 
+def _leetcode_admin(request):
+    return render(request, "admin/index.html")
+
 
 from hello.matching import get_community_team_invite, sent_invite
 def leetcode_match(request):
