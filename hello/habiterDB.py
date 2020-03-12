@@ -71,7 +71,7 @@ move later to commmunity.TEAMS
 def get_community_teams(community):
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
-    cur.execute("SELECT id, team_name, sent, claimed, link, label, timezone, session_time FROM teams WHERE community = %s ORDER BY team_name DESC;", (community, ))
+    cur.execute("SELECT id, team_name, sent, claimed, link, label, timezone, session_time, active FROM teams WHERE community = %s ORDER BY team_name DESC;", (community, ))
     teams = cur.fetchall()
     conn.commit()
     cur.close()

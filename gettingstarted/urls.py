@@ -29,7 +29,7 @@ urlpatterns = [
     path("", hello.views.index, name="index"),
     path("db/", hello.views.db, name="db"),
     path("admin/", admin.site.urls),
-    url("community/home", hello.views._leetcode_admin, name="community_home"),
+    url("community/home", hello.admin.index, name="community_home"),
     url("community/users", hello.admin.users, name="community_users"),
     url("community/teams", hello.admin.teams, name="community_teams"),
     url("community/content", hello.admin.content, name="community_content"),

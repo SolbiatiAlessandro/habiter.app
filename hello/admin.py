@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django import forms
 import hello.habiterDB as db
 import psycopg2
+import requests
+from requests.auth import HTTPBasicAuth
+import logging
+logger = logging.getLogger(__name__)
 
 LEETCODE_LABELS = (
     ('Easy', 'Leetcode Easy Problem'),
@@ -127,6 +131,45 @@ def teams(request):
         'error':error
         })
 
+def _get_amplitude_chart(chart_id):
+    """
+    Habiter DAU: yzev0y5
+    """
+    data = requests.get('https://amplitude.com/api/3/chart/'+chart_id+'/query', auth=HTTPBasicAuth("037a7d00104197145a748cc912540b81", "c3a810b9cc0f1f0bddec7a7ecb710884"))
+    return data.json()
+
+def amplitude__Habiter_DAU():
+    """
+    return list of timeseries
+    return [ [(#, setId, value), .. ] .. ]
+    """
+    json_data = _get_amplitude_chart('yzev0y5')
+    timeseries = json_data['data']['series']
+    labels = json_data['data']['xValues']
+    return timeseries, labels
+    
+
+def index(request):
+    alert, error =  None, None
+    teams = db.get_community_teams("Leetcode")
+    capacity = {
+            'overall':compute_teams_capacity(teams),
+            }
+    Habiter_DAU, xlabels = amplitude__Habiter_DAU()
+    amplitude = {
+            'DAU_screenshots': [*map(lambda x: x['value'], Habiter_DAU[0])],
+            'DAU': [*map(lambda x: x['value'], Habiter_DAU[1])],
+            'xlabels':xlabels,
+    }
+    logger.warning(amplitude)
+    return render(request, "admin/index.html", {
+        'amplitude':amplitude,
+        'teams':teams,
+        'capacity':capacity,
+        'alert':alert,
+        'error':error
+        })
+
 def users(request):
     alert, error = None, None
     users = db.get_community_users("Leetcode")
@@ -135,3 +178,4 @@ def users(request):
         'alert':alert,
         'error':error
         })
+
