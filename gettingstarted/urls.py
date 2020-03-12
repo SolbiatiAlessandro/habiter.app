@@ -29,6 +29,7 @@ urlpatterns = [
     path("", hello.views.index, name="index"),
     path("db/", hello.views.db, name="db"),
     path("admin/", admin.site.urls),
+    url("community/landing", hello.admin.landing, name="community_landing"),
     url("community/home", hello.admin.index, name="community_home"),
     url("community/users", hello.admin.users, name="community_users"),
     url("community/teams", hello.admin.teams, name="community_teams"),

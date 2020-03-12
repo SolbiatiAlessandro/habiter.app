@@ -179,3 +179,8 @@ def users(request):
         'error':error
         })
 
+def landing(request):
+    return render(request, "landing.html")
+
+
+
