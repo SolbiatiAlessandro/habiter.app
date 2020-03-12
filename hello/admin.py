@@ -53,6 +53,7 @@ class LeetcodeTeamForm(TeamForm):
     label = forms.ChoiceField(choices=LEETCODE_LABELS)
 
 def teams(request):
+    alert, error =  None, None
     team_form = LeetcodeTeamForm(request.POST)
     if team_form.is_valid():
         team_invite = team_form.cleaned_data['team_invite']
@@ -77,4 +78,7 @@ def teams(request):
         })
 
 def users(request):
-    return render(request, "users.html")
+    users = db.get_community_users("Leetcode")
+    return render(request, "users.html", {
+        'users':users
+        })

@@ -71,7 +71,7 @@ move later to commmunity.TEAMS
 def get_community_teams(community):
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
-    cur.execute("SELECT id, team_name, sent, claimed, link, label FROM teams WHERE community = %s ORDER BY team_name DESC;", (community, ))
+    cur.execute("SELECT id, team_name, sent, claimed, link, label, timezone, session_time FROM teams WHERE community = %s ORDER BY team_name DESC;", (community, ))
     teams = cur.fetchall()
     conn.commit()
     cur.close()
@@ -121,6 +121,20 @@ def add_community_team(
     conn.commit()
     cur.close()
     conn.close()
+
+
+"""
+community.USERS
+"""
+def get_community_users(community):
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("SELECT username, MIN(user_id),  COUNT(*) as activity FROM user_actions WHERE communtiy = %s GROUP BY username ORDER BY activity DESC;", (community, ))
+    users = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return users
 
 
 """
