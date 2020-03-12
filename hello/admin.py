@@ -52,6 +52,42 @@ class TeamForm(forms.Form):
 class LeetcodeTeamForm(TeamForm):
     label = forms.ChoiceField(choices=LEETCODE_LABELS)
 
+def compute_teams_capacity(teams, name='Total Capacity', timezone=None):
+    """
+    timezone=None for overall capacity
+    timezone='pst' for timezone specific capacity
+
+
+    given a set of teams compute how many people can hold 
+    from this query 
+    SELECT id, team_name, sent, claimed, link, label, timezone, session_time FROM teams
+
+    returns
+        'total_teams_len':len(teams),
+        'open_teams_len':0,
+        'open_capacity':0
+    """
+    MAX_CAPACITY = 3
+    capacity_info = {
+        'total_teams_len':len(teams),
+        'open_teams_len':0,
+        'open_capacity':0,
+        'name':name
+    }
+    if timezone:
+        capacity_info['total_teams_len'] = len([team for team in teams if team[6] == timezone])
+    for team in teams:
+        # team[4]: link
+        if (team[4] != "https://habiter.app") and (not timezone or (timezone and team[6] == timezone)):
+            # team[3] : claimed
+            if int(team[3]) < MAX_CAPACITY:
+                capacity_info['open_teams_len']+=1
+                capacity_info['open_capacity']+=MAX_CAPACITY - int(team[3])
+
+    # this  is to pass to progress bar
+    capacity_info['open_teams_ratio'] = str(capacity_info['open_teams_len']/capacity_info['total_teams_len'] * 100)+"%"
+    return capacity_info
+
 def teams(request):
     alert, error =  None, None
     team_form = LeetcodeTeamForm(request.POST)
@@ -70,15 +106,32 @@ def teams(request):
         alert = "Content added succesfully: "+" | ".join([team_name, team_invite, timezone, label])
 
     teams = db.get_community_teams("Leetcode")
+    capacity = {
+            'overall':compute_teams_capacity(teams),
+            }
+    for timezone in ['pst','est','gmt','ist','gmt+8']:
+        capacity[timezone] = compute_teams_capacity(
+                teams, 
+                timezone=timezone,
+                name=timezone+" capacity"
+                )
+    capacity['gmt8'] = capacity['gmt+8']
+
+    print("capacity")
+    print(capacity)
     return render(request, "teams.html", {
         'teams':teams,
+        'capacity':capacity,
         'team_form':team_form,
         'alert':alert,
         'error':error
         })
 
 def users(request):
+    alert, error = None, None
     users = db.get_community_users("Leetcode")
     return render(request, "users.html", {
-        'users':users
+        'users':users,
+        'alert':alert,
+        'error':error
         })

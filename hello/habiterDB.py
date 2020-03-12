@@ -129,7 +129,7 @@ community.USERS
 def get_community_users(community):
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
-    cur.execute("SELECT username, MIN(user_id),  COUNT(*) as activity FROM user_actions WHERE communtiy = %s GROUP BY username ORDER BY activity DESC;", (community, ))
+    cur.execute("SELECT MIN(user_id),username, COUNT(*) as activity FROM user_actions WHERE community = %s GROUP BY username ORDER BY activity DESC;", (community, ))
     users = cur.fetchall()
     conn.commit()
     cur.close()

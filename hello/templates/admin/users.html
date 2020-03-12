@@ -8,16 +8,10 @@
           <!-- Page Heading -->
 		  <div class="d-flex justify-content-between">
 			  <div>
-				  <h1 class="h3 mb-2 text-gray-800">Teams</h1>
-				  <p class="mb-4">Here is the teamss from your community.</p>
+				  <h1 class="h3 mb-2 text-gray-800">Users</h1>
+				  <p class="mb-4">Here is the users from your community.</p>
 			  </div>
 			  <div>
-				  <button href="#" class="btn btn-primary btn-icon-split btn-lg" data-toggle="modal" data-target="#upload_content_modal">
-					<span class="icon text-white-50">
-					  <i class="fas fa-plus"></i>
-					</span>
-					<span class="text">Add Team</span>
-				  </button>
 			  </div>
 		  </div>
 
@@ -35,7 +29,7 @@
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Existing Teams</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Active Users</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -43,35 +37,23 @@
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>Team Name</th>
-                      <th>Users</th>
-                      <th>Invite Link</th>
-                      <th>Label</th>
-                      <th>Timezone</th>
-                      <th>Session Time</th>
+                      <th>Username</th>
+                      <th>Number of Actions</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
                       <th>#</th>
-                      <th>Team Name</th>
-                      <th>Users</th>
-                      <th>Invite Link</th>
-                      <th>Label</th>
-                      <th>Timezone</th>
-                      <th>Session Time</th>
+                      <th>Username</th>
+                      <th>Number of Actions</th>
                     </tr>
                   </tfoot>
                   <tbody>
-					{% for team in teams %}
+					{% for user in users %}
 					<tr>
-						<td>{{ team.0 }}</td>
-						<td>{{ team.1 }}</td>
-						<td>{{ team.3 }}</td>
-						<td>{{ team.4 }}</td>
-						<td>{{ team.5 }}</td>
-						<td>{{ team.6 }}</td>
-						<td>{{ team.7 }}</td>
+						<td>{{ user.0 }}</td>
+						<td>{{ user.1 }}</td>
+						<td>{{ user.2 }}</td>
 					</tr>
 					{% endfor %}
                   </tbody>

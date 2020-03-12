@@ -1,0 +1,28 @@
+  <div class="card border-left-success {% if capacity.open_capacity < 20 %}border-left-warning{% endif %} {% if capacity.open_capacity < 10 %}border-left-danger{% endif %} shadow h-100 py-2">
+	<div class="card-body">
+	  <div class="row no-gutters align-items-center">
+		<div class="col mr-2">
+			<div class="text-xs font-weight-bold text-success {% if capacity.open_capacity < 20 %}text-warning{% endif %} {% if capacity.open_capacity < 10 %}text-danger{% endif %} text-uppercase mb-1">{{ capacity.name }}</div>
+		  <div class="row no-gutters align-items-center">
+			<div class="col-auto">
+				<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ capacity.open_capacity }}</div>
+			</div>
+			<div class="col">
+			  <div class="progress progress-sm mr-2">
+				  <div class="progress-bar bg-success {% if capacity.open_capacity < 20 %}bg-warning{% endif %} {% if capacity.open_capacity < 10 %}bg-danger{% endif %}" role="progressbar" style="width: {{capacity.open_teams_ratio}}" ></div>
+			  </div>
+			</div>
+		  </div>
+		  <div>
+			  <a>Total Teams: <b>{{ capacity.total_teams_len }}</b></a>
+			  <p>Open Teams: <b>{{ capacity.open_teams_len }}</b></p>
+		  </div>
+		</div>
+		<!--
+		<div class="col-auto">
+		  <i class="fas fa-align-right fa-2x text-gray-300"></i>
+		</div>
+		-->
+	  </div>
+	</div>
+  </div>
