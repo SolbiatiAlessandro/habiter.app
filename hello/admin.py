@@ -151,6 +151,24 @@ def amplitude__Habiter_DAU():
 
 def index(request):
     alert, error =  None, None
+    loginForm = LoginForm(request.POST)
+    if loginForm.is_valid():
+        community = loginForm.cleaned_data.get('community')
+        email = loginForm.cleaned_data.get('email')
+
+        admin = db.get_community_admin(community)
+        if not admin or admin[0] != email:
+            return render(request, "login.html", {
+                'login_form':loginForm,
+                'alert':alert,
+                'error':"Sorry, looks like that {} is not an admin for {}".format(email, community)
+                })
+
+        request.session['community'] = community 
+        request.session['email'] = email
+
+    community = request.session.get('community', '(oops.. no community found)')
+
     teams = db.get_community_teams("Leetcode")
     capacity = {
             'overall':compute_teams_capacity(teams),
@@ -166,6 +184,7 @@ def index(request):
         'amplitude':amplitude,
         'teams':teams,
         'capacity':capacity,
+        'community':community,
         'alert':alert,
         'error':error
         })
@@ -181,6 +200,24 @@ def users(request):
 
 def landing(request):
     return render(request, "landing.html")
+
+class LoginForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+        self.fields['community'].choices = db.get_communities()
+    email = forms.EmailField()
+    community = forms.ChoiceField()
+
+def login(request):
+
+    alert, error = None, None
+    loginForm = LoginForm(request.POST)
+    return render(request, "login.html", {
+        'login_form':loginForm, 
+        'alert':alert,
+        'error':error
+        }
+        )
 
 
 

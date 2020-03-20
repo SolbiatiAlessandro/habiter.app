@@ -17,6 +17,13 @@ ALTER TABLE leetcode_teams ADD CONSTRAINT unique_team_name UNIQUE (team_name);
 INSERT INTO leetcode_teams(team_name, link, timezone) SELECT DISTINCT team_id, 'https://habiter.app', 'gmt' FROM leetcode_users ON CONFLICT ON CONSTRAINT unique_team_name DO NOTHING;
 INSERT 0 11
 
+CREATE TABLE bots(
+	id VARCHAR(100),
+	community(VARCHAR(200),
+	description TEXT,
+	content TEXT,
+)
+
 CREATE TABLE leetcode_users(
 	id serial PRIMARY KEY,
     name VARCHAR(200),

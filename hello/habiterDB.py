@@ -16,6 +16,27 @@ logger = logging.getLogger(__name__)
 move later to community.CONTENT
 """
 
+def get_communities():
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("SELECT name, name FROM communities;")
+    content = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return content
+
+def get_community_admin(community):
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("SELECT admin FROM communities WHERE name = %s", (community, ))
+    content = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return content
+
+
 def add_community_content_item(link, label, community):
     """
     """
