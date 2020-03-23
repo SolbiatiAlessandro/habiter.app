@@ -19,6 +19,12 @@ NO_EMAIL = "(oops.. no email found)"
 HABITERBOT = 'habiterbot'
 
 class InputContentForm(forms.Form):
+    def __init__(self, *args, labels=None):
+        super(InputContentForm, self).__init__(*args)
+        if not labels:
+            self.fields['label'].choices = [['No Label', 'No Label']]
+        else:
+            self.fields['label'].choices = labels
     link = forms.CharField()
     label = forms.ChoiceField(choices=LEETCODE_LABELS)
 
@@ -30,7 +36,6 @@ class EditBotForm(forms.Form):
     content = forms.CharField( widget=forms.Textarea )
 
 def content(request):
-    input_content_form = InputContentForm(request.POST)
     alert, error = None, None
     community = request.session.get('community', NO_COMMUNITY)
     email = request.session.get('email', NO_EMAIL)
@@ -38,6 +43,11 @@ def content(request):
         error = "oops.. looks like we didn't find your community/email properly. If this is unexpected call +44779648936 to get it fixed ASAP"
 
     # Accountability Session Material
+    _content_labels = db.get_community_content_labels(community)
+    content_labels = [(label[0], label[0]) for label in _content_labels]
+    # content_labels might be None, in case put No Label
+    input_content_form = InputContentForm(request.POST, labels=content_labels)
+
     if input_content_form.is_valid():
         link = input_content_form.cleaned_data.get('link')
         label = input_content_form.cleaned_data.get('label')
@@ -247,11 +257,15 @@ def index(request):
             'xlabels': [],
         }
     logger.warning(amplitude)
+    # getting master group link for promotion
+    master_team_info = db.get_community_master_team(community)
+    community_master_group_link = master_team_info[4] if master_team_info else '(no master team)'
     return render(request, "admin/index.html", {
         'amplitude':amplitude,
         'teams':teams,
         'capacity':capacity,
         'community':community,
+        'community_master_group_link':community_master_group_link,
         'email':email,
         'alert':alert,
         'error':error

@@ -8,8 +8,7 @@ import json
 from threading import Timer
 from psycopg2.extras import RealDictCursor, DictCursor
 
-DATABASE_URL = os.environ['DATABASE_URL']
-
+DATABASE_URL = os.environ['DATABASE_URL'] 
 logger = logging.getLogger(__name__)
 
 """
@@ -64,6 +63,16 @@ def _get_community_content(community):
     conn.close()
     return content
 
+def get_community_content_labels(community):
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("SELECT DISTINCT(label) FROM content WHERE community = %s;", (community,))
+    content = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return content
+
 def get_community_content(community):
     """
     like _get_community_content
@@ -100,6 +109,16 @@ def get_community_teams(community):
     cur.close()
     conn.close()
     return teams
+
+def get_community_master_team(community):
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("SELECT id, team_name, sent, claimed, link, label, timezone, session_time, active FROM teams WHERE community = %s AND label = 'Master' ORDER BY team_name DESC;", (community, ))
+    teams = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return teams[0] if teams else None
 
 def get_community_teams_by_timezone(community, timezone):
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
@@ -144,6 +163,7 @@ def add_community_team(
     conn.commit()
     cur.close()
     conn.close()
+
 
 
 """
