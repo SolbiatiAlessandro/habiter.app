@@ -7,8 +7,8 @@
           <!-- Page Heading -->
 		  <div class="d-flex justify-content-between">
 			  <div>
-				  <h1 class="h3 mb-2 text-gray-800">Content</h1>
-				  <p class="mb-4">Here is the content from your community.</p>
+				  <h1 class="h3 mb-2 text-gray-800">{{community}} Content</h1>
+				  <p class="mb-4">Here is the content from your community {{community}}, you can view the <b>Accountability Session Material</b> and also <b>HabiterBot content</b>.</p>
 			  </div>
 			  <div>
 				  <button href="#" class="btn btn-primary btn-icon-split btn-lg" data-toggle="modal" data-target="#upload_content_modal">
@@ -31,10 +31,10 @@
 			</div>
 			{% endif %}
 
-          <!-- DataTales Example -->
+          <!-- DataTales -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Uploaded Content</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Accountability Sessions Material</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -69,6 +69,37 @@
               </div>
             </div>
           </div>
+          <!-- /DataTales -->
+
+          <!-- DataTales -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">HabiterBot content</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Description</th>
+                      <th>Content</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+					{% for content_item in bot_content %}
+					<tr>
+						<td>{{ content_item.0 }}</td>
+						<td>{{ content_item.1 }}</td>
+						<td>{{ content_item.2 }}</td>
+					</tr>
+					{% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- /DataTales -->
 
         </div>
         <!-- /.container-fluid -->
@@ -102,7 +133,19 @@
 				</form>
 			</div>
 			<div class="col-sm border-left" >
-				<p>Upload by API coming soon</p>
+				<p>Edit Bots Content</p>
+				<form action="/community/content" method="POST">
+					{% csrf_token %}
+					<div class="form-group">
+						<label for="{{ edit_bot_form.description.id_for_label}}">Description ID:</label>
+						{{edit_bot_form.description}}
+					</div>
+					<div class="form-group">
+						<label for="{{ edit_bot_form.content.id_for_label}}">New Content:</label>
+						{{edit_bot_form.content}}
+					</div>
+					<input class="btn btn-primary" type="submit" value="Submit">
+				</form>
 			</div>
 		</div>
 	  </div>

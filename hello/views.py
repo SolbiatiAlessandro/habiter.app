@@ -49,6 +49,12 @@ def leetcode(request):
     leaderboard = db__get_leaderboard()
     return render(request, "leetcode.html", {'leaderboard': leaderboard})
 
+def join(request, community=None):
+    if not community:
+        return render(request, "leetcode.html", {'leaderboard': leaderboard})
+    # TODO implement leaderboard like in leetcode
+    return render(request, "join.html", {"community":community})
+
 from django import forms
 #DEPRECATED
 class LeetcodeProblemsForm(forms.Form):
@@ -204,10 +210,59 @@ def leetcode_match(request):
         logging.error(e)
         data = {
             'team_id': -1,
-            'team_invite_link': 'https://t.me/leetcode_feb_2019',
+            'team_invite_link': 'https://t.me/habiter_rescue_me',
             'team_name': 'FEB 2020 TEAM'
         }
         return JsonResponse(data)
+
+def match(request):
+    """
+    matches a new team for leetcode
+
+    request: 
+    {
+    'timezone':'pst'
+    }
+    """
+    # THIS IS UGLY BUT NEED TO CATCH ALL EXCPETION, OTHERWISE WE LOSE USERS
+    try:
+        timezone = request.GET.get('timezone', None)
+        community = request.GET.get('community', None)
+        invite = get_community_team_invite(community, timezone)
+        (team_id, team_invite_link, team_name) = invite
+        data = {
+            'team_id': team_id,
+            'team_invite_link': team_invite_link,
+            'team_name': team_name
+        }
+        return JsonResponse(data)
+    except Exception as e:
+        logging.error("!!ERROR in match")
+        logging.error(e)
+        data = {
+            'team_id': -1,
+            'team_invite_link': 'https://t.me/habiter_rescue_me',
+            'team_name': 'Your next team'
+        }
+        return JsonResponse(data)
+
+def invite_sent_confirmation(request):
+    """
+    confirmed that invite was sent, we assume the user
+    joined the event 
+
+    request:{
+    'team_id':2
+    }
+    """
+    team_id = request.GET.get('team_id', None)
+    if not team_id:
+        logger.error("ERROR!!!!send confirmation is breaking because no team_id provided")
+        logger.error(request.GET)
+        return JsonResponse({'result':'ERROR: no team_id provided'})
+
+    sent_invite(team_id)
+    return JsonResponse({'result':'SUCCESS'})
 
 def leetcode_invite_sent_confirmation(request):
     """

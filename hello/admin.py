@@ -13,13 +13,31 @@ LEETCODE_LABELS = (
     ('Hard', 'Leetcode Hard Problem')
     )
 
+NO_COMMUNITY = "(oops.. no community found)"
+NO_EMAIL = "(oops.. no email found)"
+
+HABITERBOT = 'habiterbot'
+
 class InputContentForm(forms.Form):
     link = forms.CharField()
     label = forms.ChoiceField(choices=LEETCODE_LABELS)
 
+class EditBotForm(forms.Form):
+    def __init__(self, *args, descriptions=None):
+        super(EditBotForm, self).__init__(*args)
+        self.fields['description'].choices = descriptions
+    description = forms.ChoiceField()
+    content = forms.CharField( widget=forms.Textarea )
+
 def content(request):
     input_content_form = InputContentForm(request.POST)
     alert, error = None, None
+    community = request.session.get('community', NO_COMMUNITY)
+    email = request.session.get('email', NO_EMAIL)
+    if community == NO_COMMUNITY or email == NO_EMAIL:
+        error = "oops.. looks like we didn't find your community/email properly. If this is unexpected call +44779648936 to get it fixed ASAP"
+
+    # Accountability Session Material
     if input_content_form.is_valid():
         link = input_content_form.cleaned_data.get('link')
         label = input_content_form.cleaned_data.get('label')
@@ -27,7 +45,7 @@ def content(request):
             response =  db.add_community_content_item(
                     link,
                     label,
-                    'Leetcode'
+                    community
                     )
             alert = "Content uploaded succesfully, "+"|".join([link, label])
         except psycopg2.Error as e:
@@ -39,13 +57,42 @@ def content(request):
             else:
                 error = "Oops.. Looks like there is some problem in uploading your content:"
                 error += "\n\n"+e.pgerror
+    content = db.get_community_content(community)
 
-    content = db.get_community_content("Leetcode")
+    # Bots Content
+    bot_content = db.get_bot_content_by_community(community) 
+    # id, description, content
+    descriptions = [(content[1], content[1]) for content in bot_content]
+    edit_bot_form = EditBotForm(request.POST, descriptions=descriptions)
+
+    # Accountability Session Material
+    if edit_bot_form.is_valid():
+        description = edit_bot_form.cleaned_data.get('description')
+        content = edit_bot_form.cleaned_data.get('content')
+        try:
+            response =  db.edit_bot_content_from_description(
+                    description,
+                    community,
+                    content
+                )
+            if response == 1:
+                alert = "Bot edit successful, "+"|".join([description, content])
+            else:
+                error = "ehmm.. maybe the edit didn't work since we just updated {} rows".format(response) 
+        except psycopg2.Error as e:
+            error = "Oops.. Looks like there is some problem in uploading your content:"
+            error += "\n\n"+e.pgerror
+
+
     return render(request, "content.html", {
         'community_content': content,
         'input_content_form': input_content_form,
+        'edit_bot_form': edit_bot_form,
         'alert':alert,
-        'error':error
+        'error':error,
+        'community':community,
+        'email':email,
+        'bot_content':bot_content
         })
 
 class TeamForm(forms.Form):
@@ -89,11 +136,15 @@ def compute_teams_capacity(teams, name='Total Capacity', timezone=None):
                 capacity_info['open_capacity']+=MAX_CAPACITY - int(team[3])
 
     # this  is to pass to progress bar
-    capacity_info['open_teams_ratio'] = str(capacity_info['open_teams_len']/capacity_info['total_teams_len'] * 100)+"%"
+    capacity_info['open_teams_ratio'] = str(capacity_info['open_teams_len']/capacity_info['total_teams_len'] * 100)+"%"  if capacity_info['total_teams_len'] > 0 else 0
     return capacity_info
 
 def teams(request):
     alert, error =  None, None
+    community = request.session.get('community', NO_COMMUNITY)
+    email = request.session.get('email', NO_EMAIL)
+    if community == NO_COMMUNITY or email == NO_EMAIL:
+        error = "oops.. looks like we didn't find your community/email properly. If this is unexpected call +44779648936 to get it fixed ASAP"
     team_form = LeetcodeTeamForm(request.POST)
     if team_form.is_valid():
         team_invite = team_form.cleaned_data['team_invite']
@@ -101,7 +152,7 @@ def teams(request):
         timezone = team_form.cleaned_data['timezone']
         label = team_form.cleaned_data.get('label')
         response = add_community_team(
-                "Leetcode",
+                community,
                 team_invite,
                 team_name,
                 timezone,
@@ -109,7 +160,7 @@ def teams(request):
                 )
         alert = "Content added succesfully: "+" | ".join([team_name, team_invite, timezone, label])
 
-    teams = db.get_community_teams("Leetcode")
+    teams = db.get_community_teams(community)
     capacity = {
             'overall':compute_teams_capacity(teams),
             }
@@ -128,7 +179,9 @@ def teams(request):
         'capacity':capacity,
         'team_form':team_form,
         'alert':alert,
-        'error':error
+        'error':error,
+        'community':community,
+        'email':email
         })
 
 def _get_amplitude_chart(chart_id):
@@ -157,7 +210,9 @@ def index(request):
         email = loginForm.cleaned_data.get('email')
 
         admin = db.get_community_admin(community)
-        if not admin or admin[0] != email:
+        if not admin or admin[0][0] != email:
+            logger.warning("Warning! Login with wrong credentials")
+            logger.warning(email, community)
             return render(request, "login.html", {
                 'login_form':loginForm,
                 'alert':alert,
@@ -167,35 +222,54 @@ def index(request):
         request.session['community'] = community 
         request.session['email'] = email
 
-    community = request.session.get('community', '(oops.. no community found)')
+    community = request.session.get('community', NO_COMMUNITY)
+    email = request.session.get('email', NO_EMAIL)
+    if community == NO_COMMUNITY or email == NO_EMAIL:
+        error = "oops.. looks like we didn't find your community/email properly. If this is unexpected call +44779648936 to get it fixed ASAP"
 
-    teams = db.get_community_teams("Leetcode")
+    teams = db.get_community_teams(community)
     capacity = {
             'overall':compute_teams_capacity(teams),
             }
-    Habiter_DAU, xlabels = amplitude__Habiter_DAU()
-    amplitude = {
-            'DAU_screenshots': [*map(lambda x: x['value'], Habiter_DAU[0])],
-            'DAU': [*map(lambda x: x['value'], Habiter_DAU[1])],
-            'xlabels':xlabels,
-    }
+
+    if community == "Leetcode":
+        Habiter_DAU, xlabels = amplitude__Habiter_DAU()
+        amplitude = {
+                'DAU_screenshots': [*map(lambda x: x['value'], Habiter_DAU[0])],
+                'DAU': [*map(lambda x: x['value'], Habiter_DAU[1])],
+                'xlabels':xlabels,
+        }
+    else:
+        # TODO: we need to put activity graph cross-community
+        amplitude = {
+            'DAU_screenshots': [],
+            'DAU': [],
+            'xlabels': [],
+        }
     logger.warning(amplitude)
     return render(request, "admin/index.html", {
         'amplitude':amplitude,
         'teams':teams,
         'capacity':capacity,
         'community':community,
+        'email':email,
         'alert':alert,
         'error':error
         })
 
 def users(request):
     alert, error = None, None
-    users = db.get_community_users("Leetcode")
+    community = request.session.get('community', NO_COMMUNITY)
+    email = request.session.get('email', NO_EMAIL)
+    if community == NO_COMMUNITY or email == NO_EMAIL:
+        error = "oops.. looks like we didn't find your community/email properly. If this is unexpected call +44779648936 to get it fixed ASAP"
+    users = db.get_community_users(community)
     return render(request, "users.html", {
         'users':users,
         'alert':alert,
-        'error':error
+        'error':error,
+        'community':community,
+        'email':email
         })
 
 def landing(request):
@@ -209,7 +283,6 @@ class LoginForm(forms.Form):
     community = forms.ChoiceField()
 
 def login(request):
-
     alert, error = None, None
     loginForm = LoginForm(request.POST)
     return render(request, "login.html", {
@@ -217,7 +290,4 @@ def login(request):
         'alert':alert,
         'error':error
         }
-        )
-
-
-
+    )

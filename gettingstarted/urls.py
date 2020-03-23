@@ -29,6 +29,7 @@ urlpatterns = [
     path("", hello.views.index, name="index"),
     path("db/", hello.views.db, name="db"),
     path("admin/", admin.site.urls),
+    path("join/<str:community>", hello.views.join),
     url("community/login", hello.admin.login, name="community_login"),
     url("community/landing", hello.admin.landing, name="community_landing"),
     url("community/home", hello.admin.index, name="community_home"),
@@ -36,7 +37,9 @@ urlpatterns = [
     url("community/teams", hello.admin.teams, name="community_teams"),
     url("community/content", hello.admin.content, name="community_content"),
     url(r'^ajax/leetcode_match/$', hello.views.leetcode_match, name='leetcode_match'),
+    url(r'^ajax/match/$', hello.views.match, name='match'),
     url(r'^ajax/leetcode_invite_sent_confirmation/$', hello.views.leetcode_invite_sent_confirmation, name='leetcode_invite_sent_confirmation'),
+    url(r'^ajax/invite_sent_confirmation/$', hello.views.invite_sent_confirmation, name='invite_sent_confirmation'),
     url(r'^ajax/founders_match/$', hello.views.founders_match, name='founders_match'),
     url(r'^ajax/founders_invite_sent_confirmation/$', hello.views.founders_invite_sent_confirmation, name='founders_invite_sent_confirmation'),
 ]

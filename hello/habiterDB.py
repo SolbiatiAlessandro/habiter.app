@@ -27,6 +27,7 @@ def get_communities():
     return content
 
 def get_community_admin(community):
+    logger.warning("getting community admin for "+str(community))
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
     cur.execute("SELECT admin FROM communities WHERE name = %s", (community, ))
@@ -34,6 +35,7 @@ def get_community_admin(community):
     conn.commit()
     cur.close()
     conn.close()
+    logger.warning(content)
     return content
 
 
@@ -162,6 +164,16 @@ def get_community_users(community):
 community.BOTS
 """
 
+def get_bot_content_by_community(community):
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("SELECT id, description, content FROM bots WHERE community = %s;", (community, ))
+    content = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return content
+
 def get_bot_content():
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
@@ -179,3 +191,17 @@ def edit_bot_content(content_id, new_content):
     conn.commit()
     cur.close()
     conn.close()
+
+def edit_bot_content_from_description(
+        description, 
+        community,
+        new_content
+        ):
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("UPDATE bots SET content = %s WHERE description = %s AND community = %s;", (new_content, description, community))
+    result = cur.rowcount
+    conn.commit()
+    cur.close()
+    conn.close()
+    return result

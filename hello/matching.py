@@ -41,6 +41,8 @@ def get_community_team_invite(community, timezone):
     ALWAYS RETURNS AN INVITE
     return (team_id, team_invite_link, team_name)
     """
+    logging.warning("get_community_team_invite")
+    logging.warning((community, timezone))
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
     # teams that have habiter.app in the name means that 
@@ -49,9 +51,9 @@ def get_community_team_invite(community, timezone):
     teams = cur.fetchall()
 
     if not teams:
-        logging.warning("!!!! QUERY ERROR: no teams found")
+        logging.warning("!!!! QUERY ERROR: no teams found, get_community_team_invite")
         logging.warning(timezone)
-        return (1, "https://t.me/joinchat/NLhKahiHwJoXczR7n-Kkwg", "Leetcode Team 508")
+        return (1, "https://t.me/habiter_rescue_me", community+" Team")
     invite = _autoscale_get_invite(teams)
 
     conn.commit()

@@ -11,8 +11,8 @@
   <meta name="author" content="">
 
   <title>{% block title %}Habiter{% endblock title %}</title>
-	<script src="{% static "vendor/chart.js/Chart.min.js" %}"></script>
 
+  <script src="{% static "vendor/chart.js/Chart.min.js" %}"></script>
   <script src="{% static "js/demo/chart-area-demo.js" %}"></script>
 
   <!-- Custom fonts for this template-->
@@ -255,7 +255,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Oana Florescu</span>
+				  <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{email}}</span>
                 <img class="img-profile rounded-circle" src="https://media-exp1.licdn.com/dms/image/C4D03AQFGi7koGHg_MQ/profile-displayphoto-shrink_800_800/0?e=1589414400&v=beta&t=h9KqY7U2b9RNRAmWOIj_RG6QLuEHy4D_x2d9qrtzi64">
               </a>
               <!-- Dropdown - User Information -->
