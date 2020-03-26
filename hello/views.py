@@ -229,11 +229,13 @@ def match(request):
         timezone = request.GET.get('timezone', None)
         community = request.GET.get('community', None)
         invite = get_community_team_invite(community, timezone)
-        (team_id, team_invite_link, team_name) = invite
+        (team_id, team_invite_link, team_name, chat_id, did_it_scale) = invite
         data = {
             'team_id': team_id,
             'team_invite_link': team_invite_link,
-            'team_name': team_name
+            'team_name': team_name,
+            'chat_id': chat_id,
+            'reached_full_capacity': did_it_scale
         }
         return JsonResponse(data)
     except Exception as e:
@@ -242,7 +244,9 @@ def match(request):
         data = {
             'team_id': -1,
             'team_invite_link': 'https://t.me/habiter_rescue_me',
-            'team_name': 'Your next team'
+            'team_name': 'Your next team',
+            'chat_id': -1,
+            'reached_full_capacity': False,
         }
         return JsonResponse(data)
 

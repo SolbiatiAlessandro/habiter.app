@@ -28,12 +28,15 @@ def _autoscale_get_invite(teams):
     while not invite:
         logging.warning("[auto-scaling matching algorithm] MAX_TEAM_PARTICIPANTS = {}".format(MAX_TEAM_PARTICIPANTS))
         for team in teams: # made sure above teams is never empty
-            (_id, _link, _name, _sent, _claimed) = team
+            (_id, _link, _name, _sent, _claimed, _chat_id) = team
             # does team have space for new participant?
             if max(int(_sent), int(_claimed)) < MAX_TEAM_PARTICIPANTS:
-                invite = (_id, _link, _name)
+                invite = (_id, _link, _name, _chat_id)
         MAX_TEAM_PARTICIPANTS += 1
-    return invite
+    # MAX_TEAM_PARTICIPANTS get incresed by 1 in the non-scaling case
+    # if it got increased more then it means it scaled
+    did_it_scale = MAX_TEAM_PARTICIPANTS > 4
+    return list(invite) + [did_it_scale]
 
 
 def get_community_team_invite(community, timezone):
@@ -47,7 +50,7 @@ def get_community_team_invite(community, timezone):
     cur = conn.cursor()
     # teams that have habiter.app in the name means that 
     # where created before of the auto-scaling
-    cur.execute("SELECT id, link, team_name, sent, claimed  FROM teams WHERE community = %s AND timezone = %s AND link != 'https://habiter.app' AND link != '' ORDER BY created_on;", (community, timezone))
+    cur.execute("SELECT id, link, team_name, sent, claimed, chat_id  FROM teams WHERE community = %s AND timezone = %s AND link != 'https://habiter.app' AND link != '' ORDER BY created_on;", (community, timezone))
     teams = cur.fetchall()
 
     if not teams:
@@ -175,7 +178,7 @@ def db__add_founders_club(
 def db__get_next_founders_team_invite(timezone):
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
-    cur.execute("SELECT id, link, team_name, sent, claimed  FROM founders_clubs WHERE timezone = %s ORDER BY created_on;", (timezone,))
+    cur.execute("SELECT id, link, team_name, sent, claimed, chat_id  FROM founders_clubs WHERE timezone = %s ORDER BY created_on;", (timezone,))
     teams = cur.fetchall()
 
     if not teams:
