@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 import psycopg2
 import logging
 logger = logging.getLogger(__name__)
@@ -8,8 +9,7 @@ from .models import Greeting
 
 # Create your views here.
 def about(request):
-    return render(request, "about.html")
-
+    return render(request, "about.html") 
 def index(request):
     # return HttpResponse('Hello from Python!')
     return render(request, "index.html")
@@ -215,6 +215,7 @@ def leetcode_match(request):
         }
         return JsonResponse(data)
 
+@csrf_exempt
 def match(request):
     """
     matches a new team for leetcode
