@@ -54,9 +54,9 @@ def get_community_team_invite(community, timezone):
     teams = cur.fetchall()
 
     if not teams:
-        logging.warning("!!!! QUERY ERROR: no teams found, get_community_team_invite")
+        logging.warning("!!!! No teams found for get_community_team_invite !!!!")
         logging.warning(timezone)
-        return (1, "https://t.me/habiter_rescue_me", community+" Team")
+        return (-1, "https://t.me/habiter_rescue_me", community+" Team", -1, True)
     invite = _autoscale_get_invite(teams)
 
     conn.commit()
