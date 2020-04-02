@@ -170,14 +170,27 @@ def add_community_team(
 community.USERS
 """
 def get_community_users(community):
+    """
+    query users table, if backfill=True
+    update the users table from user_action
+    
+    # cur.execute("SELECT MIN(user_id),username, COUNT(*) as activity FROM user_actions WHERE community = %s GROUP BY username ORDER BY activity DESC;", (community, ))
+    """
+    if community == 'Leetcode':
+        user_action_backfill(community)
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
-    cur.execute("SELECT MIN(user_id),username, COUNT(*) as activity FROM user_actions WHERE community = %s GROUP BY username ORDER BY activity DESC;", (community, ))
+    cur.execute("SELECT id, name, sessions_active_total, sessions_skip_total, sessions_skip_streak, days_active_total, days_since_join FROM users WHERE community = %s", (community, ))
     users = cur.fetchall()
     conn.commit()
     cur.close()
     conn.close()
     return users
+
+def user_action_backfill(community):
+    """
+    """
+    #TODO: read from queries
 
 
 """

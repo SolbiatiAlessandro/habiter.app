@@ -211,7 +211,6 @@ def amplitude__Habiter_DAU():
     labels = json_data['data']['xValues']
     return timeseries, labels
     
-
 def index(request):
     alert, error =  None, None
     loginForm = LoginForm(request.POST)
@@ -278,8 +277,27 @@ def users(request):
     if community == NO_COMMUNITY or email == NO_EMAIL:
         error = "oops.. looks like we didn't find your community/email properly. If this is unexpected call +44779648936 to get it fixed ASAP"
     users = db.get_community_users(community)
+
+    logger.warning('computing users_timeserie')
+    # this is to measure user growth over time
+    users_timeserie = {'labels':[],'values':[]}
+    # #	Username	session_active_total	session_skip_total	session_skip_streak	days_active_total	days_since_join
+    days_since_join_col = 6
+    # unknown starting date is put at the start of the labels
+    max_day = max(user[days_since_join_col] for user in users if user[days_since_join_col] is not None )
+    days_since_join = [user[days_since_join_col] if user[days_since_join_col] else max_day+1 for user in users]
+    users_timeserie['labels'] = [*range(-1, max_day + 1)]
+    users_timeserie['values'] = [days_since_join.count(max_day - day) for day in users_timeserie['labels']]
+    #we want the cum sum of users
+    cumsum = 0
+    for i, val in enumerate(users_timeserie['values']):
+        cumsum += users_timeserie['values'][i]
+        users_timeserie['values'][i] = cumsum
+    logger.warning(users_timeserie)
+
     return render(request, "users.html", {
         'users':users,
+        'users_timeserie': users_timeserie,
         'alert':alert,
         'error':error,
         'community':community,
