@@ -1,11 +1,7 @@
--- queries activity data from user_actions
--- and backfills users table
 WITH sessions_data AS (
 	SELECT
 		- 1 AS days_active_total,
 		COUNT(DISTINCT (DATE(time))) AS sessions_active_total,
-		-- MIN(DISTINCT (DATE(time))) AS first_day_active,
-		-- MAX(DISTINCT (DATE(time))) AS last_day_active,
 		DATE(now()) - MAX(DISTINCT (DATE(time))) AS sessions_skip_streak,
 		DATE(now()) - MIN(DISTINCT (DATE(time))) AS days_since_join,
 		(DATE(now()) - MIN(DISTINCT (DATE(time)))) - COUNT(DISTINCT (DATE(time))) AS sessions_skip_total,
@@ -28,8 +24,6 @@ activity_data AS (
 	SELECT
 		COUNT(DISTINCT (DATE(time))) AS days_active_total,
 		0 AS sessions_active_total,
-		-- MIN(DISTINCT (DATE(time))) AS first_day_active,
-		-- MAX(DISTINCT (DATE(time))) AS last_day_active,
 		DATE(now()) - MIN(DISTINCT (DATE(time))) AS sessions_skip_streak,
 		DATE(now()) - MIN(DISTINCT (DATE(time))) AS days_since_join,
 		DATE(now()) - MIN(DISTINCT (DATE(time))) AS sessions_skip_total,

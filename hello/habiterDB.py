@@ -171,13 +171,10 @@ community.USERS
 """
 def get_community_users(community):
     """
-    query users table, if backfill=True
-    update the users table from user_action
+    query users table, 
     
     # cur.execute("SELECT MIN(user_id),username, COUNT(*) as activity FROM user_actions WHERE community = %s GROUP BY username ORDER BY activity DESC;", (community, ))
     """
-    if community == 'Leetcode':
-        user_action_backfill(community)
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
     cur.execute("SELECT id, name, sessions_active_total, sessions_skip_total, sessions_skip_streak, days_active_total, days_since_join FROM users WHERE community = %s", (community, ))
@@ -190,7 +187,26 @@ def get_community_users(community):
 def user_action_backfill(community):
     """
     """
-    #TODO: read from queries
+    if community != 'Leetcode':
+        return "backfill supported only for Leetcode at the moment!"
+
+    with open('hello/queries/backfill_users_with_new_users.sql', 'r') as file:
+        backfill_users_with_new_users = file.read().replace('\n', ' ')
+    with open('hello/queries/backfill_users_with_session_data.sql', 'r') as file:
+        backfill_users_with_session_data = file.read().replace('\n', ' ')
+
+    logging.warning("running backfill.. retreived two queries..")
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    logging.warning("running first query")
+    logging.warning(backfill_users_with_new_users)
+    cur.execute(backfill_users_with_new_users)
+    logging.warning("running second query")
+    logging.warning(backfill_users_with_session_data)
+    cur.execute(backfill_users_with_session_data)
+    conn.commit()
+    cur.close()
+    conn.close()
 
 
 """

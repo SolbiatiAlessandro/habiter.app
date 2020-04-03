@@ -3,8 +3,10 @@ from django import forms
 import hello.habiterDB as db
 import psycopg2
 import requests
+from time import time
 from requests.auth import HTTPBasicAuth
 import logging
+import traceback
 logger = logging.getLogger(__name__)
 
 LEETCODE_LABELS = (
@@ -270,8 +272,25 @@ def index(request):
         'error':error
         })
 
-def users(request):
+def users_backfill(request):
     alert, error = None, None
+    community = request.session.get('community', NO_COMMUNITY)
+    email = request.session.get('email', NO_EMAIL)
+    if community == NO_COMMUNITY or email == NO_EMAIL:
+        error = "oops.. looks like we didn't find your community/email properly. If this is unexpected call +44779648936 to get it fixed ASAP"
+    try:
+        start = time()
+        db.user_action_backfill(community)
+        end = time()
+        alert= "Data Refreshed Successfully! (backfill took {} seconds)".format(str(end - start))
+    except Exception as e:
+        logging.error("ERROR: user_action_backfill broke")
+        traceback.print_exc()
+        error = e
+    return users(request, alert=alert, error=error)
+
+def users(request, alert=None, error=None):
+    #alert, error = None, None
     community = request.session.get('community', NO_COMMUNITY)
     email = request.session.get('email', NO_EMAIL)
     if community == NO_COMMUNITY or email == NO_EMAIL:
@@ -295,6 +314,14 @@ def users(request):
         users_timeserie['values'][i] = cumsum
     logger.warning(users_timeserie)
 
+    # clean users
+    for i, row in enumerate(users):
+        for j, col in enumerate(row):
+            if col == 'None' or not col:
+                col = -1
+            if j != 1: # username
+                users[i][j] = int(col)
+        
     return render(request, "users.html", {
         'users':users,
         'users_timeserie': users_timeserie,
