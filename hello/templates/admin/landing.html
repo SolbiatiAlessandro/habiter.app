@@ -25,6 +25,18 @@
 	<link rel="stylesheet" href="{% static "css/slicknav.css" %}">
 	<link rel="stylesheet" href="{% static "css/style.css" %}">
 	<style>
+.app-img {
+		width: 80%;
+    border-radius: 20px;
+    box-shadow: -9px 16px 17px -5px #999;
+}
+.app-row{
+width: 140%;
+    background: white;
+    padding: 5%;
+    border-radius: 20px;
+		margin-top:20%;
+}
 .app_box p {
 margin-bottom:0px
 }
@@ -41,6 +53,7 @@ background:#8999e7;padding:3%
 	margin-top:10px;
 	box-shadow: 0 10px 30px rgba(0,0,0,.3);width:100%;
 }
+
 
 	 .app_image{
 	 border-radius:20%;
@@ -156,7 +169,7 @@ analytics.track("Landed", {
     <!-- slider_area_start -->
     <div class="slider_area">
         <div class="single_slider  d-flex align-items-center slider_bg_1">
-            <div class="container" style="margin-top:-000px">
+            <div class="container" style="margin-top:-5%;margin-left:7%;">
                 <div class="row align-items-center">
                     <div style="position:absolute;top:25%;right:0">
                         <img width="100%" src="{% static "illustration.svg" %}" />
@@ -166,15 +179,28 @@ analytics.track("Landed", {
                         <div class="slider_text " style="text-align:left">
 							<!--<img src="{% static 'habiter.png' %}"/>-->
                             <h3 class="wow fadeInDown" data-wow-duration="1s" data-wow-delay=".1s" style="font-size:45px;line-height:50px;">  
-								Let students form study groups. So they complete the course.
+								Get your students into study groups, so they will love taking your class.
 							</h3>
 							<p class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".1s" style="margin-bottom:25px;">
 							Our bot matches students in small teams, lets them schedule work sessions, send your content and records their progress.
 							</p>
-							<a href="https://t.me/joinchat/NLhKahtW75qtQ1dIcYaxJQ" 
-		  class="boxed-btn3" style="background-color:#5a60b6;width:50%;">
-								Create Your Group
-							</a>
+							<div class="row app-row">
+								<div class="col-2">
+									<img class="app-img" src="https://cdn.steemitimages.com/DQmYuDXvkZxmfgy76pL4sLmH9MGPVUJ8X8anJZhQDpw5RjA/unnamed%20(1).jpg"/>
+								</div>
+								<div class="col-2">
+									<img class="app-img" src="https://www.freeiconspng.com/uploads/telegram-icon-14.png"/>
+								</div>
+								<div class="col-2">
+									<img class="app-img" src="https://a.slack-edge.com/80588/marketing/img/meta/slack_hash_256.png"/>
+								</div>
+								<div class="col-6">
+									<a href="https://t.me/joinchat/NLhKahtW75qtQ1dIcYaxJQ" 
+				  class="boxed-btn3 float-right" style="background-color:#5a60b6;width:70%;">
+										Get Our Bots
+									</a>
+								</div>
+							</div>
 							
 						</div>
 					</div>
