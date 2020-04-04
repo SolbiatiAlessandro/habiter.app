@@ -11,6 +11,11 @@ from psycopg2.extras import RealDictCursor, DictCursor
 DATABASE_URL = os.environ['DATABASE_URL'] 
 logger = logging.getLogger(__name__)
 
+QUERIES_FOLDER = 'hello/queries/'
+def _read_query_from_file(file_name):
+    with open(os.path.join(QUERIES_FOLDER, file_name), 'r') as file:
+        return file.read().replace('\n', ' ')
+
 """
 move later to community.CONTENT
 """
@@ -100,6 +105,21 @@ def get_community_content(community):
 move later to commmunity.TEAMS
 """
 
+def get_community_teams_with_activity_data(community):
+    """
+    join 'teams' with 'user_team' to get teams activity data
+    """
+    teams_activity_data = _read_query_from_file('teams_activity_data.sql')
+
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute(teams_activity_data, (community, ))
+    teams = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return teams
+
 def get_community_teams(community):
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
@@ -169,6 +189,21 @@ def add_community_team(
 """
 community.USERS
 """
+def get_community_users_additional_columns(community):
+    """
+    merge with teams for timezone info, this should be put in user table laterj
+    """
+    users_additional_columns = _read_query_from_file('users_additional_columns.sql')
+
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute(users_additional_columns, (community, ))
+    users = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return users
+
 def get_community_users(community):
     """
     query users table, 
@@ -190,20 +225,19 @@ def user_action_backfill(community):
     if community != 'Leetcode':
         return "backfill supported only for Leetcode at the moment!"
 
-    with open('hello/queries/backfill_users_with_new_users.sql', 'r') as file:
-        backfill_users_with_new_users = file.read().replace('\n', ' ')
-    with open('hello/queries/backfill_users_with_session_data.sql', 'r') as file:
-        backfill_users_with_session_data = file.read().replace('\n', ' ')
+    backfill_users_with_new_users = _read_query_from_file('backfill_users_with_new_users.sql')
+    backfill_users_with_session_data = _read_query_from_file('backfill_users_with_session_data.sql')
 
-    logging.warning("running backfill.. retreived two queries..")
+    logging.warning("running users backfill.. retreived two queries..")
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
+
     logging.warning("running first query")
-    logging.warning(backfill_users_with_new_users)
     cur.execute(backfill_users_with_new_users)
+
     logging.warning("running second query")
-    logging.warning(backfill_users_with_session_data)
     cur.execute(backfill_users_with_session_data)
+
     conn.commit()
     cur.close()
     conn.close()

@@ -172,13 +172,21 @@ def teams(request):
                 )
         alert = "Content added succesfully: "+" | ".join([team_name, team_invite, timezone, label])
 
-    teams = db.get_community_teams(community)
+    _teams = db.get_community_teams(community)
+    try:
+        teams = db.get_community_teams_with_activity_data(community)
+    except Exception as e:
+        logging.error("ERROR: db.get_community_teams_with_activity_data")
+        traceback.print_exc()
+        error = e
+        teams = _teams
+
     capacity = {
-            'overall':compute_teams_capacity(teams),
+            'overall':compute_teams_capacity(_teams),
             }
     for timezone in ['pst','est','gmt','ist','gmt+8']:
         capacity[timezone] = compute_teams_capacity(
-                teams, 
+                _teams, 
                 timezone=timezone,
                 name=timezone+" capacity"
                 )
@@ -295,7 +303,7 @@ def users(request, alert=None, error=None):
     email = request.session.get('email', NO_EMAIL)
     if community == NO_COMMUNITY or email == NO_EMAIL:
         error = "oops.. looks like we didn't find your community/email properly. If this is unexpected call +44779648936 to get it fixed ASAP"
-    users = db.get_community_users(community)
+    users = db.get_community_users_additional_columns(community)
 
     logger.warning('computing users_timeserie')
     # this is to measure user growth over time
@@ -319,7 +327,7 @@ def users(request, alert=None, error=None):
         for j, col in enumerate(row):
             if col == 'None' or not col:
                 col = -1
-            if j != 1: # username
+            if j != 1 and j != 9 and j != 8: # username , timezone, label
                 users[i][j] = int(col)
         
     return render(request, "users.html", {

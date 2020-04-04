@@ -10,7 +10,7 @@
 			  <div class="col-sm-5">
 			  <div class="card shadow">
 				  <div class="card-header">
-				  <h1 class="h3 mb-2 text-gray-800">Teams</h1>
+				  <h1 class="h3 mb-2 text-gray-800">Teams Capacity</h1>
 				  </div>
 				  <div class="card-body">
 				  <p class="mb-4">Here are the teams from your community. You can see their capacity, e.g. how many user they can hold (with 3 users per team).</p>
@@ -56,6 +56,52 @@
 				{{alert}}
 			</div>
 			{% endif %}
+		<div class="row">
+			<div class="col">
+			  <div class="card shadow">
+				  <div class="card-header">
+				  <h1 class="h3 mb-2 text-gray-800">Teams Activity</h1>
+				  </div>
+				  <div class="card-body">
+				  <p class="mb-4">Here are activity metrics for your team:
+				  <ul>
+					  <li><b>Users Count</b>: number of user who sent at least one message in the team</li>
+					  <li><b>Message Count</b>: total number of messages ssent in the team</li>
+				  </ul>
+				  Churning teams are <b>highlighted in yellow</b>, they are definied as teams with only one users and more than two messages sent.</p>
+				  <!--
+				  <button href="#" class="btn btn-primary btn-icon-split " data-toggle="modal" data-target="#upload_content_modal">
+					<span class="icon text-white-50">
+					  <i class="fas fa-plus"></i>
+					</span>
+					<span class="text">Add Team</span>
+				  </button>-->
+				  </div>
+			  </div>
+			</div>
+			<div class="col-3">
+			  <div class="card border-left-warning shadow mb-4">
+				  <div class="card-body">
+					  <div class="text-xs text-uppercase mb-1">Number of Churning Teams</div>
+					  <div id="total_churning" class="h5 font-weight-bold">?</div>
+					  <div class="progress progress-sm mr-2">
+						  <div id="total_churning_bar" class="progress-bar bg-warning" role="progressbar" style="width: 10%" ></div>
+					  </div>
+				  </div>
+			  </div>
+			</div>
+			<div class="col-3">
+			  <div class="card border-left-success shadow mb-4">
+				  <div class="card-body">
+					  <div class="text-xs text-uppercase mb-1">Total Number of Teams</div>
+					  <div id="total_teams" class="h5 font-weight-bold">?</div>
+					  <div class="text-xs mb-1">This is the number of teams with at least one user message.</div>
+				  </div>
+			  </div>
+			</div>
+			<div class="col-3">
+			</div>
+		</div>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -64,29 +110,29 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="teamsDataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>Team Name</th>
-                      <th>Users</th>
-                      <th>Invite Link</th>
-                      <th>Label</th>
-                      <th>Timezone</th>
-                      <th>Session Time</th>
                       <th>Active</th>
+                      <th>Team Name</th>
+                      <th>Users Count</th>
+                      <th>Message Count</th>
+                      <th>Last Activity</th>
+                      <th>Label</th>
+					  <th>Content Index</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
                       <th>#</th>
-                      <th>Team Name</th>
-                      <th>Users</th>
-                      <th>Invite Link</th>
-                      <th>Label</th>
-                      <th>Timezone</th>
-                      <th>Session Time</th>
                       <th>Active</th>
+                      <th>Team Name</th>
+                      <th>Users Count</th>
+                      <th>Message Count</th>
+                      <th>Last Activity</th>
+                      <th>Label</th>
+					  <th>Content Index</th>
                     </tr>
                   </tfoot>
                   <tbody>
@@ -94,12 +140,12 @@
 					<tr>
 						<td>{{ team.0 }}</td>
 						<td>{{ team.1 }}</td>
+						<td>{{ team.2 }}</td>
 						<td>{{ team.3 }}</td>
 						<td>{{ team.4 }}</td>
 						<td>{{ team.5 }}</td>
 						<td>{{ team.6 }}</td>
 						<td>{{ team.7 }}</td>
-						<td>{{ team.8 }}</td>
 					</tr>
 					{% endfor %}
                   </tbody>
@@ -162,4 +208,38 @@
 	</div>
 	</div>
 </div>
+	<script>
+	//
+// CHURNING TEAMS
+// Call the dataTables jQuery plugin
+  // HIGHLIGHT FOR USERS
+  const TABLE_COLUMN_MAPPING = {
+	'team_id':0,
+	'active':1,
+	'team_name':2,
+	'number_of_users':3,
+	'total_messages':4,
+	'last_activity':5,
+	'label':6,
+	'content_index':7
+  }
+  let total_churning = 0;
+  let total_teams = 0;
+  function is_team_churning(data){
+	  return data[TABLE_COLUMN_MAPPING['number_of_users']] < 2 && data[TABLE_COLUMN_MAPPING['total_messages']] >= 3;
+  }
+  $('#teamsDataTable').DataTable({
+	  "createdRow": function( row, data, dataIndex){
+				total_teams += 1;
+			if( is_team_churning(data) ){
+				$(row).addClass('bg-warning');
+				total_churning += 1;
+			}
+		  //#ffd7d7
+		}
+  });
+  $("#total_churning").html(total_churning);
+  $("#total_teams").html(total_teams);
+  $("#total_churning_bar").css('width',((total_churning/total_teams)*100).toString()+"%")
+	</script>
 {% endblock %}
