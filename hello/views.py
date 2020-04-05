@@ -198,7 +198,7 @@ def leetcode_match(request):
     try:
         timezone = request.GET.get('timezone', None)
         invite = get_community_team_invite("Leetcode", timezone)
-        (team_id, team_invite_link, team_name) = invite
+        (team_id, team_invite_link, team_name, _, _) = invite
         data = {
             'team_id': team_id,
             'team_invite_link': team_invite_link,

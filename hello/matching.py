@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 def _autoscale_get_invite(teams):
     """
-    return invite (id, link, name)
+    return invite (id, link, name, _chat_id, did_it_scale)
     """
     # auto-scaling matching algorithm
     MAX_TEAM_PARTICIPANTS = 3
@@ -42,7 +42,7 @@ def _autoscale_get_invite(teams):
 def get_community_team_invite(community, timezone):
     """
     ALWAYS RETURNS AN INVITE
-    return (team_id, team_invite_link, team_name)
+    return (team_id, team_invite_link, team_name, chat_id, did_it_scale)
     """
     logging.warning("get_community_team_invite")
     logging.warning((community, timezone))
