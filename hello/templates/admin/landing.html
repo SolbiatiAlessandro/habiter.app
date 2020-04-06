@@ -196,12 +196,16 @@ analytics.track("Landed", {
 									<img class="app-img" src="https://a.slack-edge.com/80588/marketing/img/meta/slack_hash_256.png"/>
 								</div>
 									<div class="col-6 input-group mb-2 mt -2" style="box-shadow: -9px 16px 17px -5px #999;padding: 0px;">
-									  <input type="text" class="form-control" placeholder="Enter Email" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-radius:0px;">
-									  <div class="input-group-append">
-										  <a href="https://t.me/joinchat/NLhKahtW75qtQ1dIcYaxJQ">
-										<button style="height: 100%;background-color:#5a60b6;color:white;border-radius:0px;" class="btn btn-outline-secondary" type="button">Request Access</button>
-										  </a>
-									  </div>
+										<form class="input-group" id="subscribe_form"> 
+										  <input id="subscribe_email" type="text" class="form-control" placeholder="Enter Email" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-radius:0px;">
+										  <div class="input-group-append">
+											<button style="height: 100%;background-color:#5a60b6;color:white;border-radius:0px;" class="btn btn-outline-secondary" type="submit">Request Access</button>
+											  </a>
+										  </div>
+										</form>
+									</div>
+								<div class="alert alert-dark  alert-dismissable" role="alert" id="subscribe_response" style="display:none;margin:auto;width: 100%;text-align: center;margin-top: 5%;">
+									  You should not see this
 									</div>
 								</div>
 							</div>
@@ -595,6 +599,27 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<script src="{% static "js/mail-script.js" %}"></script>
 
 	<script src="{% static "js/main.js" %}"></script>
+	<script>
+		$("#subscribe_form").submit(function(event) {
+			event.preventDefault();
+			const email = $("#subscribe_email").val();
+			console.log(email);
+			$.ajax({
+				url: '/ajax/mailchimp_subscribe/',
+				data: {
+				  'email': email
+				},
+				dataType: 'json',
+				success: function (data) {
+					console.log(data)
+					$("#subscribe_response").html(data.result)
+					$("#subscribe_response").show()
+				}
+			}
+				);
+
+		})
+	</script>
 </body>
 
 </html>

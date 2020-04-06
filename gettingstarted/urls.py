@@ -5,7 +5,7 @@ from django.contrib import admin
 
 admin.autodiscover()
 
-import hello.views, hello.admin
+import hello.views, hello.admin, hello.external_apis.mail_chimp
 
 # To add a new path, first import the app:
 # import blog
@@ -38,6 +38,7 @@ urlpatterns = [
     url("backfill/users", hello.admin.users_backfill, name="backfill_users"),
     url("community/teams", hello.admin.teams, name="community_teams"),
     url("community/content", hello.admin.content, name="community_content"),
+    url(r'^ajax/mailchimp_subscribe/$', hello.external_apis.mail_chimp.mailchimp_subscribe, name='mailchimp_subscribe'),
     url(r'^ajax/leetcode_match/$', hello.views.leetcode_match, name='leetcode_match'),
     url(r'^ajax/match/$', hello.views.match, name='match'),
     url(r'^ajax/leetcode_invite_sent_confirmation/$', hello.views.leetcode_invite_sent_confirmation, name='leetcode_invite_sent_confirmation'),
