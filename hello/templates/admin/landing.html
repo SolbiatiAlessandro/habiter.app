@@ -25,34 +25,46 @@
 	<link rel="stylesheet" href="{% static "css/slicknav.css" %}">
 	<link rel="stylesheet" href="{% static "css/style.css" %}">
 	<style>
-.app-img {
-		width: 70%;
-    border-radius: 20px;
-    box-shadow: -9px 16px 17px -5px #999;
-}
-.app-row{
-width: 140%;
-    background: white;
-    padding: 5%;
-    border-radius: 20px;
-		margin-top:20%;
-}
-.app_box p {
-margin-bottom:0px
-}
-.app_box .row {
-background-color:#dfe4fb;text-align:center;padding:10px;width:100%;margin:0px
-}
-.app_header h3  {
-font-size: 21px;margin-bottom: 0px;color:white;
-}
-.app_header{
-background:#8999e7;padding:3%
-}
-.app_box{
-	margin-top:10px;
-	box-shadow: 0 10px 30px rgba(0,0,0,.3);width:100%;
-}
+	.sticky{
+		background: white !important;
+	}
+	.social-proof-img{
+		width:100%;
+	}
+	.app-img {
+			width: 70%;
+		border-radius: 20px;
+		box-shadow: -9px 16px 17px -5px #999;
+	}
+	.app-row{
+	width: 140%;
+		background: white;
+		padding: 5%;
+		border-radius: 20px;
+			margin-top:20%;
+	}
+	.app_box p {
+	margin-bottom:0px
+	}
+	.app_box .row {
+	background-color:#dfe4fb;text-align:center;padding:10px;width:100%;margin:0px
+	}
+	.app_header h3  {
+	font-size: 21px;margin-bottom: 0px;color:white;
+	}
+	.app_header{
+	background:#8999e7;padding:3%
+	}
+	.app_box{
+		margin-top:10px;
+		box-shadow: 0 10px 30px rgba(0,0,0,.3);width:100%;
+	}
+	.text-black-i{
+		color:black !important;
+	}
+	.text-white-i{
+		color:white !important;
+	}
 
 
 	 .app_image{
@@ -60,8 +72,9 @@ background:#8999e7;padding:3%
 	 height: 60px;
 	 }
 	.hacky_img_shadow{
-		box-shadow: #2e2e2e 1px 1px 40px;
-		border-radius: 60px;
+		box-shadow: -9px 16px 17px -5px #999;
+		border-radius: 10px;
+		width:90% !important;
 	}
 	.white_link{
 		color: white;
@@ -81,7 +94,6 @@ background:#8999e7;padding:3%
 	}
 	</style>
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
-	<script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/d7d1f3bedf3b64e7f660dd70f/8358b99a77c8c2d3de1d769db.js");</script>
 	<script>
 
 
@@ -129,7 +141,7 @@ analytics.track("Landed", {
 <!-- header-start -->
     <header>
         <div class="header-area ">
-            <div id="sticky-header" class="main-header-area">
+            <div id="sticky-header" class="main-header-area p-3">
                 <div class="container-fluid">
                     <div class="row align-items-center">
                         <div class="col-xl-3 col-lg-2">
@@ -142,10 +154,10 @@ analytics.track("Landed", {
                                 <nav>
                                     <ul id="navigation">
 										<li>
-											<a href="/">Habiter</a>
+											<a class="navigation_a" href="/">Habiter</a>
 										</li>
 										<li>
-											<a href="/about">Our vision</a>
+											<a class="navigation_a" href="/about">Our vision</a>
 										</li>
                                     </ul>
                                 </nav>
@@ -153,7 +165,8 @@ analytics.track("Landed", {
                         </div>
                         <div class="col-xl-3 col-lg-3 d-none d-lg-block">
                             <div class="Appointment">
-                                <div class="book_btn d-none d-lg-block">
+                                <div id="header-cta" class="book_btn d-none d-lg-block">
+									<a style="color:white !important;background-color:#5a60b6">Request Access</a>
                                 </div>
                             </div>
                         </div>
@@ -196,16 +209,16 @@ analytics.track("Landed", {
 									<img class="app-img" src="https://a.slack-edge.com/80588/marketing/img/meta/slack_hash_256.png"/>
 								</div>
 									<div class="col-6 input-group mb-2 mt -2" style="box-shadow: -9px 16px 17px -5px #999;padding: 0px;">
-										<form class="input-group" id="subscribe_form"> 
-										  <input id="subscribe_email" type="text" class="form-control" placeholder="Enter Email" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-radius:0px;">
+										<form class="input-group" id="subscribe_form_1"> 
+										  <input id="subscribe_email_1" type="text" class="form-control" placeholder="Enter Email" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-radius:0px;">
 										  <div class="input-group-append">
 											<button style="height: 100%;background-color:#5a60b6;color:white;border-radius:0px;" class="btn btn-outline-secondary" type="submit">Request Access</button>
 											  </a>
 										  </div>
 										</form>
 									</div>
-								<div class="alert alert-dark  alert-dismissable" role="alert" id="subscribe_response" style="display:none;margin:auto;width: 100%;text-align: center;margin-top: 5%;">
-									  You should not see this
+								<div class="alert alert-dark  alert-dismissable" role="alert" id="subscribe_response_1" style="display:none;margin:auto;width: 100%;text-align: center;margin-top: 5%;">
+									  ...
 									</div>
 								</div>
 							</div>
@@ -216,94 +229,179 @@ analytics.track("Landed", {
             </div>
         </div>
     </div>
-    <!-- about  -->
-	<div class="features_area ">
-        <div class="container">
-            <div class="features_main_wrap">
-				<div class="row  align-items-center">
-                            <div class="col-xl-5 col-lg-5 offset-xl-1 offset-lg-1 col-md-6 "
-								style="margin-right:8%">
-                                <div class="about_draw wow fadeInUp" data-wow-duration=".7s" data-wow-delay=".5s">
-									<img class="hacky_img_shadow" src="{% static "img/habiter_landing1.png" %}" alt="">
-                                </div>
-                            </div>
-                            <div class="col-xl-5 col-lg-5 col-md-6">
-                                <div class="features_info2">
-                                    <h3>Small study groups</h3>
-                                    <p class="landing_paragraph">Students join small study groups to study and complete assignmets at the same time.
-                                    <div class="about_btn">
-								<a 
-									href="https://t.me/joinchat/NLhKahtW75qtQ1dIcYaxJQ" 
-									class="boxed-btn3"
-									style="background-color:#5a60b6">Create Telegram Group
-								</a>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-            </div>
-        </div>
-    </div>
-    <!--/ about  -->
-    
-    <!-- about  -->
-    <div class="features_area " style="background-color:#f1f1f1">
-        <div class="container">
-            <div class="features_main_wrap">
-                <div class="row  align-items-center">
-                            <div class="col-xl-5 col-lg-5 col-md-6">
-                                <div class="features_info2">
-                                    <h3>Automatic remainders</h3>
-                                    <p class="landing_paragraph"> The bot triggers the study session and sends the course materials and assignments.
-                                    <div class="about_btn">
-                                <a
-                                    href="/leetcode"
-                                    class="boxed-btn3"
-                                    style="background-color:#5a60b6">Tech Interview study groups
-                                </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-5 col-lg-5 offset-xl-1 offset-lg-1 col-md-6 ">
-                                <div class="about_draw wow fadeInUp" data-wow-duration=".7s" data-wow-delay=".5s">
-                                    <img class="hacky_img_shadow" src="{% static "img/habiter_landing_2.png" %}" alt="">
-                                </div>
-                            </div>
-                    </div>
-            </div>
-        </div>
-    </div>
-    <!--/ about  -->
-    
-    <!-- about  -->
-    <div class="features_area ">
-        <div class="container">
-            <div class="features_main_wrap">
-                <div class="row  align-items-center">
-                            <div class="col-xl-5 col-lg-5 offset-xl-1 offset-lg-1 col-md-6 "
-                                style="margin-right:8%">
-                                <div class="about_draw wow fadeInUp" data-wow-duration=".7s" data-wow-delay=".5s">
-                                    <img class="hacky_img_shadow" src="{% static "img/habiter_landing_3.png" %}" alt="">
-                                </div>
-                            </div>
-                            <div class="col-xl-5 col-lg-5 col-md-6">
-                                <div class="features_info2">
-                                    <h3>Teammates help each other</h3>
-                                    <p class="landing_paragraph">Students work at the same time and share the solutions. The bot registers the progress and keeps a leaderboard. </p>
-                                    <div class="about_btn">
-                                <a
-                                    href="https://t.me/joinchat/NLhKahtW75qtQ1dIcYaxJQ"
-                                    class="boxed-btn3"
-                                    style="background-color:#5a60b6">Create Telegram Group
-                                </a>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-            </div>
-        </div>
-    </div>
-    <!--/ about  -->
+
+	<div class="service_area pt-5">
+		<div class="container p-5">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class=" text-center  wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".3s" style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.3s;">
+						<h3 style="font-weight:100;">Our customers <br>come from these platforms.</h3>
+					</div>
+				</div>
+			</div>
+			<div class="row pt-4">
+				<div class="col-2 mx-auto">
+					<img class="social-proof-img" src="https://www.wired.com/coupons/static/shop/31628/logo/Coursera_coupons.png">
+				</div>
+				<div class="col-2 mx-auto">
+					<img class="social-proof-img" src="https://www.vouchercodes.co.uk/static/v10/images/merchant/logo/128px/9615_191125141420.png">
+				</div>
+				<div class="col-2 mx-auto">
+					<img class="social-proof-img" src="https://s3.amazonaws.com/wp-uploads.benzinga-money.prod/wp-content/uploads/2020/02/13213427/EDX.png">
+				</div>
+				<div class="col-2 mx-auto">
+					<img class="social-proof-img" src="https://cdn.iconscout.com/icon/free/png-256/udacity-1-282901.png">
+				</div>
+				<div class="col-2 mx-auto">
+					<img class="social-proof-img" src="https://miro.medium.com/fit/c/256/256/1*Yob4TeosGVAF_K3If5XKVQ.jpeg">
+				</div>
+				<div class="col-2 mx-auto">
+					<img class="social-proof-img" src="https://d2.alternativeto.net/dist/icons/teachable_74199.jpg?width=128&height=128&mode=crop&upscale=false">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="first-cta" class="service_area pt-5">
+		<div class="container hacky_img_shadow bg-light p-5">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class=" text-center  wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".3s" style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.3s;">
+						<h3>Request access to Habiter <br>for your online course.</h3>
+					</div>
+				</div>
+			</div>
+			<div class="row pt-4">
+				<div class="col-6 mx-auto">
+					<form class="input-group" id="subscribe_form_2"> 
+					  <input id="subscribe_email_2" type="text" class="form-control" placeholder="Enter Email" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-radius:0px;">
+					  <div class="input-group-append">
+						<button style="height: 100%;background-color:#5a60b6;color:white;border-radius:0px;" class="btn btn-outline-secondary" type="submit">Request Access</button>
+						  </a>
+					  </div>
+					</form>
+				</div>
+								<div class="alert alert-dark  alert-dismissable" role="alert" id="subscribe_response_2" style="display:none;margin:auto;width: 100%;text-align: center;margin-top: 5%;">
+									  ...
+									</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="service_area_2" style="padding-top:150px">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="section_title text-center  wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".3s" style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.3s;">
+						<h3>Habiter brings your students together.</h3>
+						<p>A distraction-free community for your students to interact and learn together. </p>
+					</div>
+				</div>
+			</div>
+			<div class="row align-items-center mt-5">
+				<div class="col-lg-4 col-md-4 wow fadeInLeft" data-wow-duration=".4s" data-wow-delay=".5s" style="visibility: visible; animation-duration: 0.4s; animation-delay: 0.5s;">
+					<div class="man_thumb">
+						<img class="hacky_img_shadow" src="{% static "img/habiter_landing_1.png" %}" alt="">
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4 ">
+					<div class="mobile_screen wow fadeInRight" data-wow-duration=".8s" data-wow-delay=".5s" style="visibility: visible; animation-duration: 0.8s; animation-delay: 0.5s;">
+						<img class="hacky_img_shadow" src="{% static "img/habiter_landing_2.png" %}" alt="">
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4 ">
+					<div class="mobile_screen wow fadeInRight" data-wow-duration=".8s" data-wow-delay=".5s" style="visibility: visible; animation-duration: 0.8s; animation-delay: 0.5s;">
+						<img class="hacky_img_shadow" src="{% static "img/habiter_landing_3.png" %}" alt="">
+					</div>
+				</div>
+			</div>
+			<div class="service_content_wrap pt-8">
+				<div class="row">
+					<div class="col-lg-4 col-md-4">
+						<div class="single_service  wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".3s" style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.3s;">
+							<span>01</span>
+							<h3>Small study groups</h3>
+							<p>Students join small study groups to study and complete assignments at the same time.</p>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4">
+						<div class="single_service  wow fadeInUp" data-wow-duration=".6s" data-wow-delay=".4s" style="visibility: visible; animation-duration: 0.6s; animation-delay: 0.4s;">
+							<span>02</span>
+							<h3>Automatic remainders</h3>
+							<p>The bot triggers the study session and sends the course materials and assignments.</p>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4  wow fadeInUp" data-wow-duration=".7s" data-wow-delay=".5s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.5s;">
+						<div class="single_service">
+							<span>03</span>
+							<h3>Teammates help each other</h3>
+							<p>Students work at the same time and share the solutions. The bot registers the progress and keeps a leaderboard. </p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="service_area_2">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="section_title text-center  wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".3s" style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.3s;">
+						<p>What the students are saying</p>
+					</div>
+				</div>
+			</div>
+			<div class="row align-items-center mt-5">
+				<div class="col-lg-4 col-md-4 wow fadeInLeft" data-wow-duration=".4s" data-wow-delay=".5s" style="visibility: visible; animation-duration: 0.4s; animation-delay: 0.5s;">
+					<div class="man_thumb">
+						<img class="hacky_img_shadow" src="{% static "img/habiter2_phone.png" %}" alt="" style="border-radius:50px">
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4 ">
+					<div class="mobile_screen wow fadeInRight" data-wow-duration=".8s" data-wow-delay=".5s" style="visibility: visible; animation-duration: 0.8s; animation-delay: 0.5s;">
+						<img class="hacky_img_shadow" src="{% static "img/habiter3_phone.png" %}" alt="" style="border-radius:50px">
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4 ">
+					<div class="mobile_screen wow fadeInRight" data-wow-duration=".8s" data-wow-delay=".5s" style="visibility: visible; animation-duration: 0.8s; animation-delay: 0.5s;">
+						<img class="hacky_img_shadow" src="{% static "img/habiter4_phone.png" %}" alt="" style="border-radius:50px">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="service_area">
+		<div class="container hacky_img_shadow bg-light p-5">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class=" text-center  wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".3s" style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.3s;">
+						<h3>Engage your students<br>
+with Habiter.
+					</div>
+				</div>
+			</div>
+			<div class="row pt-4">
+				<div class="col-6 mx-auto">
+					<form class="input-group" id="subscribe_form_3"> 
+					  <input id="subscribe_email_3" type="text" class="form-control" placeholder="Enter Email" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-radius:0px;">
+					  <div class="input-group-append">
+						<button style="height: 100%;background-color:#5a60b6;color:white;border-radius:0px;" class="btn btn-outline-secondary" type="submit">Request Access</button>
+						  </a>
+					  </div>
+					</form>
+				</div>
+								<div class="alert alert-dark  alert-dismissable" role="alert" id="subscribe_response_3" style="display:none;margin:auto;width: 100%;text-align: center;margin-top: 5%;">
+									  ...
+									</div>
+
+			</div>
+		</div>
+	</div>
 
     <!-- testmonial_area  -->
     <!--<div class="testmonial_area">
@@ -600,9 +698,10 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 	<script src="{% static "js/main.js" %}"></script>
 	<script>
-		$("#subscribe_form").submit(function(event) {
+		/* cta_number : 1 2 3 */
+		function mailchimp_subscribe(event, cta_number) {
 			event.preventDefault();
-			const email = $("#subscribe_email").val();
+			const email = $("#subscribe_email_"+cta_number).val();
 			console.log(email);
 			$.ajax({
 				url: '/ajax/mailchimp_subscribe/',
@@ -612,13 +711,27 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 				dataType: 'json',
 				success: function (data) {
 					console.log(data)
-					$("#subscribe_response").html(data.result)
-					$("#subscribe_response").show()
+					$("#subscribe_response_"+cta_number).html(data.result)
+					$("#subscribe_response_"+cta_number).show()
 				}
 			}
 				);
 
-		})
+		};
+
+		$("#subscribe_form_1").submit(
+			function(event) {
+				mailchimp_subscribe(event, "1")
+			});
+		$("#subscribe_form_2").submit(
+			function(event) {
+				mailchimp_subscribe(event, "2")
+			});
+		$("#subscribe_form_3").submit(
+			function(event) {
+				mailchimp_subscribe(event, "3")
+			});
+
 	</script>
 </body>
 

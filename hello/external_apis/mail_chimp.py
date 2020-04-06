@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 class MailChimpsValues(Enum):
     SUCCESS ='Great! We just sent you an email with some questions.'
     NO_EMAIL = 'Looks like you did not input an email'
-    INVALID_EMAIL = 'Looks like that email is invalid'
+    INVALID_EMAIL = "Looks like that's not a real email.."
     UNKNOWN_FAILURE = 'Oopss.. something wrong with that email'
     ALREADY_SUBSCRIBED = 'Looks like you already subscribed with that email'
 
@@ -29,7 +29,10 @@ def mailchimp_subscribe(request) -> MailChimpsResponse:
     email: str = request.GET.get('email', None)
     if not email:
         return JsonResponse({'result':MailChimpsValues.NO_EMAIL.value})
-    result: MailChimpsValues = add_new_email(email)
+    try:
+        result: MailChimpsValues = add_new_email(email)
+    except ValueError as e:
+        result = MailChimpsValues.INVALID_EMAIL
     # next line TypedDict not supported by linter
     response: MailChimpsResponse = {'result': result.value}
     return JsonResponse(response)

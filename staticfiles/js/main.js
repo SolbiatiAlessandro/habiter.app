@@ -5,9 +5,13 @@ $(window).on('scroll', function () {
 	var scroll = $(window).scrollTop();
 	if (scroll < 400) {
     $("#sticky-header").removeClass("sticky");
+	$(".navigation_a").removeClass("text-black-i");
+	$(".navigation_a").addClass("text-white-i");
     $('#back-top').fadeIn(500);
 	} else {
     $("#sticky-header").addClass("sticky");
+	$(".navigation_a").removeClass("text-white-i");
+	$(".navigation_a").addClass("text-black-i");
     $('#back-top').fadeIn(500);
 	}
 });
@@ -17,6 +21,9 @@ $(window).on('scroll', function () {
 
 
 $(document).ready(function(){
+	$('#header-cta').on('click', function() {
+		$(window).scrollTop($('#first-cta').offset().top);
+	})
 
 // mobile_menu
 var menu = $('ul#navigation');
