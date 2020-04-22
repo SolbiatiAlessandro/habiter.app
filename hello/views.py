@@ -44,10 +44,15 @@ def sus(request):
 def builders(request):
     return render(request, "builders.html")
 
-from hello.matching import db__get_leaderboard
+from hello.matching import db__get_leaderboard, db__get_leetcode_stats
 def leetcode(request):
     leaderboard = db__get_leaderboard()
-    return render(request, "leetcode.html", {'leaderboard': leaderboard})
+    users_total, screenshot_total = db__get_leetcode_stats()
+    return render(request, "leetcode.html", {
+        'leaderboard': leaderboard,
+        'users_total': users_total,
+        'screenshot_total':screenshot_total
+        })
 
 def join(request, community=None):
     if not community:

@@ -151,6 +151,17 @@ def db__get_leaderboard():
     conn.close()
     return leaderboard
 
+def db__get_leetcode_stats():
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("SELECT COUNT(*), SUM(screenshot_submitted) FROM users WHERE community = 'Leetcode';")
+    stats = cur.fetchall()
+    users_total, screenshot_totals = stats[0]
+    conn.commit()
+    cur.close()
+    conn.close()
+    return users_total, screenshot_totals
+
 # FOUNDERS 
 def db__add_founders_club(
         link,

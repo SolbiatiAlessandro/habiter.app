@@ -41,6 +41,43 @@
 	.button-container{
 		margin:20px
 	}
+
+	.rr {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create four equal columns that sits next to each other */
+.cc {
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.cc img {
+			box-shadow: 0 10px 30px rgba(38, 34, 34, 0.35)
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+	  border-radius:20px;
+}
+
+/* Responsive layout - makes a two cc-layout instead of four ccs */
+@media screen and (max-width: 800px) {
+  .cc {
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two ccs stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .cc {
+    flex: 100%;
+    max-width: 100%;
+  }
+}
 	</style>
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 	<script>
@@ -270,36 +307,102 @@ analytics.track("leetcode", {
          <div class="container">
             <div class="row">
                <div class="col-xl-12">
-                  <div class="section_title">
-					  <h3> Tech Interview Preparation - March 2020 Study Group</h2>
+                  <div class="section_title" style="margin-bottom:30px">
+					  <h3> Leetcode Study Group - May 2020</h2>
                      <p style="text-transform:none"> 
-					 Are you serious about preparing for your next interview? Stay consistent with your practice and make the process more fun by joining a team of 2/3 people preparing to land their next job. These are the communities we come from:
+					 Are you serious about preparing for your next interview? Stay consistent with your practice and make the process more fun by joining a team of 2/3 people preparing to land their next job.
 					 </p>
                   </div>
                </div>
             </div>
-            <div class="row">
-               <div class="col-lg-4 col-md-4">
-                  <div class="single_service text-center wow fadeInUp" data-wow-duration=".6s" data-wow-delay=".4s" style="visibility: visible; animation-duration: 0.6s; animation-delay: 0.4s;">
-                        <img src="https://leetcode.com/static/images/LeetCode_logo.png" class="app_image"/>
-                     <h3>Leetcode<br></h3>
-                  </div>
-               </div>
-               <div class="col-lg-4 col-md-4">
-                  <div class="single_service text-center wow fadeInUp" data-wow-duration=".7s" data-wow-delay=".5s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.5s;">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/HackerRank_logo.png" alt="" class="app_image">
-                     <h3>HackerRank</h3>
-                  </div>
-               </div>
-               <div class="col-lg-4 col-md-4">
-                  <div class="single_service text-center wow fadeInUp" data-wow-duration=".8s" data-wow-delay=".6s" style="visibility: visible; animation-duration: 0.8s; animation-delay: 0.6s;">
-                        <img class="app_image"src="https://indiejobs.co/img/logos/indiejobs-logos-topcoder.png"/>
-                     <h3>TopCoder</h3>
-                  </div>
-               </div>
-            </div>
+			<div class="row">
+			 <div class="single_prising text-center wow fadeInUp habiter_container" data-wow-duration=".7s" data-wow-delay=".8s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.8s;background-color:white;">
+				 <div class="prising_header d-flex justify-content-between" style="background:#e9f4fe;padding:3%">
+					 <h3 style="font-size: 21px;margin-bottom: 0px;">Click on your timezone to <b style="color:#5CB664">join a Preparation Team</b> on Telegram</h3> 
+				 </div>
+                     <div class='button-container' >
+                        <a 
+                           href="#" onclick="leetcodeTelegramGroup('gmt')"
+                           class="habiter_button"
+                           >GMT (London)
+                        </a>
+                        <a 
+                           href="#" onclick="leetcodeTelegramGroup('pst')"
+                           class="habiter_button"
+                           >PST (California)
+                        </a>
+                        <a 
+                           href="#" onclick="leetcodeTelegramGroup('ist')"
+                           class="habiter_button"
+                           >IST (Hyderabad)
+                        </a>
+                        <a 
+                           href="#" onclick="leetcodeTelegramGroup('est')"
+                           class="habiter_button"
+                           >EST (New York)
+                        </a>
+                        <a 
+                           href="#" onclick="leetcodeTelegramGroup('gmt+8')"
+                           class="habiter_button"
+                           >GMT+8 (China)
+                        </a>
+         </div>
+			   </div>
+         </div>
+    <!--  -->
+			</div>
          </div>
       </section>
+
+
+	  <div class="service_area" style="padding-top:80px">
+	   <div class="container">
+		  <div class="row">
+			 <div class="col-xl-12">
+				<div class="section_title text-center  wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".3s" style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.3s;">
+				   <h3>
+					   We are in <b>{{users_total}}</b>, and we solved <b>{{screenshot_total}}</b> Problems!*
+				   </h3>
+				   <p>*numbers updated live</p>
+				</div>
+			 </div>
+		  </div>
+		  <div class="row rr"> 
+			  <div class="column cc">
+				  <img class="ii" src="{% static "leetcode/leetcode5.jpeg" %}">
+			  </div>
+			  <div class="column cc">
+				  <img class="ii" src="{% static "leetcode/leetcode2.jpeg" %}">
+			  </div>
+			  <div class="column cc">
+				  <img class="ii" src="{% static "leetcode/leetcode3.jpeg" %}">
+			  </div>
+			  <div class="column cc">
+				  <img class="ii" src="{% static "leetcode/leetcode4.jpeg" %}">
+			  </div>
+		  </div>
+	   </div>
+	</div>
+
+
+	<!-- RULESs -->
+      <section class="sample-text-area" style="padding-top:40px;padding-bottom:0px"> 
+         <div class="container box_1170">
+			 <div class="single_prising text-center wow fadeInUp habiter_container" data-wow-duration=".7s" data-wow-delay=".8s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.8s;">
+				 <div class="prising_header d-flex justify-content-between" style="background:#e9f4fe;padding:3%">
+					<h3 style="font-size: 21px;margin-bottom: 0px;">Group rules</h3> 
+				 </div>
+			<ul>
+				<li>1. You are added to a team of 2/3 people</li>
+				<li>2. We run a <b style="color:#5CB664">daily practice at 9 PM</b></li>
+				<li>3. There are 2 problems proposed. You solve one problem, you post a screenshot with the solution. </li>
+				<li>If not active for more then 2 days (no message sent), you are removed from the group. </li>
+			</ul>
+			   </div>
+			</div>
+         </div>
+      </section>
+	<!-- End Sample Area -->
 
     <!-- /JOIN  -->
       <section class="sample-text-area" style="padding-bottom:0px">
@@ -340,24 +443,6 @@ analytics.track("leetcode", {
          </div>
       </section>
     <!--  -->
-	<!-- RULESs -->
-      <section class="sample-text-area" style="padding-top:40px;padding-bottom:0px"> 
-         <div class="container box_1170">
-			 <div class="single_prising text-center wow fadeInUp habiter_container" data-wow-duration=".7s" data-wow-delay=".8s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.8s;">
-				 <div class="prising_header d-flex justify-content-between" style="background:#e9f4fe;padding:3%">
-					<h3 style="font-size: 21px;margin-bottom: 0px;">Group rules</h3> 
-				 </div>
-			<ul>
-				<li>1. You are added to a team of 2/3 people</li>
-				<li>2. We run a <b style="color:#5CB664">daily practice at 9 PM</b></li>
-				<li>3. There are 2 problems proposed. You solve one problem, you post a screenshot with the solution. </li>
-				<li>If not active for more then 2 days (no message sent), you are removed from the group. </li>
-			</ul>
-			   </div>
-			</div>
-         </div>
-      </section>
-	<!-- End Sample Area -->
 
 	  <!-- LEADERBOARD -->
 	<section class="sample-text-area" style="padding-top:50px">
