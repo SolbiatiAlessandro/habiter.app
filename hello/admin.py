@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django import forms
-import hello.habiterDB as db
 import psycopg2
 import requests
 from time import time
@@ -8,6 +7,9 @@ from requests.auth import HTTPBasicAuth
 import logging
 import traceback
 logger = logging.getLogger(__name__)
+
+import hello.habiterDB as db
+import  hello.matching as matching
 
 LEETCODE_LABELS = (
     ('Easy', 'Leetcode Easy Problem'),
@@ -19,6 +21,7 @@ NO_COMMUNITY = "(oops.. no community found)"
 NO_EMAIL = "(oops.. no email found)"
 
 HABITERBOT = 'habiterbot'
+
 
 class InputContentForm(forms.Form):
     def __init__(self, *args, labels=None):
@@ -115,7 +118,7 @@ class TeamForm(forms.Form):
 class LeetcodeTeamForm(TeamForm):
     label = forms.ChoiceField(choices=LEETCODE_LABELS)
 
-def compute_teams_capacity(teams, name='Total Capacity', timezone=None):
+def compute_teams_capacity(teams, name='Total Capacity', timezone=None, MAX_CAPACITY=3):
     """
     timezone=None for overall capacity
     timezone='pst' for timezone specific capacity
@@ -130,7 +133,6 @@ def compute_teams_capacity(teams, name='Total Capacity', timezone=None):
         'open_teams_len':0,
         'open_capacity':0
     """
-    MAX_CAPACITY = 3
     capacity_info = {
         'total_teams_len':len(teams),
         'open_teams_len':0,
@@ -180,15 +182,20 @@ def teams(request):
         traceback.print_exc()
         error = e
         teams = _teams
+    logger.warning("get_community_teams: "+str(len(teams)))
+    team_size = db.get_community_team_size(community)
+    logger.warning("get_community_team_size: "+str(team_size))
 
     capacity = {
-            'overall':compute_teams_capacity(_teams),
+            'overall':compute_teams_capacity(_teams, MAX_CAPACITY=team_size),
             }
     for timezone in ['pst','est','gmt','ist','gmt+8']:
+        timezone_teams = matching._select_new_teams(community, timezone)
         capacity[timezone] = compute_teams_capacity(
-                _teams, 
+                timezone_teams, 
                 timezone=timezone,
-                name=timezone+" capacity"
+                name=timezone+" capacity",
+                MAX_CAPACITY=team_size
                 )
     capacity['gmt8'] = capacity['gmt+8']
 
@@ -201,7 +208,8 @@ def teams(request):
         'alert':alert,
         'error':error,
         'community':community,
-        'email':email
+        'email':email,
+        'team_size':team_size
         })
 
 def _get_amplitude_chart(chart_id):
@@ -247,8 +255,11 @@ def index(request):
         error = "oops.. looks like we didn't find your community/email properly. If this is unexpected call +44779648936 to get it fixed ASAP"
 
     teams = db.get_community_teams(community)
+    logger.warning("get_community_teams: "+str(len(teams)))
+    team_size = db.get_community_team_size(community)
+    logger.warning("get_community_team_size: "+str(team_size))
     capacity = {
-            'overall':compute_teams_capacity(teams),
+            'overall': compute_teams_capacity(teams,MAX_CAPACITY=team_size),
             }
 
     if community == "Leetcode":

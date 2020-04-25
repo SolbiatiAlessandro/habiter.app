@@ -120,6 +120,18 @@ def get_community_teams_with_activity_data(community):
     conn.close()
     return teams
 
+def get_community_team_size(community: str) -> int:
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("SELECT max_team_size FROM communities WHERE name = %s;", (community, ))
+    _team_size, team_size = cur.fetchall(), 3
+    if _team_size:
+        team_size = _team_size[0][0]
+    conn.commit()
+    cur.close()
+    conn.close()
+    return team_size
+
 def get_community_teams(community):
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()

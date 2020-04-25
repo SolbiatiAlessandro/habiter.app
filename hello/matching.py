@@ -24,23 +24,85 @@ def _autoscale_get_invite(teams, MAX_TEAM_PARTICIPANTS = 3):
     # auto-scaling matching algorithm
     MAX_TEAM_PARTICIPANTS = MAX_TEAM_PARTICIPANTS
     invite = None
-    logging.warning("starting auto-scaling matching algorithm with arguments: \
+    logging.warning("[PASS2]starting auto-scaling matching algorithm with arguments: \
             len(teams) = {}, MAX_TEAM_PARTICIPANTS = {}".format(
                 len(teams),
                 MAX_TEAM_PARTICIPANTS
         ))
     while not invite:
-        logging.warning("[auto-scaling matching algorithm] MAX_TEAM_PARTICIPANTS = {}".format(MAX_TEAM_PARTICIPANTS))
-        for team in teams: # made sure above teams is never empty
-            (_id, _link, _name, _sent, _claimed, _chat_id) = team
+        logging.warning("[PASS2][auto-scaling matching algorithm] MAX_TEAM_PARTICIPANTS = {}".format(MAX_TEAM_PARTICIPANTS))
+
+        for team_index, team in enumerate(teams): # made sure above teams is never empty
+            (_id, _link, _name, _sent, _claimed, _chat_id, _timezone) = team
             # does team have space for new participant?
             if max(int(_sent), int(_claimed)) < MAX_TEAM_PARTICIPANTS:
+                logging.warning("[PASS2] \
+                        matching algorithm ended at team with index {}".format(str(team_index)))
                 invite = (_id, _link, _name, _chat_id)
+                did_it_scale = MAX_TEAM_PARTICIPANTS > 4
+                return list(invite) + [did_it_scale]
+
+        # MAX_TEAM_PARTICIPANTS get incresed by 1 in the non-scaling case
+        # if it got increased more then it means it scaled
         MAX_TEAM_PARTICIPANTS += 1
-    # MAX_TEAM_PARTICIPANTS get incresed by 1 in the non-scaling case
-    # if it got increased more then it means it scaled
-    did_it_scale = MAX_TEAM_PARTICIPANTS > 4
-    return list(invite) + [did_it_scale]
+
+def _select_new_teams(community, timezone, content_index_threshold=10):
+    """
+    new teams have content index < 10
+    """
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    # teams that have habiter.app in the name means that 
+    # where created before of the auto-scaling
+    cur.execute("SELECT id, link, team_name, sent, claimed, chat_id, timezone  FROM teams WHERE community = %s AND timezone = %s AND link != 'https://habiter.app' AND link != '' AND content_index < %s ORDER BY created_on;", (community, timezone, content_index_threshold))
+    teams = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return teams
+
+def _select_old_teams(community, timezone, content_index_threshold=10):
+    """
+    old teams have content index >= 10 (they have been active for a while)
+    """
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    # teams that have habiter.app in the name means that 
+    # where created before of the auto-scaling
+    cur.execute("SELECT id, link, team_name, sent, claimed, chat_id, timezone  FROM teams WHERE community = %s AND timezone = %s AND link != 'https://habiter.app' AND link != '' AND content_index >= %s ORDER BY created_on;", (community, timezone, content_index_threshold))
+    teams = cur.fetchall()
+    conn.commit()
+    cur.close()
+    conn.close()
+    return teams
+
+def _get_team_size(community) -> int:
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("SELECT max_team_size FROM communities WHERE name = %s;", (community, ))
+    _team_size, team_size = cur.fetchall(), 3
+    if _team_size:
+        team_size = _team_size[0][0]
+    return team_size
+
+def select_teams_for_invite(community, timezone):
+    """
+    The algorithm try to give you a new team to start with with people
+    that are active in same timezone and community
+    
+    return teams (all team ordered with our optimization policy), team_size (MAX_TEAM_SIZE)
+    """
+    logging.warning("[PASS1] selecting ordered list of teams with \
+            {} {}".format(community, timezone))
+
+    # select only new teams, and do autoscaling only with those
+    teams = _select_new_teams(community, timezone)
+    if not teams:
+        # otherwise go with old teams
+        teams = _select_old_teams(community, timezone)
+    team_size = _get_team_size(community)
+
+    return teams, team_size
 
 def get_community_team_invite(community, timezone):
     """
@@ -49,26 +111,17 @@ def get_community_team_invite(community, timezone):
     """
     logging.warning("get_community_team_invite")
     logging.warning((community, timezone))
-    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
-    cur = conn.cursor()
-    # teams that have habiter.app in the name means that 
-    # where created before of the auto-scaling
-    cur.execute("SELECT id, link, team_name, sent, claimed, chat_id  FROM teams WHERE community = %s AND timezone = %s AND link != 'https://habiter.app' AND link != '' ORDER BY created_on;", (community, timezone))
-    teams = cur.fetchall()
-    cur.execute("SELECT max_team_size FROM communities WHERE name = %s;", (community, ))
-    _team_size, team_size = cur.fetchall(), 3
-    if _team_size:
-        team_size = _team_size[0][0]
 
+    # PASS 1: get all teams from this community and timezone
+    # ordered with matching optimisation policy
+    teams, team_size = select_teams_for_invite(community, timezone)
     if not teams:
         logging.warning("!!!! No teams found for get_community_team_invite !!!!")
         logging.warning(timezone)
         return (-1, "https://t.me/habiter_rescue_me", community+" Team", -1, True)
-    invite = _autoscale_get_invite(teams, MAX_TEAM_PARTICIPANTS=team_size)
 
-    conn.commit()
-    cur.close()
-    conn.close()
+    # PASS 2: select best team with autoscaling policy
+    invite = _autoscale_get_invite(teams, MAX_TEAM_PARTICIPANTS=team_size)
     return invite
 
 def check_claimed_invite(*args):
