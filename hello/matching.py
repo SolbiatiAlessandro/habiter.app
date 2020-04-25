@@ -17,14 +17,18 @@ DATABASE_URL = os.environ['DATABASE_URL']
 
 logger = logging.getLogger(__name__)
 
-def _autoscale_get_invite(teams):
+def _autoscale_get_invite(teams, MAX_TEAM_PARTICIPANTS = 3):
     """
     return invite (id, link, name, _chat_id, did_it_scale)
     """
     # auto-scaling matching algorithm
-    MAX_TEAM_PARTICIPANTS = 3
+    MAX_TEAM_PARTICIPANTS = MAX_TEAM_PARTICIPANTS
     invite = None
-    logging.warning("starting auto-scaling matching algorithm")
+    logging.warning("starting auto-scaling matching algorithm with arguments: \
+            len(teams) = {}, MAX_TEAM_PARTICIPANTS = {}".format(
+                len(teams),
+                MAX_TEAM_PARTICIPANTS
+        ))
     while not invite:
         logging.warning("[auto-scaling matching algorithm] MAX_TEAM_PARTICIPANTS = {}".format(MAX_TEAM_PARTICIPANTS))
         for team in teams: # made sure above teams is never empty
@@ -37,7 +41,6 @@ def _autoscale_get_invite(teams):
     # if it got increased more then it means it scaled
     did_it_scale = MAX_TEAM_PARTICIPANTS > 4
     return list(invite) + [did_it_scale]
-
 
 def get_community_team_invite(community, timezone):
     """
@@ -52,12 +55,16 @@ def get_community_team_invite(community, timezone):
     # where created before of the auto-scaling
     cur.execute("SELECT id, link, team_name, sent, claimed, chat_id  FROM teams WHERE community = %s AND timezone = %s AND link != 'https://habiter.app' AND link != '' ORDER BY created_on;", (community, timezone))
     teams = cur.fetchall()
+    cur.execute("SELECT max_team_size FROM communities WHERE name = %s;", (community, ))
+    _team_size, team_size = cur.fetchall(), 3
+    if _team_size:
+        team_size = _team_size[0][0]
 
     if not teams:
         logging.warning("!!!! No teams found for get_community_team_invite !!!!")
         logging.warning(timezone)
         return (-1, "https://t.me/habiter_rescue_me", community+" Team", -1, True)
-    invite = _autoscale_get_invite(teams)
+    invite = _autoscale_get_invite(teams, MAX_TEAM_PARTICIPANTS=team_size)
 
     conn.commit()
     cur.close()
