@@ -55,7 +55,7 @@ def leetcode(request):
         })
 
 def codeforces(request):
-    return render(request, "join.html", {"community":'Codeforces'})
+    return render(request, "codeforces.html", {"community":'Codeforces'})
 
 def join(request, community=None):
     if not community:
