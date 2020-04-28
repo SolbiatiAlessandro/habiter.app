@@ -1,0 +1,419 @@
+<!doctype html>
+{% load static %}
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>habiter</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <link rel="manifest" href="site.webmanifest"> -->
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- CSS here -->
+	<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+	<link rel="stylesheet" href="{% static "css/owl.carousel.min.css" %}">
+	<link rel="stylesheet" href="{% static "css/magnific-popup.css" %}">
+	<link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}">
+	<link rel="stylesheet" href="{% static "css/themify-icons.css" %}">
+	<link rel="stylesheet" href="{% static "css/nice-select.css" %}">
+	<link rel="stylesheet" href="{% static "css/flaticon.css" %}">
+	<link rel="stylesheet" href="{% static "css/gijgo.css" %}">
+	<link rel="stylesheet" href="{% static "css/animate.min.css" %}">
+	<link rel="stylesheet" href="{% static "css/slick.css" %}">
+	<link rel="stylesheet" href="{% static "css/slicknav.css" %}">
+	<link rel="stylesheet" href="{% static "css/style.css" %}">
+	<style>
+	.hacky_img_shadow{
+		box-shadow: #2e2e2e 1px 1px 40px;
+		border-radius: 60px;
+	}
+	.white_link{
+		color: white;
+		font-weight: bold;
+	}
+	.blue_link{
+		color: blue;
+		text-decoration: underline;
+	}
+	.button-container{
+		margin:20px
+	}
+	</style>
+    <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+	<script>
+  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t,e){var n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src="https://cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(n,a);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.1.0";
+  analytics.load("NFj8y6xu7WHhL2eNjQCHhXSXpSCQY9h9");
+  analytics.page();
+  }}();
+
+function telegramGroup(group){
+	$.ajax({
+        url: '/ajax/match/',
+        data: {
+          'timezone': group,
+		  'community': '{{community}}'
+        },
+        dataType: 'json',
+        success: function (data) {
+			console.log(data)
+			const team_id = data.team_id
+			if (confirm("Amazing! There is an available team in "+group+" timezone: "+data.team_name+". Join now.")){
+				// sending event confirmation back to server
+				console.log(team_id);
+				$.ajax({
+					url: '/ajax/invite_sent_confirmation',
+					data: {
+						'team_id': team_id
+					},
+					dataType: 'json',
+					success: function(data) {
+						console.log("Event joined confirmed");
+					}
+				});
+				// opening invite
+				document.location = data.team_invite_link;
+			}
+        }
+    });
+}
+
+function alexLinkedin(){
+	document.location = "https://www.linkedin.com/in/solbiatialessandro/";
+}
+function oanaLinkedin(){
+	document.location = "https://www.linkedin.com/in/oana-florescu-97996716a/";
+}
+function oanaVideo(){
+	document.location = "https://www.youtube.com/watch?v=S7vU513Eiw0";
+}
+
+	</script>
+      <style>
+.progress-table .serial{
+	width:20%;
+		color:#5CB664;
+}
+         .app_image{
+         border-radius:20%;
+         height: 100px;
+         }
+         .app_name{
+         text-decoration: underline;
+         margin-bottom: -5px !important;
+         }
+         .hacky_img_shadow{
+         box-shadow: #2e2e2e 1px 1px 40px;
+         border-radius: 60px;
+         }
+         .white_link{
+         color: white;
+         font-weight: bold;
+         }
+         .blue_link{
+         color: blue;
+         text-decoration: underline;
+         }
+         .button-container{
+			 padding:20px 0px 20px 0px;
+         }
+
+		 .habiter_container{
+			box-shadow: 0 10px 30px rgba(0,0,0,.05);
+			margin-bottom: 30px;
+		 }
+		 .habiter_container ul li{
+			 font-size: 19px;
+			line-height: 30px;
+			color: #727272;
+			margin-bottom: 30px;
+		 }
+		 .habiter_container ul {
+			 padding: 30px 0px 30px 0px
+		 }
+		 .habiter_button {
+			 display: inline-block;
+			font-size: 18px;
+			color: white;
+				background-color: #5CB664;
+			text-transform: capitalize;
+			padding: 8px 28px;
+			font-weight: 500;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+				margin:8px;
+		 }
+      </style>
+</head>
+
+<body>
+	<!--[if lte IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+        <![endif]-->
+
+    <!-- header-start -->
+    <header>
+        <div class="header-area ">
+            <div id="sticky-header" class="main-header-area">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-xl-3 col-lg-2">
+                            <div class="logo">
+                                <a href="index.html">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-7"> <div class="main-menu  d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+										<li>
+											<a style="color:grey" href="/">Habiter</a>
+										</li>
+										<li>
+											<a style="color:grey" href="/about">Our vision</a>
+										</li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 d-none d-lg-block">
+                            <div class="Appointment">
+                                <div class="book_btn d-none d-lg-block">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- bradcam_area  -->
+      <section class="service_area" style="background-color:#F6F6F6">
+         <div class="container">
+            <div class="row">
+               <div class="col-xl-12">
+                  <div class="section_title">
+					  <h3 id="page_title">Welcome to your Study Group</h3>
+                     <p style="text-transform:none"> 
+					 Stay consistent with your practice and make the process more fun by joining a team of 2/3 people.
+					 </p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+    <!-- /JOIN  -->
+      <section class="sample-text-area" style="padding-bottom:0px">
+         <div class="container box_1170">
+			 <div class="single_prising text-center wow fadeInUp habiter_container" data-wow-duration=".7s" data-wow-delay=".8s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.8s;">
+				 <div class="prising_header d-flex justify-content-between" style="background:#e9f4fe;padding:3%">
+					 <h3 style="font-size: 21px;margin-bottom: 0px;">Click on your timezone to <b style="color:#5CB664">join a Preparation Team</b> on Telegram</h3> 
+				 </div>
+                     <div class='button-container'>
+                        <a 
+                           href="#" onclick="telegramGroup('gmt')"
+                           class="habiter_button"
+                           >GMT (London)
+                        </a>
+                        <a 
+                           href="#" onclick="telegramGroup('pst')"
+                           class="habiter_button"
+                           >PST (California)
+                        </a>
+                        <a 
+                           href="#" onclick="telegramGroup('ist')"
+                           class="habiter_button"
+                           >IST (Hyderabad)
+                        </a>
+                        <a 
+                           href="#" onclick="telegramGroup('est')"
+                           class="habiter_button"
+                           >EST (New York)
+                        </a>
+                        <a 
+                           href="#" onclick="telegramGroup('gmt+8')"
+                           class="habiter_button"
+                           >GMT+8 (China)
+                        </a>
+         </div>
+			   </div>
+			</div>
+         </div>
+      </section>
+    <!--  -->
+	<!-- RULESs -->
+      <section class="sample-text-area" style="padding-top:40px;padding-bottom:0px"> 
+         <div class="container box_1170">
+			 <div class="single_prising text-center wow fadeInUp habiter_container" data-wow-duration=".7s" data-wow-delay=".8s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.8s;">
+				 <div class="prising_header d-flex justify-content-between" style="background:#e9f4fe;padding:3%">
+					<h3 style="font-size: 21px;margin-bottom: 0px;">Group rules</h3> 
+				 </div>
+			<ul>
+				<li>1. You are added to a team of 2/3 people</li>
+				<li>2. We run a <b style="color:#5CB664">recurrent practices at 9 PM</b></li>
+				<li>3. You post a screenshot of your work and we count your strike. </li>
+				<li>If not active (no message sent), you are removed from the group. You will be able to find a new group later. </li>
+			</ul>
+			   </div>
+			</div>
+         </div>
+      </section>
+	<!-- End Sample Area -->
+
+	<!-- FOUNDERS -->
+      <section class="sample-text-area" style="padding-top:0px;padding-bottom:0px"> 
+         <div class="container box_1170">
+			 <div class="single_prising text-center wow fadeInUp habiter_container" data-wow-duration=".7s" data-wow-delay=".8s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.8s;">
+				 <div class="prising_header d-flex justify-content-between" style="background:#e9f4fe;padding:3%">
+					<h3 style="font-size: 21px;margin-bottom: 0px;">Group Organisers</h3> 
+				 </div>
+				 <div style="padding:5%">
+					<div class="row">
+						<div class="col-md-3">
+							<img style="border-radius:50%;" src="{% static "img/oana.jpeg" %}" alt="" class="img-fluid">
+						</div>
+						<div class="col-md-3">
+							<img style="border-radius:50%;" src="{% static "img/alex.jpeg" %}" alt="" class="img-fluid">
+						</div>
+						<div class="col-md-6">
+							<p>We are Oana <a class="blue_link" onclick="oanaLinkedin()" href="#">(ex Facebook intern)</a> and Alex <a class="blue_link" onclick="alexLinkedin()" href="#">(Facebook Software Engineer)</a>. We are passionate about interview preparation , and we help people with their tech interviews (see <a class="blue_link" onclick="oanaVideo()" href="#">Oana video on her YouTube channel</a>). We also run offline and online study group to validate our hypotesis that having an accountability partner can improve substantially your interview preparation, we do it online with Telegram/Slack/Discord groups, and offline at Meetups in London.</p>
+						</div>
+					</div>
+				 </div>
+			</div>
+		</div>
+	</section>
+	<!-- End Align Area -->
+
+    <!-- footer start -->
+    <footer class="footer" style="padding-top:50px">
+        <div class="footer_top" style="padding:30px;text-align:center;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12 col-md-12 col-lg-12">
+                        <div class="footer_widget">
+                            <div class="footer_logo">
+                                <a href="#">
+									<img src="{% static "habiter.png" %}" alt="">
+                                </a>
+                            </div>
+                            <p>
+							Habiter is built with 💛 by <a class="white_link" href="http://www.lessand.ro">Alessandro</a> and <a class="white_link" href="https://www.youtube.com/watch?v=S7vU513Eiw0&t">Oana.</a></p>
+                                
+                            </p>
+
+                        </div>
+                    </div>
+                    <!--
+                    <div class="col-xl-2 col-md-6 col-lg-2">
+                        <div class="footer_widget">
+                            <h3 class="footer_title">
+                                    Useful Links
+                            </h3>
+                            <ul>
+                                <li><a href="#">Pricing</a></li>
+                                <li><a href="#">Features</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 col-lg-3">
+                        <div class="footer_widget">
+                            <h3 class="footer_title">
+                                    Downloads
+                            </h3>
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        Download from Apple Store
+
+                                    </a>
+                                </li>
+                                <li><a href="#">
+                                        Download from Play Store
+                                    </a>
+                                </li>
+                                </ul>
+                        </div>
+                    </div>
+                -->
+                </div>
+            </div>
+        </div>
+        <div class="copy-right_text">
+            <div class="container">
+                <div class="footer_border"></div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <p class="copy_right text-center">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--/ footer end  -->
+
+	<script src="{% static "js/vendor/modernizr-3.5.0.min.js" %}"></script>
+	<script src="{% static "js/vendor/jquery-1.12.4.min.js" %}"></script>
+	<script src="{% static "js/popper.min.js" %}"></script>
+	<script src="{% static "js/bootstrap.min.js" %}"></script>
+	<script src="{% static "js/owl.carousel.min.js" %}"></script>
+	<script src="{% static "js/isotope.pkgd.min.js" %}"></script>
+	<script src="{% static "js/ajax-form.js" %}"></script>
+	<script src="{% static "js/waypoints.min.js" %}"></script>
+	<script src="{% static "js/jquery.counterup.min.js" %}"></script>
+	<script src="{% static "js/imagesloaded.pkgd.min.js" %}"></script>
+	<script src="{% static "js/scrollIt.js" %}"></script>
+	<script src="{% static "js/jquery.scrollUp.min.js" %}"></script>
+	<script src="{% static "js/wow.min.js" %}"></script>
+	<script src="{% static "js/nice-select.min.js" %}"></script>
+	<script src="{% static "js/jquery.slicknav.min.js" %}"></script>
+	<script src="{% static "js/jquery.magnific-popup.min.js" %}"></script>
+	<script src="{% static "js/plugins.js" %}"></script>
+	<script src="{% static "js/gijgo.min.js" %}"></script>
+
+    <!--contact js-->
+	<script src="{% static "js/contact.js" %}"></script>
+	<script src="{% static "js/jquery.ajaxchimp.min.js" %}"></script>
+	<script src="{% static "js/jquery.form.js" %}"></script>
+	<script src="{% static "js/jquery.validate.min.js" %}"></script>
+	<script src="{% static "js/mail-script.js" %}"></script>
+
+	<script src="{% static "js/main.js" %}"></script>
+
+    <script>
+        $('#datepicker').datepicker({
+            iconsLibrary: 'fontawesome',
+            icons: {
+             rightIcon: '<span class="fa fa-caret-down"></span>'
+         }
+        });
+        $('#datepicker2').datepicker({
+            iconsLibrary: 'fontawesome',
+            icons: {
+             rightIcon: '<span class="fa fa-caret-down"></span>'
+         }
+
+        });
+
+const d = new Date()
+const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d)
+const mo = new Intl.DateTimeFormat('en', { month: 'long' }).format(d)
+$("#page_title").html(`{{community}} - Study Group ${mo} ${ye}`)
+    </script>
+</body>
+</html>

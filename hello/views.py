@@ -54,6 +54,9 @@ def leetcode(request):
         'screenshot_total':screenshot_total
         })
 
+def codeforces(request):
+    return render(request, "join.html", {"community":'Codeforces'})
+
 def join(request, community=None):
     if not community:
         return render(request, "leetcode.html", {'leaderboard': leaderboard})

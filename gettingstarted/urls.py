@@ -19,6 +19,7 @@ urlpatterns = [
     # CUSTOMER FACING
     path("founders", hello.views.founders),
     path("leetcode", hello.views.leetcode),
+    path("leetcode", hello.views.codeforces),
     path("leetcode_admin", hello.views.leetcode_admin),
     path("_leetcode_admin", hello.views._leetcode_admin),
     path("SUS", hello.views.sus),
