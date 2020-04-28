@@ -40,7 +40,43 @@
 	}
 	.button-container{
 		margin:20px
-	}
+	}		
+	.rr {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create four equal columns that sits next to each other */
+.cc {
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.cc img {
+			box-shadow: 0 10px 30px rgba(38, 34, 34, 0.35)
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+	  border-radius:20px;
+}
+
+/* Responsive layout - makes a two cc-layout instead of four ccs */
+@media screen and (max-width: 800px) {
+  .cc {
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two ccs stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .cc {
+    flex: 100%;
+    max-width: 100%;
+  }
+}
 	</style>
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 	<script>
@@ -50,6 +86,14 @@
   }}();
 
 function telegramGroup(group){
+	/*
+	* hack around timezones so we map DIVs
+	* THIS ARE NOT ACTUAL TIMEZONES
+	DIV1: gmt+8 (1100)
+	DIV2: ist (2100)
+	DIV3: gmt  (3100)
+	 *
+	*/
 	$.ajax({
         url: '/ajax/match/',
         data: {
@@ -208,47 +252,64 @@ function oanaVideo(){
                   </div>
                </div>
             </div>
-         </div>
-      </section>
-
-    <!-- /JOIN  -->
-      <section class="sample-text-area" style="padding-bottom:0px">
-         <div class="container box_1170">
-			 <div class="single_prising text-center wow fadeInUp habiter_container" data-wow-duration=".7s" data-wow-delay=".8s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.8s;">
+			<div class="row justify-content-center">
+			 <div class="single_prising text-center wow fadeInUp habiter_container  bg-white" data-wow-duration=".7s" data-wow-delay=".8s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.8s;">
 				 <div class="prising_header d-flex justify-content-between" style="background:#e9f4fe;padding:3%">
-					 <h3 style="font-size: 21px;margin-bottom: 0px;">Click on your timezone to <b style="color:#5CB664">join a Preparation Team</b> on Telegram</h3> 
+					 <h3 style="font-size: 21px;margin-bottom: 0px;">Click on your timezone to <b style="color:#5CB664">join a Upsolving Team</b> on Telegram</h3> 
 				 </div>
                      <div class='button-container'>
                         <a 
-                           href="#" onclick="telegramGroup('gmt')"
+                           href="#" onclick="telegramGroup('gmt+8')"
                            class="habiter_button"
-                           >GMT (London)
-                        </a>
-                        <a 
-                           href="#" onclick="telegramGroup('pst')"
-                           class="habiter_button"
-                           >PST (California)
+                           >DIV1
                         </a>
                         <a 
                            href="#" onclick="telegramGroup('ist')"
                            class="habiter_button"
-                           >IST (Hyderabad)
+                           >DIV2
                         </a>
                         <a 
-                           href="#" onclick="telegramGroup('est')"
+                           href="#" onclick="telegramGroup('gmt')"
                            class="habiter_button"
-                           >EST (New York)
+                           >DIV3
                         </a>
-                        <a 
-                           href="#" onclick="telegramGroup('gmt+8')"
-                           class="habiter_button"
-                           >GMT+8 (China)
-                        </a>
-         </div>
+				 </div>
 			   </div>
 			</div>
+		 </div>
+
          </div>
       </section>
+
+	  <div class="service_area" style="padding-top:80px">
+	   <div class="container">
+		  <div class="row">
+			 <div class="col-xl-12">
+				<div class="section_title text-center  wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".3s" style="visibility: visible; animation-duration: 0.5s; animation-delay: 0.3s;">
+				   <h3>
+					   We are <b>{{users_total}}</b>, and we solved <b>{{screenshot_total}}</b> Problems!*
+				   </h3>
+				   <p>*numbers updated live</p>
+				</div>
+			 </div>
+		  </div>
+		  <div class="row rr"> 
+			  <div class="column cc">
+				  <img class="ii" src="{% static "leetcode/leetcode5.jpeg" %}">
+			  </div>
+			  <div class="column cc">
+				  <img class="ii" src="{% static "leetcode/leetcode2.jpeg" %}">
+			  </div>
+			  <div class="column cc">
+				  <img class="ii" src="{% static "leetcode/leetcode3.jpeg" %}">
+			  </div>
+			  <div class="column cc">
+				  <img class="ii" src="{% static "leetcode/leetcode4.jpeg" %}">
+			  </div>
+		  </div>
+	   </div>
+	</div>
+
     <!--  -->
 	<!-- RULESs -->
       <section class="sample-text-area" style="padding-top:40px;padding-bottom:0px"> 
@@ -259,15 +320,43 @@ function oanaVideo(){
 				 </div>
 			<ul>
 				<li>1. You are added to a team of 2/3 people</li>
-				<li>2. We run a <b style="color:#5CB664">recurrent practices at 9 PM</b></li>
+				<li>2. We upsolve 1 problem a day <b style="color:#5CB664">at 9 PM</b></li>
 				<li>3. You post a screenshot of your work and we count your strike. </li>
-				<li>If not active (no message sent), you are removed from the group. You will be able to find a new group later. </li>
 			</ul>
 			   </div>
 			</div>
          </div>
       </section>
 	<!-- End Sample Area -->
+
+	<!-- second call to action -->
+	<div class="container">
+			<div class="row justify-content-center">
+			 <div class="single_prising text-center wow fadeInUp habiter_container  bg-white" data-wow-duration=".7s" data-wow-delay=".8s" style="visibility: visible; animation-duration: 0.7s; animation-delay: 0.8s;">
+				 <div class="prising_header d-flex justify-content-between" style="background:#e9f4fe;padding:3%">
+					 <h3 style="font-size: 21px;margin-bottom: 0px;">Click on your timezone to <b style="color:#5CB664">join a Upsolving Team</b> on Telegram</h3> 
+				 </div>
+                     <div class='button-container'>
+                        <a 
+                           href="#" onclick="telegramGroup('gmt+8')"
+                           class="habiter_button"
+                           >DIV1
+                        </a>
+                        <a 
+                           href="#" onclick="telegramGroup('ist')"
+                           class="habiter_button"
+                           >DIV2
+                        </a>
+                        <a 
+                           href="#" onclick="telegramGroup('gmt')"
+                           class="habiter_button"
+                           >DIV3
+                        </a>
+				 </div>
+			   </div>
+			</div>
+	</div>
+	<!-- -->
 
 	<!-- FOUNDERS -->
       <section class="sample-text-area" style="padding-top:0px;padding-bottom:0px"> 
