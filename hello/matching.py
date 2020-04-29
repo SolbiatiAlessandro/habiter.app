@@ -214,7 +214,7 @@ def db__get_leaderboard():
 def db__get_leetcode_stats():
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
     cur = conn.cursor()
-    cur.execute("SELECT COUNT(*), SUM(screenshot_submitted) FROM users WHERE community = 'Leetcode';")
+    cur.execute("SELECT COUNT(*), SUM(screenshot_submitted) FROM users;")
     stats = cur.fetchall()
     users_total, screenshot_totals = stats[0]
     conn.commit()

@@ -55,7 +55,12 @@ def leetcode(request):
         })
 
 def codeforces(request):
-    return render(request, "codeforces.html", {"community":'Codeforces'})
+    users_total, screenshot_total = db__get_leetcode_stats()
+    return render(request, "codeforces.html", {
+        "community":'Codeforces',
+        'users_total': users_total,
+        'screenshot_total':screenshot_total
+        })
 
 def join(request, community=None):
     if not community:
