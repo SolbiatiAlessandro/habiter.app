@@ -10,6 +10,8 @@ from psycopg2.extras import RealDictCursor, DictCursor
 
 DATABASE_URL = os.environ['DATABASE_URL'] 
 logger = logging.getLogger(__name__)
+logger.warning("DATABASE_URL")
+logger.warning(DATABASE_URL)
 
 QUERIES_FOLDER = 'hello/queries/'
 def _read_query_from_file(file_name):
