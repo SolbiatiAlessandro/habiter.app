@@ -45,7 +45,13 @@ def builders(request):
     return render(request, "builders.html")
 
 from hello.matching import db__get_leaderboard, db__get_leetcode_stats
+from hello.habiterDB import increase_community_referral1
 def leetcode(request):
+    if request.GET.get('ref'):
+        logger.warning('REFERRAL: %r' % request.GET['ref'])
+        if request.GET['ref'] == "NUS":
+            increase_community_referral1('Leetcode')
+
     leaderboard = db__get_leaderboard()
     users_total, screenshot_total = db__get_leetcode_stats()
     return render(request, "leetcode.html", {

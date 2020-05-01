@@ -21,6 +21,13 @@ def _read_query_from_file(file_name):
 """
 move later to community.CONTENT
 """
+def increase_community_referral1(community):
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
+    cur = conn.cursor()
+    cur.execute("UPDATE communities SET referrals1 = referrals1 + 1 WHERE name = %s", (community,))
+    conn.commit()
+    cur.close()
+    conn.close()
 
 def get_communities():
     conn = psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
