@@ -3,3 +3,4 @@ venv
 .env
 db.sqlite3
 getting-started/*
+*.mypy_cache*
