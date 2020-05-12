@@ -1,8 +1,17 @@
+# Set up on ubuntu
 
-DB
+virtualenv venv -v pytho3.7
+pip install -r requirements.txt (break for psycopg2)
+sudo apt-get install libpq-dev
+sudo apt-get install python3.7-dev
+pip install -r requirements.txt (Will work)
+
+
+# DB
 
 local
 set -x DATABASE_URL postgresql://localhost/habiter_db
+export DATABASE_URL=postgres://fyzuvhnqbisnmd:7d41a17a2c9dc19a69b39068eaa5c4addb134817cbe6cbc75cda3e3004ff6c98@ec2-52-207-25-133.compute-1.amazonaws.com:5432/dj3e4v5v472h4
 
 heroku pg:pull postgresql-perpendicular-23539 habiter_db
 heroku pg:push habiter_db postgresql-perpendicular-23539
