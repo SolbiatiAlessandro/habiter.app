@@ -248,7 +248,8 @@ def match(request):
     try:
         timezone = request.GET.get('timezone', None)
         community = request.GET.get('community', None)
-        invite = get_community_team_invite(community, timezone)
+        user_score = float(request.GET.get('user_score', 0))
+        invite = get_community_team_invite(community, timezone, user_score)
         (team_id, team_invite_link, team_name, chat_id, did_it_scale) = invite
         data = {
             'team_id': team_id,

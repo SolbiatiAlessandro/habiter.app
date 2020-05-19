@@ -17,6 +17,15 @@ DATABASE_URL = os.environ['DATABASE_URL']
 
 logger = logging.getLogger(__name__)
 
+def rank_teams(teams, user_score):
+    for team in teams:
+        if team['score'] is None:
+            team['score'] = 0
+    # https://stackoverflow.com/questions/403421/how-to-sort-a-list-of-objects-based-on-an-attribute-of-the-objects
+    ranked_teams = sorted(teams, key=lambda team: abs(user_score -
+        team['score'])) 
+    return teams
+
 def _autoscale_get_invite(teams, MAX_TEAM_PARTICIPANTS = 3):
     """
     return invite (id, link, name, _chat_id, did_it_scale)
@@ -33,7 +42,7 @@ def _autoscale_get_invite(teams, MAX_TEAM_PARTICIPANTS = 3):
         logging.warning("[PASS2][auto-scaling matching algorithm] MAX_TEAM_PARTICIPANTS = {}".format(MAX_TEAM_PARTICIPANTS))
 
         for team_index, team in enumerate(teams): # made sure above teams is never empty
-            (_id, _link, _name, _sent, _claimed, _chat_id, _timezone) = team
+            (_id, _link, _name, _sent, _claimed, _chat_id, _timezone, _score) = team
             # does team have space for new participant?
             if max(int(_sent), int(_claimed)) < MAX_TEAM_PARTICIPANTS:
                 logging.warning("[PASS2] \
@@ -54,7 +63,7 @@ def _select_new_teams(community, timezone, content_index_threshold=10):
     cur = conn.cursor()
     # teams that have habiter.app in the name means that 
     # where created before of the auto-scaling
-    cur.execute("SELECT id, link, team_name, sent, claimed, chat_id, timezone  FROM teams WHERE community = %s AND timezone = %s AND link != 'https://habiter.app' AND link != '' AND content_index < %s ORDER BY created_on;", (community, timezone, content_index_threshold))
+    cur.execute("SELECT id, link, team_name, sent, claimed, chat_id, timezone, score FROM teams WHERE community = %s AND timezone = %s AND link != 'https://habiter.app' AND link != '' AND content_index < %s ORDER BY created_on;", (community, timezone, content_index_threshold))
     teams = cur.fetchall()
     conn.commit()
     cur.close()
@@ -69,7 +78,7 @@ def _select_old_teams(community, timezone, content_index_threshold=10):
     cur = conn.cursor()
     # teams that have habiter.app in the name means that 
     # where created before of the auto-scaling
-    cur.execute("SELECT id, link, team_name, sent, claimed, chat_id, timezone  FROM teams WHERE community = %s AND timezone = %s AND link != 'https://habiter.app' AND link != '' AND content_index >= %s ORDER BY created_on;", (community, timezone, content_index_threshold))
+    cur.execute("SELECT id, link, team_name, sent, claimed, chat_id, timezone,score FROM teams WHERE community = %s AND timezone = %s AND link != 'https://habiter.app' AND link != '' AND content_index >= %s ORDER BY created_on;", (community, timezone, content_index_threshold))
     teams = cur.fetchall()
     conn.commit()
     cur.close()
@@ -85,7 +94,7 @@ def _get_team_size(community) -> int:
         team_size = _team_size[0][0]
     return team_size
 
-def select_teams_for_invite(community, timezone):
+def select_teams_for_invite(community, timezone, user_score=0):
     """
     The algorithm try to give you a new team to start with with people
     that are active in same timezone and community
@@ -94,17 +103,21 @@ def select_teams_for_invite(community, timezone):
     """
     logging.warning("[PASS1] selecting ordered list of teams with \
             {} {}".format(community, timezone))
+    if user_score == 0:
+        # select only new teams, and do autoscaling only with those
+        teams = _select_new_teams(community, timezone)
+        if not teams:
+            # otherwise go with old teams
+            teams = _select_old_teams(community, timezone)
+    else:
+        teams = _select_new_teams(community, timezone) + _select_old_teams(community, timezone)
 
-    # select only new teams, and do autoscaling only with those
-    teams = _select_new_teams(community, timezone)
-    if not teams:
-        # otherwise go with old teams
-        teams = _select_old_teams(community, timezone)
     team_size = _get_team_size(community)
+    ranked_teams = rank_teams(teams, user_score)
 
-    return teams, team_size
+    return ranked_teams, team_size
 
-def get_community_team_invite(community, timezone):
+def get_community_team_invite(community, timezone, user_score=0):
     """
     ALWAYS RETURNS AN INVITE
     return (team_id, team_invite_link, team_name, chat_id, did_it_scale)
@@ -114,7 +127,7 @@ def get_community_team_invite(community, timezone):
 
     # PASS 1: get all teams from this community and timezone
     # ordered with matching optimisation policy
-    teams, team_size = select_teams_for_invite(community, timezone)
+    teams, team_size = select_teams_for_invite(community, timezone, user_score)
     if not teams:
         logging.warning("!!!! No teams found for get_community_team_invite !!!!")
         logging.warning(timezone)
